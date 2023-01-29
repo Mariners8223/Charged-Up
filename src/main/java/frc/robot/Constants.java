@@ -16,6 +16,8 @@ package frc.robot;
  */
 public final class Constants {
   public static final Mode currentMode = Mode.REAL;
+  public static final double fullThres = 0.99;
+  public static final double heldThres = 0.1;
 
   public static enum Mode {
     /** Running on a real robot. */
