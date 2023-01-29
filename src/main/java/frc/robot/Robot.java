@@ -52,26 +52,14 @@ public class Robot extends LoggedRobot {
     }
 
     // Set up data receivers & replay source
-    switch (Constants.currentMode) {
-      // Running on a real robot, log to a USB stick
-      case REAL:
-        logger.addDataReceiver(new WPILOGWriter("/media/sda1/"));
-        logger.addDataReceiver(new NT4Publisher());
-        break;
-
-      // Running a physics simulator, log to local folder
-      case SIM:
-        logger.addDataReceiver(new WPILOGWriter(""));
-        logger.addDataReceiver(new NT4Publisher());
-        break;
-
-      // Replaying a log, set up replay source
-      case REPLAY:
-        setUseTiming(false); // Run as fast as possible
-        String logPath = LogFileUtil.findReplayLog();
-        logger.setReplaySource(new WPILOGReader(logPath));
-        logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
-        break;
+    if (Constants.currentMode == Constants.Mode.SIM || Constants.currentMode == Constants.Mode.REAL) {
+      logger.addDataReceiver(new WPILOGWriter(""));
+      logger.addDataReceiver(new NT4Publisher());
+    } else if (Constants.currentMode == Constants.Mode.REPLAY) {
+      setUseTiming(false);
+      String logPath = LogFileUtil.findReplayLog();
+      logger.setReplaySource(new WPILOGReader(logPath));
+      logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
     }
 
     // Start AdvantageKit logger
