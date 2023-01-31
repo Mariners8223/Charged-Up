@@ -26,10 +26,10 @@ public class DriveIOFalcon500 implements DriveIO {
     leftFollower = new TalonFX(3);
     rightFollower = new TalonFX(4);
 
-    FaultChecker.getInstance().addMotor("Left Leader", leftLeader);
-    FaultChecker.getInstance().addMotor("Right Leader", rightLeader);
-    FaultChecker.getInstance().addMotor("Left Follower", leftFollower);
-    FaultChecker.getInstance().addMotor("Right Follower", rightFollower);
+    FaultChecker.getInstance().addMotor("LeftLeader", leftLeader);
+    FaultChecker.getInstance().addMotor("RightLeader", rightLeader);
+    FaultChecker.getInstance().addMotor("LeftFollower", leftFollower);
+    FaultChecker.getInstance().addMotor("RightFollower", rightFollower);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;

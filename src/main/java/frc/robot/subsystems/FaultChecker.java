@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.Faults;
@@ -57,13 +58,14 @@ public class FaultChecker extends SubsystemBase {
         Faults f = new Faults();
         ErrorCode errorCode = motor.getFaults(f);
 
+        Logger.getInstance().recordOutput("lastErrorCode" + id, errorCode.value);
         if (f.hasAnyFault() || errorCode.value != 0)
         {
             new PrintCommand("MOTOR " + id + " HAS PROBLEMS!\n");
             if (f.hasAnyFault()) {
 
                 /// TODO: add actual descriptions for every fault. See javadocs for each fault.
-                StringBuilder work = new StringBuilder("FAULTS: ");
+                StringBuilder work = new StringBuilder();
 
                 if (f.UnderVoltage) work.append("UnderVoltage ");
                 if (f.ForwardLimitSwitch) work.append( "ForwardLimitSwitch ");
@@ -79,13 +81,17 @@ public class FaultChecker extends SubsystemBase {
                 if (f.APIError) work.append( "APIError ");
                 if (f.SupplyOverV) work.append( "SupplyOverV ");
                 if (f.SupplyUnstable) work.append( "SupplyUnstable ");
+                String result = work.toString();
+                Logger.getInstance().recordOutput("faults" + id, result);
 
-                new PrintCommand(work.toString());
+                new PrintCommand("FAULTS: " + result);
             }
             if (errorCode.value != 0)
-                new PrintCommand("MOST RECENT ERROR: " + errorCode.toString() + " (Code " + (errorCode.value) + ")");
+            {
+                Logger.getInstance().recordOutput("faults" + id, "None");
+                new PrintCommand("LAST ERROR: " + errorCode.toString() + " (Code " + (errorCode.value) + ")");
+            }
         }
-        else new PrintCommand("MOTOR " + id + " OK");
     }
 }
 
