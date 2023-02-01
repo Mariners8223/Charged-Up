@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
+import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -142,6 +143,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    Vision.GetInstance();
   }
 
   /** This function is called periodically during operator control. */
