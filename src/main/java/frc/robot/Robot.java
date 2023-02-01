@@ -13,6 +13,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Vision;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
 
@@ -140,6 +141,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    Vision.GetInstance();
   }
 
   /** This function is called periodically during operator control. */
