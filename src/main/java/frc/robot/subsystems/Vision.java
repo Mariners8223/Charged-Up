@@ -31,12 +31,16 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.DriveIO;
+import frc.robot.subsystems.drive.Drive;
 
 public class Vision extends SubsystemBase {
   private static Vision instance;
   /** Creates a new PhotonVision. */
-  public PhotonCamera camera = new PhotonCamera("mariners-cam");
-  public Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+  private PhotonCamera camera = new PhotonCamera("mariners-cam");
+  private Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+  private Pose2d pose2d = Drive.getInstance().getPose();
 
   public static Vision GetInstance(){
     if(instance == null){
@@ -50,7 +54,7 @@ public class Vision extends SubsystemBase {
   
    
   private Vision() {
-    
+    PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     } catch (IOException e) {
@@ -76,6 +80,8 @@ public class Vision extends SubsystemBase {
       SmartDashboard.putBoolean("Has target", result.hasTargets());
       SmartDashboard.putNumber("ID", TargetID);
       SmartDashboard.putNumber("ambgouitu", Pose);
+      
+
     }
     else{
       SmartDashboard.putBoolean("Has target", result.hasTargets());
