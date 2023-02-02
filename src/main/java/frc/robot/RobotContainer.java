@@ -51,7 +51,7 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Real robot, instantiate hardware IO implementations
       case REAL:
-        drive = new Drive(new DriveIOSparkMax());
+        drive = Drive.getInstance();
         flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(new DriveIOFalcon500());
         // flywheel = new Flywheel(new FlywheelIOFalcon500());
@@ -59,14 +59,15 @@ public class RobotContainer {
 
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
-        drive = new Drive(new DriveIOSim());
+        drive = Drive.getInstance();
         flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
       // Replayed robot, disable IO implementations
       default:
-        drive = new Drive(new DriveIO() {
-        });
+      drive = Drive.getInstance();
+        //drive = new Drive(new DriveIO() {
+        //});
         flywheel = new Flywheel(new FlywheelIO() {
         });
         break;
