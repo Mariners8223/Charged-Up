@@ -13,6 +13,8 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.util.dashboardUtil.TimerWidget;
+import frc.util.dashboardUtil.TimerWidget.Mode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  private TimerWidget widget;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -97,6 +100,15 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
+    if (widget == null)
+      widget = new TimerWidget("Example", "Auto", 15, Mode.TELEOP);
+    else
+    {
+      widget.setMode(Mode.AUTO);
+      widget.setName("Auto");
+      widget.setDuration(15); // 15s
+    }
+
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -113,6 +125,14 @@ public class Robot extends LoggedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    if (widget == null)
+      widget = new TimerWidget("Example", "Auto", 15, Mode.TELEOP);
+    else
+    {
+      widget.setMode(Mode.TELEOP);
+      widget.setName("Tele-op");
+      widget.setDuration(135); // 2m 15s
+    }
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
