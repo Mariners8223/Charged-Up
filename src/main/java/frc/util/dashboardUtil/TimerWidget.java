@@ -13,7 +13,11 @@ public class TimerWidget {
     /** An enumerator for the timer modes. */
     public enum Mode
     {
+        // If more modes are needed, contact Elad. DO NOT ADD THEM ON YOUR OWN.
+
+        /** Auto mode. Will display the timer as RED. */
         AUTO(1),
+        /** Teleop mode. Will display the timer as YELLOW. */
         TELEOP(0);
 
         public final int value;
