@@ -9,8 +9,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.fasterxml.jackson.databind.JsonSerializable.Base;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.wpilibj2.command.PrintCommand;
