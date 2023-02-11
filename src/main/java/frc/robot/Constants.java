@@ -15,7 +15,7 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final Mode currentMode = Mode.REAL;
+  public static final Mode currentMode = Mode.SIM;
   public static final double fullThres = 0.99;
   public static final double heldThres = 0.1;
   public static final int MOTORS_CHECKED_PER_TICK = 1;
