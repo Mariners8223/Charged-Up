@@ -19,6 +19,7 @@ public final class Constants {
   public static final double fullThres = 0.99;
   public static final double heldThres = 0.1;
   public static final int MOTORS_CHECKED_PER_TICK = 1;
+  public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -29,5 +30,25 @@ public final class Constants {
 
     /** Replaying from a log file. */
     REPLAY
+  }
+
+
+  public static class RobotConstants {
+    public static final int ARM_ROTATION_MOTOR = 1;
+    public static final int ARM_EXTENSION_MOTOR = 2;
+    public static final int GRIPPER_MOTOR = 3;
+  }
+
+  public static class GripperConstants {
+    public static final double GRIPPER_KP = 0.1;
+    public static final double GRIPPER_SPEED = 1.0;
+    public static final double GRIPPER_GEAR_RATIO = 0.0;
+  }
+
+  public static class ArmConstants {
+    public static final double ARM_KA = 0.0;
+    public static final double ARM_KV = 0.0;
+    public static final double ARM_KG = 0.0;
+    public static final double ARM_KS = 0.0;
   }
 }
