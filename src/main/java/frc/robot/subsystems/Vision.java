@@ -13,6 +13,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -37,6 +38,9 @@ import frc.robot.subsystems.drive.Drive;
 
 public class Vision extends SubsystemBase {
   private static Vision instance;
+  private final Field2d m_field = new Field2d();
+  private static Pose3d pose3d;
+
   /** Creates a new PhotonVision. */
   private PhotonCamera camera = new PhotonCamera("mariners-cam");
   private Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
@@ -61,12 +65,15 @@ public class Vision extends SubsystemBase {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
-    
+    SmartDashboard.putData("Field", m_field);
   }
 
- 
-  
+public Pose2d getpose2d(){
+  return pose2d;
+}
+public Pose3d getPose3d(){
+  return pose3d;
+}
 
   @Override
   public void periodic() {
@@ -80,13 +87,21 @@ public class Vision extends SubsystemBase {
       SmartDashboard.putBoolean("Has target", result.hasTargets());
       SmartDashboard.putNumber("ID", TargetID);
       SmartDashboard.putNumber("ambgouitu", Pose);
-      
-
+      Optional<EstimatedRobotPose> x = getEstimatedGlobalPose(pose2d);
+      EstimatedRobotPose camPose = x.get();
+      pose3d = camPose.estimatedPose;
+      pose2d = camPose.estimatedPose.toPose2d();
+      m_field.setRobotPose(pose2d);
     }
     else{
       SmartDashboard.putBoolean("Has target", result.hasTargets());
       SmartDashboard.putNumber("ID", 0);
       SmartDashboard.putNumber("ambgouitu", 0);
     }
+  }
+
+
+  private Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d pose2d2) {
+    return null;
   }
 }
