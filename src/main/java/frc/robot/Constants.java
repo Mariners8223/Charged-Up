@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -25,6 +30,21 @@ public final class Constants {
   public static final Mode currentMode = Mode.SIM;
   public static final double fullThres = 0.99;
   public static final double heldThres = 0.1;
+  static class FieldConstants {
+    static final double length = Units.feetToMeters(54);
+    static final double width = Units.feetToMeters(27);
+  }
+  static class VisionConstants {
+    static final Transform3d robotToCam =
+            new Transform3d(
+                    new Translation3d(0.5, 0.0, 0.5),
+                    new Rotation3d(
+                            0, 0,
+                            0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
+    // from center.
+    static final String cameraName = "YOUR CAMERA NAME";
+  }
+  public enum Mode {
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
 
