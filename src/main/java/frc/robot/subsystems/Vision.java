@@ -14,6 +14,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -45,7 +46,7 @@ public class Vision extends SubsystemBase {
   private static Pose2d pose2d;    
   private static Pose2d lastPose2d;  
   /** Creates a new PhotonVision. */
-  private PhotonCamera camera = new PhotonCamera("mariners-cam");
+  private PhotonCamera camera = new PhotonCamera("limelight-mariners");
   private static PhotonPoseEstimator photonPoseEstimator;
   private Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
 
@@ -68,6 +69,7 @@ public class Vision extends SubsystemBase {
     }
     photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
     SmartDashboard.putData("Field", m_field);
+    camera.setLED(VisionLEDMode.kOn);
   }
 
 public Pose2d getpose2d(){
@@ -89,6 +91,7 @@ public Pose3d getPose3d(){
       SmartDashboard.putBoolean("Has target", result.hasTargets());
       SmartDashboard.putNumber("ID", TargetID);
       SmartDashboard.putNumber("ambgouitu", Pose);
+      SmartDashboard.putNumber("latency", result.getLatencyMillis());
       Optional<EstimatedRobotPose> x = getEstimatedGlobalPose(pose2d);
       EstimatedRobotPose camPose = x.get();
       pose3d = camPose.estimatedPose;
