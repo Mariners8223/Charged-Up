@@ -23,6 +23,8 @@ public class Gripper extends SubsystemBase {
       instance = new Gripper(GripperIOTalonSRX.getInstance());
     return instance;
   }
+  
+  public boolean getGripperClosed() { return inputs.isClosed; }
 
   @Override
   public void periodic() {

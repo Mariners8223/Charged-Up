@@ -43,6 +43,7 @@ public class GripperIOTalonSRX implements GripperIO {
       gripperMotor.getSelectedSensorVelocity() * 10 / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / GripperConstants.GRIPPER_GEAR_RATIO));
   }
 
+
   @Override
   public void updateInputs(GripperIOInputs inputs) {
     inputs.gripperDeg = this.getGripperRotationDegrees();
