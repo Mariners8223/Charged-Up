@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import java.util.List;
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -24,6 +25,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.networktables.NetworkTableType;
@@ -40,11 +42,12 @@ public class Vision extends SubsystemBase {
   private static Vision instance;
   private final Field2d m_field = new Field2d();
   private static Pose3d pose3d;
-
+  private static Pose2d pose2d;    
+  private static Pose2d lastPose2d;  
   /** Creates a new PhotonVision. */
   private PhotonCamera camera = new PhotonCamera("mariners-cam");
+  private static PhotonPoseEstimator photonPoseEstimator;
   private Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
-  private Pose2d pose2d = Drive.getInstance().getPose();
 
   public static Vision GetInstance(){
     if(instance == null){
@@ -53,18 +56,17 @@ public class Vision extends SubsystemBase {
     return instance;
   }
   AprilTagFieldLayout aprilTagFieldLayout;
-  
-  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
-  
-   
+    
   private Vision() {
-    PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
+    pose2d = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
+    lastPose2d = new Pose2d();
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
     SmartDashboard.putData("Field", m_field);
   }
 
@@ -90,8 +92,11 @@ public Pose3d getPose3d(){
       Optional<EstimatedRobotPose> x = getEstimatedGlobalPose(pose2d);
       EstimatedRobotPose camPose = x.get();
       pose3d = camPose.estimatedPose;
+      lastPose2d = pose2d;
       pose2d = camPose.estimatedPose.toPose2d();
       m_field.setRobotPose(pose2d);
+      SmartDashboard.putData(m_field);
+      Logger.getInstance().recordOutput("2D Pose", pose2d);
     }
     else{
       SmartDashboard.putBoolean("Has target", result.hasTargets());
@@ -101,7 +106,8 @@ public Pose3d getPose3d(){
   }
 
 
-  private Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d pose2d2) {
-    return null;
+  private Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d lastPose2d) {
+    photonPoseEstimator.setReferencePose(lastPose2d);
+    return photonPoseEstimator.update();
   }
 }
