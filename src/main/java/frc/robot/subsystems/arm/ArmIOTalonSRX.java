@@ -39,10 +39,6 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   @Override
-  public void setVoltage(double voltsRotation, double voltsExtension) {
-  }
-  
-  @Override
   public void updateInputs(ArmIOInputs inputs) {
     inputs.armAngleRad = getArmAngleRad();
     inputs.armVelocityPerSecRad = getArmVelocityPerSecRad();

@@ -16,9 +16,6 @@ public interface ArmIO {
   public default void updateInputs(ArmIOInputs inputs) {
   }
 
-  public default void setVoltage(double voltsRotation, double voltsExtension) {
-  }
-
   public default void moveToAngle(double desiredAngles) {
   }
 
