@@ -1,6 +1,9 @@
 package frc.robot.subsystems.drive;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.EstimatedRobotPose;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -8,15 +11,18 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.flywheel.FlywheelIOFalcon500;
 
 public class Drive extends SubsystemBase {
+  Vision vision = Vision.GetInstance();
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
   private static Drive Instance;
 
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
+
 
   /** Creates a new Drive. */
   private Drive(DriveIO io) {
@@ -36,7 +42,9 @@ public class Drive extends SubsystemBase {
 
     // Update odometry and log the new pose
     odometry.update(new Rotation2d(-inputs.gyroYawRad), getLeftPositionMeters(), getRightPositionMeters());
+    
     Logger.getInstance().recordOutput("Odometry", getPose());
+
   }
 
   /** Run open loop at the specified percentage. */
