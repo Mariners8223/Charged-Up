@@ -34,11 +34,11 @@ public class Gripper extends SubsystemBase {
 
   public void movePercent(double percent)
   {
-    io.setVoltage(percent);
+    io.setAngle(percent);
   }
 
   /** Stops the gripper */
   public void stop() {
-    io.setVoltage(0);
+    io.setAngle(0);
   }
 }

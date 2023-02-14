@@ -13,6 +13,6 @@ public interface GripperIO {
   public default void updateInputs(GripperIOInputs inputs) {
   }
   
-  public default void setVoltage(double voltage) {
+  public default void setAngle(double desiredAngle) {
   }
 }

@@ -52,8 +52,8 @@ public class GripperIOTalonSRX implements GripperIO {
   }
   
   @Override
-  public void setVoltage(double voltage) {
-    gripperMotor.set(ControlMode.PercentOutput, voltage);
+  public void setAngle(double desiredAngle) {
+    gripperMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAngle));
   }
 
 }
