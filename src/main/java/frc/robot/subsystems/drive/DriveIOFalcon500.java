@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.FaultChecker;
 
 public class DriveIOFalcon500 implements DriveIO {
   private static final double GEAR_RATIO = 6.0;
@@ -24,6 +25,11 @@ public class DriveIOFalcon500 implements DriveIO {
     rightLeader = new TalonFX(2);
     leftFollower = new TalonFX(3);
     rightFollower = new TalonFX(4);
+
+    FaultChecker.getInstance().addMotor("LeftLeader", leftLeader);
+    FaultChecker.getInstance().addMotor("RightLeader", rightLeader);
+    FaultChecker.getInstance().addMotor("LeftFollower", leftFollower);
+    FaultChecker.getInstance().addMotor("RightFollower", rightFollower);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
