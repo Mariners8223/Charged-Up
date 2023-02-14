@@ -39,12 +39,19 @@ public final class Constants {
     public static final int ARM_ROTATION_MOTOR = 1;
     public static final int ARM_EXTENSION_MOTOR = 2;
     public static final int GRIPPER_MOTOR = 3;
+    public static final int ORIENTATION_LEFT_MOTOR = 4;
+    public static final int ORIENTATION_RIGHT_MOTOR = 5;
+    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {0, 1};
+
   }
 
   public static class GripperConstants {
     public static final double GRIPPER_KP = 0.1;
     public static final double GRIPPER_SPEED = 1.0;
     public static final double GRIPPER_GEAR_RATIO = 0.625;
+  }
+
+  public static class OrientationConstants {
   }
 
   public static class ArmConstants {
