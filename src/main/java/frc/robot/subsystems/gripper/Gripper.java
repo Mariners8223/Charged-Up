@@ -32,9 +32,9 @@ public class Gripper extends SubsystemBase {
     Logger.getInstance().processInputs("Gripper", inputs);
   }
 
-  public void movePercent(double percent)
+  public void setAngle(double Angle)
   {
-    io.setAngle(percent);
+    io.setAngle(Angle);
   }
 
   /** Stops the gripper */
