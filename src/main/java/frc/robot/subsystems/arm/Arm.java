@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   private static Arm instance;
-  private final ArmIO io;
+  private final ArmIOTalonSRX io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
   
 
-  private Arm(ArmIO io) {
+  private Arm(ArmIOTalonSRX io) {
     this.io = io;
   }
 
@@ -22,6 +22,21 @@ public class Arm extends SubsystemBase {
     if (instance == null)
       instance = new Arm(ArmIOTalonSRX.getInstance());
     return instance;
+  }
+
+  public boolean isAtRotationSetpoint() {
+    return io.isArmAtSetpoint();
+  }
+  public boolean isAtExtensionSetpoint(){
+    return io.isArmAtSetpoint();
+  }
+
+  public void stopRotationMotor() {
+    io.stopRotation();
+  }
+
+  public void stopExtensionMotor() {
+    io.stopExtension();
   }
 
   @Override

@@ -64,7 +64,7 @@ public final class Constants {
     public static final double ARM_ROTATION_KI = 0.0;
     public static final double ARM_ROTATION_KD = 0.0;
     public static final double ARM_ROTATION_KF = 0.0;
-    
+    public static final double ARM_ROTATION_TOLERANCE = Units.degreesToRotations(3);
     public static final double ARM_EXTENSION_KP = 0.0;
     public static final double ARM_EXTENSION_KI = 0.0;
     public static final double ARM_EXTENSION_KD = 0.0;
@@ -76,6 +76,9 @@ public final class Constants {
     public static final double PINION_RADIUS_INCHES = PINION_CIRCUMFERENCE_INCHES / 2;
     public static final double PINION_RADIUS_METERS = PINION_RADIUS_INCHES / 2 ;
     public static final double DISTANCE_PER_REVOLUTION = PINION_CIRCUMFERENCE_INCHES * Math.PI;
+
+    public static final double ARM_EXTENSION_TOLERENCE = Units.metersToInches(0.05) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO / ArmConstants.DISTANCE_PER_REVOLUTION;
+
     
   }
 }
