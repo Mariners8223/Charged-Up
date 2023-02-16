@@ -32,7 +32,9 @@ public class Vision extends SubsystemBase {
   private static Pose2d lastPose2d;
   private static Pose3d lastPose3d;
   private static PhotonCamera camera;
+  private static PhotonCamera limeligt;
   private static PhotonPoseEstimator photonPoseEstimator;
+  private static PhotonTrackedTarget target;
   
   //creates new single tone
   public static Vision GetInstance(){
@@ -53,6 +55,7 @@ public class Vision extends SubsystemBase {
     pose3d = new Pose3d(pose2d);
     lastPose3d = pose3d;
     camera = new PhotonCamera("mariners-cam");
+    limeligt = new PhotonCamera("limelight-mariners");
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     } catch (IOException e) {}
@@ -97,9 +100,18 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    var result = camera.getLatestResult();
-    if(result.hasTargets()){
-      PhotonTrackedTarget target = result.getBestTarget();
+    var resultcamera = camera.getLatestResult();
+    var resultLimeLight = limeligt.getLatestResult();
+    var result = resultcamera;
+    if(resultcamera.hasTargets()){
+      if(Math.min(resultcamera.getBestTarget().getPoseAmbiguity(), resultLimeLight.getBestTarget().getPoseAmbiguity()) == resultcamera.getBestTarget().getPoseAmbiguity()){
+         target = resultcamera.getBestTarget();
+         result = resultcamera;
+      }else{
+        target = resultLimeLight.getBestTarget();
+        result = resultLimeLight;
+      }
+      
       SmartDashboard.putNumber("april tag id", target.getFiducialId());
       SmartDashboard.putNumber("target pose ambiguity", target.getPoseAmbiguity());
       SmartDashboard.putNumber("latency", result.getLatencyMillis());
