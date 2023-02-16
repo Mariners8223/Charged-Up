@@ -70,6 +70,12 @@ public class Drivebase extends SubsystemBase {
     }
   }
 
+  public void setModulesState(SwerveModuleState[] states) {
+    for (int i = 0; i < 4; i++) {
+      swerveModules[i].setDesiredState(states[i]);
+    }
+  }
+
   public Translation2d[] getModuleTranslations() {
     return new Translation2d[] {
         Constants.Drivetrain.TRModule.position,
@@ -94,6 +100,8 @@ public class Drivebase extends SubsystemBase {
         swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
         swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition()
     });
+
+    
     Logger.getInstance().recordOutput("Odometry", getPose());
 
   }
@@ -102,10 +110,18 @@ public class Drivebase extends SubsystemBase {
     return Rotation2d.fromDegrees(gyroIO.getAngleDeg());
   }
 
+  public void resetPose(Rotation2d gyroAngle, SwerveModulePosition[] modulePositions, Pose2d pose) {
+    odometry.resetPosition(gyroAngle, modulePositions, pose);
+  }
+
   public Pose2d getPose() {
     return odometry.getPoseMeters();
   }
-  
+
+  public SwerveDriveKinematics getKinematics() {
+    return this.kinematics;
+  }
+
   public boolean getBrake() {
     return this.brakeMode;
   }

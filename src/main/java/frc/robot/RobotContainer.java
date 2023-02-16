@@ -44,6 +44,8 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   private static boolean inverted = false;
 
+
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
