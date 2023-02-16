@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -37,6 +38,7 @@ public final class Constants {
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
   public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+  public static final int FALCON500_COUNTS_PER_REVOLUTION = 2048;
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -105,4 +107,53 @@ public final class Constants {
 
     
   }
+
+  public static final class Drivetrain {
+    public static class SwerveModuleConstants {
+      public static final double freeSpeedMetersPerSecond = 3.6576;
+      public static final double driveRatio = 1.0 / 6.75;
+      public static final double steeringRatio = 1.0 / 12.5;
+      public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
+      public static final double wheelCircumferenceMeters = wheelRadiusMeters * 2 * Math.PI;
+      public static final double driveDPRMeters = wheelCircumferenceMeters * driveRatio;
+
+      public final Translation2d position;
+      public final int idDrive;
+      public final PIDFGains driveGains;
+      public final int idSteering;
+      public final PIDFGains steeringGains;
+      public final double cancoderZeroAngle;
+      public final int canCoderId;
+
+      public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, double cancoderZeroAngle,
+          int canCoderId) {
+        this(position, idDrive, idSteering, new PIDFGains(0, 0, 0, 0, 1, 0),
+            new PIDFGains(0, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId);
+      }
+
+      public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, PIDFGains driveGains,
+          PIDFGains steeringGains, double cancoderZeroAngle, int canCoderId) {
+        this.position = position;
+        this.idDrive = idDrive;
+        this.driveGains = driveGains;
+        this.idSteering = idSteering;
+        this.steeringGains = steeringGains;
+        this.cancoderZeroAngle = cancoderZeroAngle;
+        this.canCoderId = canCoderId;
+      }
+    }
+
+    public static final SwerveModuleConstants TLModule = new SwerveModuleConstants(new Translation2d(-0.215, 0.215), 1,
+        2, 0, 10);
+    public static final SwerveModuleConstants TRModule = new SwerveModuleConstants(new Translation2d(0.215, 0.215), 3,
+        4, 0, 11);
+    public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(new Translation2d(-0.215, -0.215), 5,
+        6, 0, 12);
+    public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(new Translation2d(0.215, -0.215), 7,
+        8, 0, 13);
+  
+    
+  }
+
+
 }

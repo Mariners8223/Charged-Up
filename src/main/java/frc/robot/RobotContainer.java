@@ -65,8 +65,6 @@ public class RobotContainer {
 
       // Replayed robot, disable IO implementations
       default:
-        //drive = new Drive(new DriveIO() {
-        //});
         break;
     }
     // Set up auto routines
