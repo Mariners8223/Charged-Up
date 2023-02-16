@@ -101,12 +101,13 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     if (widget == null)
-      widget = new TimerWidget("Example", "Auto", 15, Mode.TELEOP);
+      widget = new TimerWidget("Example", "Auto", 15, Mode.AUTO);
     else
     {
       widget.setMode(Mode.AUTO);
       widget.setName("Auto");
       widget.setDuration(15); // 15s
+      widget.reset();
     }
 
     autonomousCommand = robotContainer.getAutonomousCommand();
@@ -132,6 +133,7 @@ public class Robot extends LoggedRobot {
       widget.setMode(Mode.TELEOP);
       widget.setName("Tele-op");
       widget.setDuration(135); // 2m 15s
+      widget.reset();
     }
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
