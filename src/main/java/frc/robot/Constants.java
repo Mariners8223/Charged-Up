@@ -37,18 +37,8 @@ public final class Constants {
     static final double length = Units.feetToMeters(54);
     static final double width = Units.feetToMeters(27);
   }
-  public enum Mode {
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
-
-  public static enum Mode {
-  public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),new Rotation3d(  0, 0,  0));
-  public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(0.5, 0.0, 0.5),new Rotation3d(  0, 0,  0));
-  public static final boolean IsLimeLightAprilTags = false;
-  static class FieldConstants {
-    static final double length = Units.feetToMeters(54);
-    static final double width = Units.feetToMeters(27);
-  }
   public enum Mode {
     /** Running on a real robot. */
     REAL,
