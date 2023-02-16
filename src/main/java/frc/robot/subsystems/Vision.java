@@ -10,6 +10,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -25,16 +26,18 @@ import frc.robot.Constants;
 public class Vision extends SubsystemBase {
   //creates all vars needed for here
   private static AprilTagFieldLayout aprilTagFieldLayout;
-  private final Field2d m_field = new Field2d();
+  private static Field2d m_field;
   private static Vision instance;
   private static Pose3d pose3d;
   private static Pose2d pose2d;    
   private static Pose2d lastPose2d;
-  private static Pose3d lastPose3d;
-  private static PhotonCamera camera;
-  private static PhotonCamera limeligt;
-  private static PhotonPoseEstimator photonPoseEstimator;
-  private static PhotonTrackedTarget target;
+  private static PhotonCamera rasberryPiCamera;
+  private static PhotonCamera limeLightCamera;
+  private static PhotonPoseEstimator cameraPoseEstimator;
+  private static PhotonPoseEstimator limeligPoseEstimator;
+  private static double timeStamp;
+
+
   
   //creates new single tone
   public static Vision GetInstance(){
@@ -50,80 +53,100 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("april tag id", 0);
     SmartDashboard.putNumber("target pose ambiguity", 0);
     SmartDashboard.putNumber("latency", 0);
+    SmartDashboard.putString("camera:", "nope");
+    
     pose2d = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
     lastPose2d = pose2d;
     pose3d = new Pose3d(pose2d);
-    lastPose3d = pose3d;
-    camera = new PhotonCamera("mariners-cam");
-    limeligt = new PhotonCamera("limelight-mariners");
+    timeStamp = 0;
+
+    rasberryPiCamera = new PhotonCamera("mariners-cam");
+    limeLightCamera = new PhotonCamera("limelight-mariners");//lime light cemra?
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     } catch (IOException e) {}
-    photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, Constants.robotToCam);
+    m_field = new Field2d();
+
+    cameraPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, rasberryPiCamera, Constants.robotToCam);
+    limeligPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, limeLightCamera, Constants.robotToLimeLight);
   }
 
-  //returns a pose2d
+  //returns a pose2d (no shit)
   public Pose2d getpose2d(){
-    if(camera.getLatestResult().hasTargets()){
-      return pose2d;
-    }
-    else{
-      return null;
-    }
+    return pose2d;
   }
 
   //returns a pose3d
   public Pose3d getPose3d(){
-    if(camera.getLatestResult().hasTargets()){
-      return pose3d;
-    }
-    else{
-      return null;
-    }
+    return pose3d;
   }
 
   //returns timestamp
   public double GetTimestamp(){
-    if(camera.getLatestResult().hasTargets()){
-      return camera.getLatestResult().getTimestampSeconds();
-    }
-    else{
-      return 0;
-    }
+    return timeStamp;
   }
 
-  //creats the new pose;
-  private Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d lastPose2d) {
-    photonPoseEstimator.setReferencePose(lastPose2d);
-    return photonPoseEstimator.update();
+  //creats the new pose for camera
+  private Optional<EstimatedRobotPose> getEstimatedPose(Pose2d lastPose2d, PhotonPoseEstimator bestPoseEstimator) {
+    bestPoseEstimator.setReferencePose(lastPose2d);
+    return bestPoseEstimator.update();
   }
+
+  //creates the new pose for limelight
 
   @Override
   public void periodic() {
-    var resultcamera = camera.getLatestResult();
-    var resultLimeLight = limeligt.getLatestResult();
-    var result = resultcamera;
-    if(resultcamera.hasTargets()){
-      if(Math.min(resultcamera.getBestTarget().getPoseAmbiguity(), resultLimeLight.getBestTarget().getPoseAmbiguity()) == resultcamera.getBestTarget().getPoseAmbiguity()){
-         target = resultcamera.getBestTarget();
-         result = resultcamera;
-      }else{
-        target = resultLimeLight.getBestTarget();
-        result = resultLimeLight;
-      }
-      
-      SmartDashboard.putNumber("april tag id", target.getFiducialId());
-      SmartDashboard.putNumber("target pose ambiguity", target.getPoseAmbiguity());
-      SmartDashboard.putNumber("latency", result.getLatencyMillis());
-      Optional<EstimatedRobotPose> eOptional = getEstimatedGlobalPose(pose2d);
-      EstimatedRobotPose camPose = eOptional.get();
-      lastPose3d = pose3d;
-      pose3d = camPose.estimatedPose;
-      lastPose2d = pose2d;
-      pose2d = camPose.estimatedPose.toPose2d();
-      m_field.setRobotPose(pose2d);
-      SmartDashboard.putData(m_field);
-      Logger.getInstance().recordOutput("2D Pose", pose2d);
+    var resultRasberryPiCamera = rasberryPiCamera.getLatestResult();
+    var resultLimelight = limeLightCamera.getLatestResult();
+    PhotonTrackedTarget target = null;
+    PhotonPipelineResult bestResult = null;
+    PhotonPoseEstimator bestPoseEstimator = null;
+
+    if(!resultRasberryPiCamera.hasTargets() && !resultLimelight.hasTargets()){
+      pose2d = null;
+      pose3d = null;
+      timeStamp = 0;
+      return;
     }
+
+
+    double cameraAMB = 100;
+    double limelightAMB = 100;
+    if(resultRasberryPiCamera.hasTargets()){
+      cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
+    }
+    if(resultLimelight.hasTargets()){
+      limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
+    }
+
+    if(cameraAMB < limelightAMB){
+      bestResult = resultRasberryPiCamera;
+      bestPoseEstimator = cameraPoseEstimator;
+      SmartDashboard.putString("camera:", "pi");
+    }else {
+      System.out.println("shitshit");
+      bestResult = resultLimelight;
+      bestPoseEstimator = limeligPoseEstimator;
+      SmartDashboard.putString("camera:", "limelight");
+    }
+    
+    target = bestResult.getBestTarget();
+    timeStamp = bestResult.getTimestampSeconds();
+
+    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(lastPose2d, bestPoseEstimator);
+    EstimatedRobotPose camPose = eOptional.get();
+    pose3d = camPose.estimatedPose;
+    lastPose2d = pose2d;
+    pose2d = camPose.estimatedPose.toPose2d();
+    m_field.setRobotPose(pose2d);
+
+
+    SmartDashboard.putNumber("april tag id", target.getFiducialId());
+    SmartDashboard.putNumber("target pose ambiguity", target.getPoseAmbiguity());
+    SmartDashboard.putNumber("latency", bestResult.getLatencyMillis());
+    SmartDashboard.putData(m_field);
+
+    Logger.getInstance().recordOutput("2D Pose", pose2d);
+    
   }
 }
