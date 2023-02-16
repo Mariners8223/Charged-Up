@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
@@ -59,6 +60,22 @@ public class ArmIOTalonSRX implements ArmIO {
 
   public double getArmLengthMeters() {
     return Units.inchesToMeters((extensionMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_EXTENSION_GEAR_RATIO) * ArmConstants.DISTANCE_PER_REVOLUTION);
+  }
+
+  public boolean isArmAtSetpoint() {
+    SmartDashboard.putNumber("arm setpoint", getArmAngleRad());
+    return Math.abs((Units.radiansToRotations(getArmAngleRad()) - rotationMotor.getClosedLoopTarget())) < ArmConstants.ARM_ROTATION_TOLERANCE;
+  }
+  public boolean isArmAtExtensionSetpoint() {
+    SmartDashboard.putNumber("arm extension point", getArmLengthMeters());
+    return Math.abs(extensionMotor.getSelectedSensorPosition() - extensionMotor.getClosedLoopTarget()) < ArmConstants.ARM_EXTENSION_TOLERENCE;
+  }
+  public void stopRotation() {
+    rotationMotor.set(ControlMode.Disabled, 0);
+  }
+
+  public void stopExtension() {
+    rotationMotor.set(ControlMode.Disabled, 0);
   }
  
   @Override

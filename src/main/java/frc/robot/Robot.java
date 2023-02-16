@@ -6,12 +6,17 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.photonvision.PhotonPoseEstimator;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Vision;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
+import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +28,7 @@ import frc.util.dashboardUtil.TimerWidget.Mode;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  private Field2d field;
   private TimerWidget widget;
 
   /**
@@ -33,7 +39,7 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     Vision.GetInstance();
     Logger logger = Logger.getInstance();
-
+    Vision.GetInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
@@ -99,20 +105,19 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     if (widget == null)
-      widget = new TimerWidget("Example", "Auto", 15, Mode.TELEOP);
+      widget = new TimerWidget("Example", "Auto", 15, Mode.AUTO);
     else
     {
       widget.setMode(Mode.AUTO);
       widget.setName("Auto");
       widget.setDuration(15); // 15s
+      widget.reset();
     }
 
     autonomousCommand = robotContainer.getAutonomousCommand();
-
+    Vision.GetInstance();
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -130,6 +135,7 @@ public class Robot extends LoggedRobot {
       widget.setMode(Mode.TELEOP);
       widget.setName("Tele-op");
       widget.setDuration(135); // 2m 15s
+      widget.reset();
     }
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -138,6 +144,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    
   }
 
   /** This function is called periodically during operator control. */

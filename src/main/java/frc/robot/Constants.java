@@ -5,6 +5,13 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
+import edu.wpi.first.math.util.Units;
+
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -19,6 +26,11 @@ public final class Constants {
   public static final Mode currentMode = Mode.SIM;
   public static final double fullThres = 0.99;
   public static final double heldThres = 0.1;
+  public static final boolean IsLimeLightAprilTags = false;
+  static class FieldConstants {
+    static final double length = Units.feetToMeters(54);
+    static final double width = Units.feetToMeters(27);
+  }
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
@@ -65,7 +77,7 @@ public final class Constants {
     public static final double ARM_ROTATION_KI = 0.0;
     public static final double ARM_ROTATION_KD = 0.0;
     public static final double ARM_ROTATION_KF = 0.0;
-    
+    public static final double ARM_ROTATION_TOLERANCE = Units.degreesToRotations(3);
     public static final double ARM_EXTENSION_KP = 0.0;
     public static final double ARM_EXTENSION_KI = 0.0;
     public static final double ARM_EXTENSION_KD = 0.0;
@@ -77,6 +89,9 @@ public final class Constants {
     public static final double PINION_RADIUS_INCHES = PINION_CIRCUMFERENCE_INCHES / 2;
     public static final double PINION_RADIUS_METERS = PINION_RADIUS_INCHES / 2 ;
     public static final double DISTANCE_PER_REVOLUTION = PINION_CIRCUMFERENCE_INCHES * Math.PI;
+
+    public static final double ARM_EXTENSION_TOLERENCE = Units.metersToInches(0.05) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO / ArmConstants.DISTANCE_PER_REVOLUTION;
+
     
   }
 }
