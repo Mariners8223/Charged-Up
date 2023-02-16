@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drivetrain.module;
+package frc.robot.subsystems.drivetrain;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -15,6 +15,8 @@ import frc.robot.Constants;
 import frc.robot.Constants.Drivetrain;
 import frc.robot.subsystems.drivetrain.gyro.GyroIOInputsAutoLogged;
 import frc.robot.subsystems.drivetrain.gyro.GyroIONavX2;
+import frc.robot.subsystems.drivetrain.module.ModuleIOFXAndSMax;
+import frc.robot.subsystems.drivetrain.module.ModuleIOInputsAutoLogged;
 
 public class Drivebase extends SubsystemBase {
 
