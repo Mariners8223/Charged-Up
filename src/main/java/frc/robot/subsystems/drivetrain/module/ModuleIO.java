@@ -15,10 +15,6 @@ public interface ModuleIO {
 
   public default void updateInputs(ModuleIOInputs inputs) {}
 
-  public default void setSteeringPosition(double desiredAngleRad) {}
-
-  public default void setDriveVelocity(double desiredVelocity) {}
-
   public default void setSteeringBreakMode(boolean enable) {}
 
   public default void setTurnBrakeMode(boolean enable) {}

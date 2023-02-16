@@ -27,6 +27,9 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    xSpeed = RobotContainer.getRawAxis(0);
+    ySpeed = -RobotContainer.getRawAxis(1);
+    rotation = RobotContainer.getRawAxis(4);
     swerve.Drive(xSpeed, ySpeed, rotation, fieldOriented);
   }
 
