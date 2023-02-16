@@ -57,10 +57,6 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void Drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    xSpeed = -xSpeed;
-    ySpeed = -ySpeed;
-    rot *= 2;
-
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(
         fieldRelative && gyroIO.isConnected()
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(gyroIO.getAngleDeg()))
