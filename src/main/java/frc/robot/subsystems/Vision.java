@@ -61,7 +61,7 @@ public class Vision extends SubsystemBase {
     timeStamp = 0;
 
     rasberryPiCamera = new PhotonCamera("mariners-cam");
-    limeLightCamera = new PhotonCamera("limelight-mariners");//lime light cemra?
+    limeLightCamera = new PhotonCamera("limelight-mariners");//lime light camera?
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     } catch (IOException e) {}
@@ -123,11 +123,13 @@ public class Vision extends SubsystemBase {
       bestResult = resultRasberryPiCamera;
       bestPoseEstimator = cameraPoseEstimator;
       SmartDashboard.putString("camera:", "pi");
+      Logger.getInstance().recordOutput("cameraResultSource", "pi");
     }else {
       System.out.println("shitshit");
       bestResult = resultLimelight;
       bestPoseEstimator = limeligPoseEstimator;
       SmartDashboard.putString("camera:", "limelight");
+      Logger.getInstance().recordOutput("cameraResultSource", "limelight");
     }
     
     target = bestResult.getBestTarget();
@@ -146,7 +148,11 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("latency", bestResult.getLatencyMillis());
     SmartDashboard.putData(m_field);
 
-    Logger.getInstance().recordOutput("2D Pose", pose2d);
+    Logger.getInstance().recordOutput("pose3d", pose3d);
+    Logger.getInstance().recordOutput("pose2d", pose2d);
+    Logger.getInstance().recordOutput("poseAmbiguity", target.getPoseAmbiguity());
+    Logger.getInstance().recordOutput("aprilTagId", target.getFiducialId());
+    Logger.getInstance().recordOutput("latency", bestResult.getLatencyMillis());
     
   }
 }
