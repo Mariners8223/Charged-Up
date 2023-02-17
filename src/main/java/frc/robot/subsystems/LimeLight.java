@@ -33,7 +33,9 @@ public class LimeLight extends SubsystemBase {
   //creates all the vars
   private static LimeLight Instance;
   private static PhotonCamera LimeLight;
-  private static Double cameraToTarget;
+  private static Double distanceToTarget;
+  private static double yawToTarget;
+  private static double pitchToTarget;
   
   //creates new instance
   public static LimeLight getInstance(){
@@ -44,27 +46,39 @@ public class LimeLight extends SubsystemBase {
   //creates the constructor
   private LimeLight() {
     LimeLight = new PhotonCamera("limelight-mariners");
-    SmartDashboard.putBoolean("tape", false);
-
+    SmartDashboard.putBoolean("limeLightAprilTagMode", true);
+    distanceToTarget = 0.0;
+    yawToTarget = 0.0;
+    pitchToTarget = 0.0;
   }
 
+  public double getDistanceToTarget(){
+    return distanceToTarget;
+  }
 
+  public double getYawToTarget(){
+    return yawToTarget;
+  }
+
+  public double getPitchToTarget(){
+    return pitchToTarget;
+  }
 
   //preiodic shit
   @Override
   public void periodic() {
-    if(SmartDashboard.getBoolean("tape", false)){
-      LimeLight.setPipelineIndex(2);
-      LimeLight.setLED(VisionLEDMode.kOn);
-    }
-    else{
-      LimeLight.setPipelineIndex(1);
-      LimeLight.setLED(VisionLEDMode.kOff);
+    if(SmartDashboard.getBoolean("limeLightAprilTagMode", true)){
+      return;
     }
     var result = LimeLight.getLatestResult();
+    distanceToTarget = 0.0;
+    yawToTarget = 0.0;
+    pitchToTarget = 0.0;
     if(result.hasTargets()){
       PhotonTrackedTarget target = result.getBestTarget();
-      cameraToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), 0, target.getYaw());
+      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Constants.robotToLimeLight.getRotation().getAngle(), target.getYaw());
+      yawToTarget = target.getYaw();
+      pitchToTarget = target.getPitch();
     }
   }
 }
