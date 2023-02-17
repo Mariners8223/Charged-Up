@@ -68,8 +68,12 @@ public class LimeLight extends SubsystemBase {
   @Override
   public void periodic() {
     if(SmartDashboard.getBoolean("limeLightAprilTagMode", true)){
+      LimeLight.setLED(VisionLEDMode.kOff);
+      LimeLight.setPipelineIndex(1);
       return;
     }
+    LimeLight.setLED(VisionLEDMode.kOn);
+    LimeLight.setPipelineIndex(2);
     var result = LimeLight.getLatestResult();
     distanceToTarget = 0.0;
     yawToTarget = 0.0;

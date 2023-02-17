@@ -115,7 +115,7 @@ public class Vision extends SubsystemBase {
     if(resultRasberryPiCamera.hasTargets()){
       cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
     }
-    if(resultLimelight.hasTargets()){
+    if(resultLimelight.hasTargets() && SmartDashboard.getBoolean("limeLightAprilTagMode", true)){
       limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
     }
 
@@ -125,7 +125,6 @@ public class Vision extends SubsystemBase {
       SmartDashboard.putString("camera:", "pi");
       Logger.getInstance().recordOutput("cameraResultSource", "pi");
     }else {
-      System.out.println("shitshit");
       bestResult = resultLimelight;
       bestPoseEstimator = limeligPoseEstimator;
       SmartDashboard.putString("camera:", "limelight");

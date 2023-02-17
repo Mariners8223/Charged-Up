@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Vision;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
@@ -38,6 +39,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotInit() {
     Vision.GetInstance();
+    LimeLight.getInstance();
     Logger logger = Logger.getInstance();
     Vision.GetInstance();
     // Record metadata
