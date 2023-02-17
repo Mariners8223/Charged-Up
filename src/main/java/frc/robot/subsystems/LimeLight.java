@@ -36,6 +36,7 @@ public class LimeLight extends SubsystemBase {
   private static Double distanceToTarget;
   private static double yawToTarget;
   private static double pitchToTarget;
+  private static double timeStamp;
   
   //creates new instance
   public static LimeLight getInstance(){
@@ -50,6 +51,7 @@ public class LimeLight extends SubsystemBase {
     distanceToTarget = 0.0;
     yawToTarget = 0.0;
     pitchToTarget = 0.0;
+    timeStamp = 0.0;
   }
 
   public double getDistanceToTarget(){
@@ -62,6 +64,10 @@ public class LimeLight extends SubsystemBase {
 
   public double getPitchToTarget(){
     return pitchToTarget;
+  }
+
+  public double getTimeStamp(){
+    return timeStamp;
   }
 
   //preiodic shit
@@ -78,11 +84,13 @@ public class LimeLight extends SubsystemBase {
     distanceToTarget = 0.0;
     yawToTarget = 0.0;
     pitchToTarget = 0.0;
+    timeStamp = 0.0;
     if(result.hasTargets()){
       PhotonTrackedTarget target = result.getBestTarget();
       distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Constants.robotToLimeLight.getRotation().getAngle(), target.getYaw());
       yawToTarget = target.getYaw();
       pitchToTarget = target.getPitch();
+      timeStamp = result.getTimestampSeconds();
     }
   }
 }
