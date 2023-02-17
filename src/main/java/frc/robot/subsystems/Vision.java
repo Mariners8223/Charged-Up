@@ -115,7 +115,7 @@ public class Vision extends SubsystemBase {
     if(resultRasberryPiCamera.hasTargets()){
       cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
     }
-    if(resultLimelight.hasTargets() && SmartDashboard.getBoolean("limeLightAprilTagMode", true)){
+    if(resultLimelight.hasTargets() && LimeLight.getInstance().isAprilTags()){
       limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
     }
 

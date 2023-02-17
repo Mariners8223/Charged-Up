@@ -8,10 +8,9 @@ import java.io.IOException;
 
 import org.ejml.data.CMatrixRMaj;
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.common.hardware.VisionLEDMode;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -37,6 +36,7 @@ public class LimeLight extends SubsystemBase {
   private static double yawToTarget;
   private static double pitchToTarget;
   private static double timeStamp;
+  private static boolean isAprilTags;
   
   //creates new instance
   public static LimeLight getInstance(){
@@ -47,11 +47,17 @@ public class LimeLight extends SubsystemBase {
   //creates the constructor
   private LimeLight() {
     LimeLight = new PhotonCamera("limelight-mariners");
-    SmartDashboard.putBoolean("limeLightAprilTagMode", true);
+    isAprilTags = true;
     distanceToTarget = 0.0;
     yawToTarget = 0.0;
     pitchToTarget = 0.0;
     timeStamp = 0.0;
+
+    SmartDashboard.putBoolean("limeLightAprilTagMode", isAprilTags);
+  }
+
+  public boolean isAprilTags(){
+    return isAprilTags;
   }
 
   public double getDistanceToTarget(){
@@ -73,14 +79,15 @@ public class LimeLight extends SubsystemBase {
   //preiodic shit
   @Override
   public void periodic() {
-    if(SmartDashboard.getBoolean("limeLightAprilTagMode", true)){
+    isAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isAprilTags);
+    if(isAprilTags){
       LimeLight.setLED(VisionLEDMode.kOff);
       LimeLight.setPipelineIndex(1);
       return;
     }
     LimeLight.setLED(VisionLEDMode.kOn);
     LimeLight.setPipelineIndex(2);
-    var result = LimeLight.getLatestResult();
+    PhotonPipelineResult result = LimeLight.getLatestResult();
     distanceToTarget = 0.0;
     yawToTarget = 0.0;
     pitchToTarget = 0.0;
