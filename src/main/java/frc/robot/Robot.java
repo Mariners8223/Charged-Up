@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.util.dashboardUtil.TimerWidget;
@@ -101,7 +102,10 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     if (widget == null)
-      widget = new TimerWidget("Example", "Auto", 15, Mode.AUTO);
+    {
+      widget = new TimerWidget("Auto", 15, Mode.AUTO);
+      SmartDashboard.putData("ExampleTimer", widget);
+    }
     else
     {
       widget.setMode(Mode.AUTO);
@@ -127,7 +131,10 @@ public class Robot extends LoggedRobot {
   @Override
   public void teleopInit() {
     if (widget == null)
-      widget = new TimerWidget("Example", "Auto", 15, Mode.TELEOP);
+    {
+      widget = new TimerWidget("Tele-op", 15, Mode.TELEOP);
+      SmartDashboard.putData("ExampleTimer", widget);
+    }
     else
     {
       widget.setMode(Mode.TELEOP);
