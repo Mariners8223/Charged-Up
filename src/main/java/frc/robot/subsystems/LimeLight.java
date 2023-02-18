@@ -83,12 +83,15 @@ public class LimeLight extends SubsystemBase {
   public void periodic() {
     isAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isAprilTags);
     if(isAprilTags){
-      LimeLight.setLED(VisionLEDMode.kOff);
-      LimeLight.setPipelineIndex(1);
+      if(LimeLight.getPipelineIndex() != 0){
+        LimeLight.setPipelineIndex(0);
+      }
       return;
     }
-    LimeLight.setLED(VisionLEDMode.kOn);
-    LimeLight.setPipelineIndex(2);
+    if(LimeLight.getPipelineIndex() != 1){
+      LimeLight.setPipelineIndex(1);
+    }
+
     PhotonPipelineResult result = LimeLight.getLatestResult();
     distanceToTarget = 0.0;
     yawToTarget = 0.0;

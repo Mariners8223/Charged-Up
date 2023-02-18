@@ -39,8 +39,8 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotInit() {
     LimeLight.getInstance();
-    Logger logger = Logger.getInstance();
     Vision.GetInstance();
+    Logger logger = Logger.getInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
@@ -116,7 +116,6 @@ public class Robot extends LoggedRobot {
     }
 
     autonomousCommand = robotContainer.getAutonomousCommand();
-    Vision.GetInstance();
     // schedule the autonomous command (example)
 
   }
