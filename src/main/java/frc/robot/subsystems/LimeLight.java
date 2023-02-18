@@ -53,6 +53,8 @@ public class LimeLight extends SubsystemBase {
     pitchToTarget = 0.0;
     timeStamp = 0.0;
 
+    SmartDashboard.putNumber("distance to target", distanceToTarget);
+    SmartDashboard.putNumber("pitch to target", pitchToTarget);
     SmartDashboard.putBoolean("limeLightAprilTagMode", isAprilTags);
   }
 
@@ -98,6 +100,8 @@ public class LimeLight extends SubsystemBase {
       yawToTarget = target.getYaw();
       pitchToTarget = target.getPitch();
       timeStamp = result.getTimestampSeconds();
+      SmartDashboard.putNumber("distance to target", distanceToTarget);
+      SmartDashboard.putNumber("pitch to target", pitchToTarget);
     }
   }
 }

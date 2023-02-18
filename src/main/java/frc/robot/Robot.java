@@ -38,7 +38,6 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
-    Vision.GetInstance();
     LimeLight.getInstance();
     Logger logger = Logger.getInstance();
     Vision.GetInstance();
