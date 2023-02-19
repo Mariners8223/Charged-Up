@@ -150,11 +150,11 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("latency", latency);
     SmartDashboard.putData(m_field);
 
-    Logger.getInstance().recordOutput("pose3d", pose3d);
-    Logger.getInstance().recordOutput("pose2d", pose2d);
-    Logger.getInstance().recordOutput("poseAmbiguity", target.getPoseAmbiguity());
-    Logger.getInstance().recordOutput("aprilTagId", target.getFiducialId());
-    Logger.getInstance().recordOutput("latency", bestResult.getLatencyMillis());
+    Logger.getInstance().recordOutput("Vision/Pose3D", pose3d);
+    Logger.getInstance().recordOutput("Vision/Pose2d", pose2d);
+    Logger.getInstance().recordOutput("Vision/PoseAmbiguity", target.getPoseAmbiguity());
+    Logger.getInstance().recordOutput("Vision/AprilTagId", target.getFiducialId());
+    Logger.getInstance().recordOutput("Vision/Latency", bestResult.getLatencyMillis());
     
   }
 }

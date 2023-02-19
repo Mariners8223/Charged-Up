@@ -4,26 +4,12 @@
 
 package frc.robot.subsystems;
 
-import java.io.IOException;
-
-import org.ejml.data.CMatrixRMaj;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
-import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -86,6 +72,7 @@ public class LimeLight extends SubsystemBase {
   @Override
   public void periodic() {
     isLimeLightModeAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
+    Logger.getInstance().recordOutput("LimeLight/IsLimeLightModeAprilTags", isLimeLightModeAprilTags);
     if(isLimeLightModeAprilTags){
       if(LimeLight.getPipelineIndex() != 0){
         LimeLight.setPipelineIndex(0);
@@ -108,6 +95,9 @@ public class LimeLight extends SubsystemBase {
       latency = result.getLatencyMillis();
       SmartDashboard.putNumber("distance to target", distanceToTarget);
       SmartDashboard.putNumber("pitch to target", pitchToTarget);
+      Logger.getInstance().recordOutput("LimeLight/PitchToTarget", pitchToTarget);
+      Logger.getInstance().recordOutput("LimeLight/DistanceToTarget", distanceToTarget);
+      Logger.getInstance().recordOutput("LimeLight/Latency", latency);
     }
   }
 }
