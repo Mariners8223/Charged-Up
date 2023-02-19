@@ -139,8 +139,8 @@ public class ModuleIOFXAndSMax implements ModuleIO {
   public SwerveModuleState getState() {
     return new SwerveModuleState(
         Units.rotationsPerMinuteToRadiansPerSecond(
-            driveMotor.getSelectedSensorVelocity() * 10 / Drivetrain.SwerveModuleConstants.driveRatio)
-            * Drivetrain.SwerveModuleConstants.driveDPRMeters,
+              driveMotor.getSelectedSensorVelocity() * 10 / Constants.FALCON500_COUNTS_PER_REVOLUTION / Drivetrain.SwerveModuleConstants.driveRatio)
+              * Drivetrain.SwerveModuleConstants.driveDPRMeters,
         new Rotation2d()
             .rotateBy(Rotation2d.fromDegrees(Units.rotationsToDegrees(steeringEncoder.getPosition()))));
   }
