@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import org.littletonrobotics.junction.LogFileUtil;
@@ -10,12 +6,18 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.photonvision.PhotonPoseEstimator;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.Vision;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
+import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +29,7 @@ import frc.util.dashboardUtil.TimerWidget.Mode;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  private Field2d field;
   private TimerWidget widget;
 
   /**
@@ -35,8 +38,9 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
+    LimeLight.getInstance();
+    Vision.GetInstance();
     Logger logger = Logger.getInstance();
-
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
@@ -115,11 +119,8 @@ public class Robot extends LoggedRobot {
     }
 
     autonomousCommand = robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -149,6 +150,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    
   }
 
   /** This function is called periodically during operator control. */
