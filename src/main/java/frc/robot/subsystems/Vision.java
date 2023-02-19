@@ -36,6 +36,7 @@ public class Vision extends SubsystemBase {
   private static PhotonPoseEstimator cameraPoseEstimator;
   private static PhotonPoseEstimator limeligPoseEstimator;
   private static double timeStamp;
+  private static double latency;
 
 
   
@@ -53,6 +54,7 @@ public class Vision extends SubsystemBase {
     lastPose2d = pose2d;
     pose3d = new Pose3d(pose2d);
     timeStamp = 0;
+    latency = 0.0;
 
     rasberryPiCamera = new PhotonCamera("mariners-cam");
     limeLightCamera = new PhotonCamera("limelight-mariners");//lime light camera?
@@ -67,10 +69,7 @@ public class Vision extends SubsystemBase {
   
     SmartDashboard.putData("Field", m_field);
     SmartDashboard.putNumber("april tag id", 0);
-    SmartDashboard.putNumber("target pose ambiguity", 0);
     SmartDashboard.putNumber("latency", 0);
-    SmartDashboard.putString("camera:", "nope");
-    
   }
 
   //returns a pose2d (no shit)
@@ -86,6 +85,10 @@ public class Vision extends SubsystemBase {
   //returns timestamp
   public double GetTimestamp(){
     return timeStamp;
+  }
+
+  public double getLatency(){
+    return latency;
   }
 
   //creats the new pose for camera
@@ -104,7 +107,7 @@ public class Vision extends SubsystemBase {
     PhotonPipelineResult bestResult = null;
     PhotonPoseEstimator bestPoseEstimator = null;
 
-    if(!resultRasberryPiCamera.hasTargets() && !(resultLimelight.hasTargets() &&  LimeLight.getInstance().isAprilTags())){
+    if(!resultRasberryPiCamera.hasTargets() && !(resultLimelight.hasTargets() &&  LimeLight.getInstance().getIsLimeLightModeAprilTags())){
       pose2d = null;
       pose3d = null;
       timeStamp = 0;
@@ -117,24 +120,23 @@ public class Vision extends SubsystemBase {
     if(resultRasberryPiCamera.hasTargets()){
       cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
     }
-    if(resultLimelight.hasTargets()){
+    if(resultLimelight.hasTargets() && LimeLight.getInstance().getIsLimeLightModeAprilTags()){
       limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
     }
 
     if(cameraAMB < limelightAMB){
       bestResult = resultRasberryPiCamera;
       bestPoseEstimator = cameraPoseEstimator;
-      SmartDashboard.putString("camera:", "pi");
       Logger.getInstance().recordOutput("cameraResultSource", "pi");
     }else {
       bestResult = resultLimelight;
       bestPoseEstimator = limeligPoseEstimator;
-      SmartDashboard.putString("camera:", "limelight");
       Logger.getInstance().recordOutput("cameraResultSource", "limelight");
     }
     
     target = bestResult.getBestTarget();
     timeStamp = bestResult.getTimestampSeconds();
+    latency = bestResult.getLatencyMillis();
 
     Optional<EstimatedRobotPose> eOptional = getEstimatedPose(lastPose2d, bestPoseEstimator);
     EstimatedRobotPose camPose = eOptional.get();
@@ -145,8 +147,7 @@ public class Vision extends SubsystemBase {
 
 
     SmartDashboard.putNumber("april tag id", target.getFiducialId());
-    SmartDashboard.putNumber("target pose ambiguity", target.getPoseAmbiguity());
-    SmartDashboard.putNumber("latency", bestResult.getLatencyMillis());
+    SmartDashboard.putNumber("latency", latency);
     SmartDashboard.putData(m_field);
 
     Logger.getInstance().recordOutput("pose3d", pose3d);

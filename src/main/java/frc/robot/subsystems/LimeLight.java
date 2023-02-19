@@ -33,10 +33,10 @@ public class LimeLight extends SubsystemBase {
   private static LimeLight Instance;
   private static PhotonCamera LimeLight;
   private static Double distanceToTarget;
-  private static double yawToTarget;
   private static double pitchToTarget;
   private static double timeStamp;
-  private static boolean isAprilTags;
+  private static boolean isLimeLightModeAprilTags;
+  private static double latency;
   
   //creates new instance
   public static LimeLight getInstance(){
@@ -47,42 +47,46 @@ public class LimeLight extends SubsystemBase {
   //creates the constructor
   private LimeLight() {
     LimeLight = new PhotonCamera("limelight-mariners");
-    isAprilTags = true;
+    isLimeLightModeAprilTags = true;
+    latency = 0.0;
     distanceToTarget = 0.0;
-    yawToTarget = 0.0;
     pitchToTarget = 0.0;
     timeStamp = 0.0;
 
     SmartDashboard.putNumber("distance to target", distanceToTarget);
     SmartDashboard.putNumber("pitch to target", pitchToTarget);
-    SmartDashboard.putBoolean("limeLightAprilTagMode", isAprilTags);
+    SmartDashboard.putBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
   }
 
-  public boolean isAprilTags(){
-    return isAprilTags;
+  public boolean getIsLimeLightModeAprilTags(){
+    return isLimeLightModeAprilTags;
   }
 
   public double getDistanceToTarget(){
     return distanceToTarget;
   }
-
-  public double getYawToTarget(){
-    return yawToTarget;
-  }
-
   public double getPitchToTarget(){
     return pitchToTarget;
+  }
+
+  public double getLatency(){
+    return latency;
   }
 
   public double getTimeStamp(){
     return timeStamp;
   }
 
+  public void setIsLimeLightModeAprilTags(boolean mode){
+    isLimeLightModeAprilTags = mode;
+    SmartDashboard.putBoolean("LimeLightModeAprilTags", mode);
+  }
+
   //preiodic shit
   @Override
   public void periodic() {
-    isAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isAprilTags);
-    if(isAprilTags){
+    isLimeLightModeAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
+    if(isLimeLightModeAprilTags){
       if(LimeLight.getPipelineIndex() != 0){
         LimeLight.setPipelineIndex(0);
       }
@@ -94,15 +98,14 @@ public class LimeLight extends SubsystemBase {
 
     PhotonPipelineResult result = LimeLight.getLatestResult();
     distanceToTarget = 0.0;
-    yawToTarget = 0.0;
     pitchToTarget = 0.0;
     timeStamp = 0.0;
     if(result.hasTargets()){
       PhotonTrackedTarget target = result.getBestTarget();
-      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Constants.robotToLimeLight.getRotation().getAngle(), target.getYaw());
-      yawToTarget = target.getYaw();
+      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Constants.robotToLimeLight.getRotation().getAngle(), target.getPitch());
       pitchToTarget = target.getPitch();
       timeStamp = result.getTimestampSeconds();
+      latency = result.getLatencyMillis();
       SmartDashboard.putNumber("distance to target", distanceToTarget);
       SmartDashboard.putNumber("pitch to target", pitchToTarget);
     }
