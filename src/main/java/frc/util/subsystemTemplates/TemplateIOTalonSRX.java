@@ -16,8 +16,8 @@ public class TemplateIOTalonSRX implements TemplateIO {
         leader = new TalonSRX(0);
         follower = new TalonSRX(1);
 
-        FaultChecker.getInstance().addMotor("Template Leader", leader);
-        FaultChecker.getInstance().addMotor("Template Follower", follower);
+        FaultChecker.getInstance().addMotor("Template Leader", "Template Group", leader);
+        FaultChecker.getInstance().addMotor("Template Follower", "Template Group", follower);
         
         leader.configVoltageCompSaturation(12);
         follower.configVoltageCompSaturation(12);

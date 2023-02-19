@@ -6,18 +6,16 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-import org.photonvision.PhotonPoseEstimator;
 
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.FaultChecker;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Vision;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
-import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,6 +38,7 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     LimeLight.getInstance();
     Vision.GetInstance();
+    FaultChecker.getInstance();
     Logger logger = Logger.getInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
