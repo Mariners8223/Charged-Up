@@ -155,11 +155,12 @@ public class FaultChecker extends SubsystemBase {
     private void checkMotor(Motor motor)
     {
         String id = motor.getId();
-        BaseMotorController controller = motor.getController()
+        BaseMotorController controller = motor.getController();
         Faults f = new Faults();
         ErrorCode errorCode = controller.getFaults(f);
 
         Logger.getInstance().recordOutput("lastErrorCode" + id, errorCode.value);
+        motor.setStatus(MotorStatus.ONLINE);
         if (f.hasAnyFault() || errorCode.value != 0)
         {
             new PrintCommand("MOTOR " + id + " HAS PROBLEMS!\n");
@@ -184,6 +185,7 @@ public class FaultChecker extends SubsystemBase {
                 if (f.SupplyUnstable) work.append( "SupplyUnstable ");
                 String result = work.toString();
                 Logger.getInstance().recordOutput("faults" + id, result);
+                motor.setStatus(MotorStatus.FATAL);
 
                 new PrintCommand("FAULTS: " + result);
             }
@@ -191,6 +193,7 @@ public class FaultChecker extends SubsystemBase {
             {
                 Logger.getInstance().recordOutput("faults" + id, "None");
                 new PrintCommand("LAST ERROR: " + errorCode.toString() + " (Code " + (errorCode.value) + ")");
+                motor.setStatus(MotorStatus.WARN);
             }
         }
     }
