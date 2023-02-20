@@ -5,8 +5,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
 public class ModuleIOSim implements ModuleIO {
-      private FlywheelSim driveSim = new FlywheelSim(DCMotor.getFalcon500(1), 6.75, 0.025);
-  private FlywheelSim turnSim = new FlywheelSim(DCMotor.getFalcon500(1), 150.0 / 7.0, 0.004);
+  private FlywheelSim driveSim = new FlywheelSim(DCMotor.getFalcon500(1), 6.75, 0.025);
+  private FlywheelSim turnSim = new FlywheelSim(DCMotor.getNEO(1), 150.0 / 7.0, 0.004);
 
   private double turnRelativePositionRad = 0.0;
   private double turnAbsolutePositionRad = Math.random() * 2.0 * Math.PI;
@@ -27,9 +27,8 @@ public class ModuleIOSim implements ModuleIO {
       turnAbsolutePositionRad -= 2.0 * Math.PI;
     }
 
-    inputs.drivePositionRad =
-        inputs.drivePositionRad
-            + (driveSim.getAngularVelocityRadPerSec() * 0.02);
+    inputs.drivePositionRad = inputs.drivePositionRad
+        + (driveSim.getAngularVelocityRadPerSec() * 0.02);
 
     inputs.steeringAbsolutePositionRad = turnAbsolutePositionRad;
     inputs.steeringPositionRad = turnRelativePositionRad;
