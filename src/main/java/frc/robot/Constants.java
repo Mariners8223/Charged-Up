@@ -152,7 +152,10 @@ public final class Constants {
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(new Translation2d(0.215, -0.215), 7,
         8, 0, 13);
   
-    
+    public static final PIDFGains xAutoPID = new PIDFGains(0.7, 0.0, 0.0);
+    public static final PIDFGains yAutoPID = new PIDFGains(0.7, 0.0, 0.0);
+    public static final PIDFGains angleAutoPID = new PIDFGains(0.4, 0.0, 0.01);
+
   }
 
 

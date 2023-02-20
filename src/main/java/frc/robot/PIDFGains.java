@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+
 public class PIDFGains {
     private double _kP, _kI, _kD, _kF, _tolerance, _iZone;
   
@@ -12,6 +14,15 @@ public class PIDFGains {
       this._iZone = iZone;
     }
   
+    public PIDFGains(double kP, double kI, double kD) {
+      this._kP = kP;
+      this._kI = kI;
+      this._kD = kD;
+      this._kF = 0;
+      this._tolerance = 0;
+      this._iZone = 0;
+    }
+
     public double getIZone() {
         return _iZone;
     }
@@ -34,5 +45,9 @@ public class PIDFGains {
   
     public double getTolerance() {
       return this._tolerance;
+    }
+
+    public PIDController createPIDController() {
+      return new PIDController(_kP, _kI, _kD);
     }
   }

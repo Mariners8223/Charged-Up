@@ -70,6 +70,13 @@ public class Drivebase extends SubsystemBase {
     }
   }
 
+  public void setChassisSpeeds(ChassisSpeeds speeds) {
+    SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
+    for (int i = 0; i< swerveModules.length; i++) {
+      swerveModules[i].setDesiredState(moduleStates[i]);
+    }
+  }
+
   public void setModulesState(SwerveModuleState[] states) {
     for (int i = 0; i < 4; i++) {
       swerveModules[i].setDesiredState(states[i]);
@@ -110,7 +117,14 @@ public class Drivebase extends SubsystemBase {
     return Rotation2d.fromDegrees(gyroIO.getAngleDeg());
   }
 
-  public void resetPose(Rotation2d gyroAngle, SwerveModulePosition[] modulePositions, Pose2d pose) {
+  public void resetOdometry(Pose2d initalPose2d) {
+    resetOdometry(getRotation2d(),
+        new SwerveModulePosition[] { swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
+            swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition() },
+        initalPose2d);
+  }
+
+  public void resetOdometry(Rotation2d gyroAngle, SwerveModulePosition[] modulePositions, Pose2d pose) {
     odometry.resetPosition(gyroAngle, modulePositions, pose);
   }
 
