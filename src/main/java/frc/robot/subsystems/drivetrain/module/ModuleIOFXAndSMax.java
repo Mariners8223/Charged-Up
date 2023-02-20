@@ -17,9 +17,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
-import frc.robot.PIDFGains;
 import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.util.PIDFGains;
 
 public class ModuleIOFXAndSMax implements ModuleIO {
   private CANSparkMax steeringMotor;
