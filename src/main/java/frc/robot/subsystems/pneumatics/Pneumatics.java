@@ -25,6 +25,13 @@ public class Pneumatics extends SubsystemBase {
     io.disableCompressor();
   }
 
+  public void toggleCompressor() {
+    if (inputs.isEnabled)
+      disableCompressor();
+    else
+      enableCompressor();
+  }
+
   public double getPressure() {
     return io.getPressure();
   }
