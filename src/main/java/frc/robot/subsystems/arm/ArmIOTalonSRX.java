@@ -65,11 +65,11 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public boolean isArmAtSetpoint() {
-    SmartDashboard.putNumber("arm setpoint", getArmAngleRad());
+    SmartDashboard.putNumber("arm setpoint", rotationMotor.getClosedLoopTarget());
     return Math.abs((Units.radiansToRotations(getArmAngleRad()) - rotationMotor.getClosedLoopTarget())) < ArmConstants.ARM_ROTATION_TOLERANCE;
   }
   public boolean isArmAtExtensionSetpoint() {
-    SmartDashboard.putNumber("arm extension point", getArmLengthMeters());
+    SmartDashboard.putNumber("arm extension point", extensionMotor.getClosedLoopTarget());
     return Math.abs(extensionMotor.getSelectedSensorPosition() - extensionMotor.getClosedLoopTarget()) < ArmConstants.ARM_EXTENSION_TOLERENCE;
   }
   public void stopRotation() {
