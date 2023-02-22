@@ -62,7 +62,7 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     inputs.driveVelocityPerSecRad = Units.rotationsPerMinuteToRadiansPerSecond(
         driveMotor.getSelectedSensorVelocity() * 10 / Constants.FALCON500_COUNTS_PER_REVOLUTION
             / Drivetrain.SwerveModuleConstants.driveDPRMeters);
-    inputs.steeringAbsolutePositionRad = Units.rotationsToRadians(getAbsSteeringPos());
+    inputs.steeringAbsolutePositionRad = Units.degreesToRadians(getAbsSteeringPos());
     inputs.steeringPositionRad = Units.degreesToRadians(getAngle());
     inputs.steeringVelocityPerSecRad = Units.rotationsPerMinuteToRadiansPerSecond(
         steeringEncoder.getVelocity() / Drivetrain.SwerveModuleConstants.steeringRatio);
@@ -164,7 +164,7 @@ public class ModuleIOFXAndSMax implements ModuleIO {
   }
 
   public double getAbsSteeringPos() {
-    return steeringEncoder.getPosition() * Drivetrain.SwerveModuleConstants.steeringRatio;
+    return absEncoder.getAbsolutePosition();
   }
 
   public double getAngle() {
@@ -182,7 +182,7 @@ public class ModuleIOFXAndSMax implements ModuleIO {
   }
 
   public double getDriveRPM() {
-    return driveMotor.getSelectedSensorVelocity();
+    return Units.radiansPerSecondToRotationsPerMinute(driveMotor.getSelectedSensorVelocity() * 10 / Constants.FALCON500_COUNTS_PER_REVOLUTION);
   }
 
   public void setDriveRPM(double RPM) {
