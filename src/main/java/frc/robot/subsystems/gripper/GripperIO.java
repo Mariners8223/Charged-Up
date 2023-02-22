@@ -15,4 +15,8 @@ public interface GripperIO {
   
   public default void setAngle(double desiredAngle) {
   }
+
+  public default boolean isAtSetpoint() {
+    return false;
+  }
 }

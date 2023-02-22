@@ -62,6 +62,7 @@ public final class Constants {
     public static final double GRIPPER_KP = 0.1;
     public static final double GRIPPER_SPEED = 1.0;
     public static final double GRIPPER_GEAR_RATIO = 0.625;
+    public static final double GRIPPER_TOLERANCE = Units.degreesToRadians(2);
   }
 
   public static class OrientationConstants {

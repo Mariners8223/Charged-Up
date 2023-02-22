@@ -28,7 +28,7 @@ public class Arm extends SubsystemBase {
     return io.isArmAtSetpoint();
   }
   public boolean isAtExtensionSetpoint(){
-    return io.isArmAtSetpoint();
+    return io.isArmAtExtensionSetpoint();
   }
 
   public void stopRotationMotor() {
