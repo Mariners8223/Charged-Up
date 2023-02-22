@@ -20,12 +20,7 @@ public class toggleOrientationUpDown extends CommandBase {
   public void initialize() {
     orientation.toggleSolenoid();
   }
-  @Override
-  public void end(boolean interrupted) {
-    orientation.stop();
-  }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

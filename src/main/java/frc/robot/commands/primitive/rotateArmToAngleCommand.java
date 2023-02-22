@@ -5,15 +5,17 @@ import frc.robot.subsystems.arm.Arm;
 
 public class rotateArmToAngleCommand extends CommandBase {
   private Arm arm;
-  private double desiredAngle;
-  public rotateArmToAngleCommand(double desiredAngle) {
+  private double desiredAngleDeg;
+  public rotateArmToAngleCommand(double desiredAngleDeg) {
     arm = Arm.getInstance();
-    this.desiredAngle = desiredAngle;
+    this.desiredAngleDeg = desiredAngleDeg;
+
+    addRequirements(arm);
   }
 
   @Override
   public void initialize() {
-    arm.rotateToAngleDegrees(desiredAngle);
+    arm.rotateToAngleDegrees(desiredAngleDeg);
   }
 
   @Override

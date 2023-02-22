@@ -30,6 +30,6 @@ public class setGripperAngleCommnad extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return gripper.isAtSetpoint();
   }
 }
