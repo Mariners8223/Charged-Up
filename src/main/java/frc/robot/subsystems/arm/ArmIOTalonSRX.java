@@ -2,6 +2,7 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.math.util.Units;
@@ -11,19 +12,20 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class ArmIOTalonSRX implements ArmIO {
-  private TalonSRX rotationMotor;
+  private TalonFX rotationMotor;
   private TalonSRX extensionMotor;
 
   private static ArmIOTalonSRX instance;
     
   private ArmIOTalonSRX() {
-    rotationMotor = new TalonSRX(RobotConstants.ARM_ROTATION_MOTOR);
+    rotationMotor = new TalonFX(RobotConstants.ARM_ROTATION_MOTOR);
     extensionMotor = new TalonSRX(RobotConstants.ARM_EXTENSION_MOTOR);
 
     rotationMotor.config_kP(0, ArmConstants.ARM_ROTATION_KP);
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);
     rotationMotor.config_kD(0, ArmConstants.ARM_ROTATION_KD);
     rotationMotor.config_kF(0, ArmConstants.ARM_ROTATION_KF);
+    rotationMotor.configClosedloopRamp(0.3);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);
