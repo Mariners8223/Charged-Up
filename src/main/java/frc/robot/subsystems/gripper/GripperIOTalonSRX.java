@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
@@ -51,6 +52,10 @@ public class GripperIOTalonSRX implements GripperIO {
     inputs.isClosed = !(inputs.gripperDeg <= 5 || inputs.gripperDeg >= -5); 
   }
   
+  @Override
+  public boolean isAtSetpoint(){
+    return Math.abs(Units.degreesToRotations(getGripperRotationDegrees() - gripperMotor.getClosedLoopTarget())) < GripperConstants.GRIPPER_TOLERANCE;
+  }
   @Override
   public void setAngle(double desiredAngle) {
     gripperMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAngle));

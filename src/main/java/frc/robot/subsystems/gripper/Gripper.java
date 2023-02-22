@@ -37,6 +37,10 @@ public class Gripper extends SubsystemBase {
     io.setAngle(Angle);
   }
 
+  public boolean isAtSetpoint() {
+    return io.isAtSetpoint();
+  }
+
   /** Stops the gripper */
   public void stop() {
     io.setAngle(0);

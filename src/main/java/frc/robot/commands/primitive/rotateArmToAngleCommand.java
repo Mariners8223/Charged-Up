@@ -1,4 +1,4 @@
-package frc.robot.commands.primitive;
+package frc.robot.Commands.primitive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.Arm;
@@ -15,9 +15,6 @@ public class rotateArmToAngleCommand extends CommandBase {
   public void initialize() {
     arm.rotateToAngleDegrees(desiredAngle);
   }
-
-  @Override
-  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {
