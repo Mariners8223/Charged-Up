@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.Autonomous;
 
 import java.util.HashMap;
@@ -26,44 +22,43 @@ import frc.robot.subsystems.drivetrain.Drivebase;
 /** Add your docs here. */
 public final class Autos {
 
-    private Autos() {
-        throw new UnsupportedOperationException("This is a utility class!");
-    }
+  private Autos() {
+    throw new UnsupportedOperationException("This is a utility class!");
+  }
 
-    public static CommandBase exampleAuto(Drivebase swerve) 
-    {
-        boolean onTheFly = false; //Use the defined path from PathPlanner
-        PathPlannerTrajectory trajectory;
-        if (onTheFly) {
-            // Simple path with holonomic rotation. Stationary start/end. Max velocity of 4
-            // m/s and max accel of 3 m/s^2
-            trajectory = PathPlanner.generatePath(
+  public static CommandBase exampleAuto(Drivebase swerve) {
+    boolean onTheFly = false; // Use the defined path from PathPlanner
+    PathPlannerTrajectory trajectory;
+    if (onTheFly) {
+      // Simple path with holonomic rotation. Stationary start/end. Max velocity of 4
+      // m/s and max accel of 3 m/s^2
+      trajectory = PathPlanner.generatePath(
           new PathConstraints(4, 3),
           new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
           // position, heading(direction of travel), holonomic rotation
           new PathPoint(new Translation2d(3, 5), Rotation2d.fromDegrees(90), Rotation2d.fromDegrees(90)),
           // position, heading(direction of travel), holonomic rotation
           new PathPoint(new Translation2d(5, 5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
-          // position, heading(direction of travel), holonomic rotation
-            );
-        } else {
-          List<PathPlannerTrajectory> trajectories = PathPlanner.loadPathGroup("2 piece", new PathConstraints(4, 3));
-          HashMap<String, Command> eventMap = new HashMap<>();
-          eventMap.put("event1", new PrintCommand("Passed marker 1"));
+      // position, heading(direction of travel), holonomic rotation
+      );
+    } else {
+      List<PathPlannerTrajectory> trajectories = PathPlanner.loadPathGroup("2 piece", new PathConstraints(4, 3));
+      HashMap<String, Command> eventMap = new HashMap<>();
+      eventMap.put("event1", new PrintCommand("Passed marker 1"));
 
-          SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-            swerve::getPose,
-            swerve::resetOdometry,
-            new PIDConstants(Drivetrain.yAutoPID.getP(), Drivetrain.yAutoPID.getI(), Drivetrain.yAutoPID.getI()),
-            new PIDConstants(Drivetrain.angleAutoPID.getP(), Drivetrain.angleAutoPID.getI(), Drivetrain.angleAutoPID.getD()),
-            swerve::setChassisSpeeds,
-            eventMap,
-            swerve
-          );
-          return Commands.sequence(autoBuilder.fullAuto(trajectories));
-        }
-
-        return Commands.sequence(new FollowTrajectory(swerve, trajectory, true));
+      SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+          swerve::getPose,
+          swerve::resetOdometry,
+          new PIDConstants(Drivetrain.yAutoPID.getP(), Drivetrain.yAutoPID.getI(), Drivetrain.yAutoPID.getI()),
+          new PIDConstants(Drivetrain.angleAutoPID.getP(), Drivetrain.angleAutoPID.getI(),
+              Drivetrain.angleAutoPID.getD()),
+          swerve::setChassisSpeeds,
+          eventMap,
+          swerve);
+      return Commands.sequence(autoBuilder.fullAuto(trajectories));
     }
+
+    return Commands.sequence(new FollowTrajectory(swerve, trajectory, true));
+  }
 
 }
