@@ -54,6 +54,7 @@ public class GripperIOTalonSRX implements GripperIO {
   
   @Override
   public boolean isAtSetpoint(){
+    SmartDashboard.putNumber("Gripper Setpoint", gripperMotor.getClosedLoopTarget());
     return Math.abs(Units.degreesToRotations(getGripperRotationDegrees() - gripperMotor.getClosedLoopTarget())) < GripperConstants.GRIPPER_TOLERANCE;
   }
   @Override
