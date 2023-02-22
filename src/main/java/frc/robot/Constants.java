@@ -111,9 +111,9 @@ public final class Constants {
 
   public static final class Drivetrain {
     public static class SwerveModuleConstants {
-      public static final double freeSpeedMetersPerSecond = 3.6576;
-      public static final double driveRatio = 1.0 / 6.75;
-      public static final double steeringRatio = 1.0 / 12.5;
+      public static final double freeSpeedMetersPerSecond = 4.000;
+      public static final double driveRatio = 6.75;
+      public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
       public static final double wheelCircumferenceMeters = wheelRadiusMeters * 2 * Math.PI;
       public static final double driveDPRMeters = wheelCircumferenceMeters * driveRatio;
