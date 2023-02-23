@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -29,6 +30,11 @@ public class Tank extends SubsystemBase {
     NavX = new AHRS(SPI.Port.kMXP);
     NavX.calibrate();
 
+    rightLeader.setInverted(InvertType.InvertMotorOutput);
+    rightFollower.setInverted(InvertType.FollowMaster);
+    leftLeader.setInverted(InvertType.None);
+    leftFollower.setInverted(InvertType.FollowMaster);
+
     leftFollower.follow(leftLeader);
     rightFollower.follow(rightLeader);
   }
@@ -41,7 +47,7 @@ public class Tank extends SubsystemBase {
 
   public void Drive(double xSpeed, double rot) {
     leftLeader.set(ControlMode.PercentOutput, xSpeed+rot);
-    rightLeader.set(ControlMode.PercentOutput, xSpeed-rot);
+    rightLeader.set(ControlMode.PercentOutput, xSpeed+rot);
   }
 
   public void resetGyro() { NavX.reset(); }
