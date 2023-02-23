@@ -22,6 +22,7 @@ public class toggleOrientationSpinnersCommand extends CommandBase {
   @Override
   public void initialize() {
     if(!orientation.getIsRunning()){
+      orientation.toggleSolenoid();
       if(sqncType == SequenceType.Cube)
         orientation.setSpeed(0.4);
       else
@@ -29,7 +30,7 @@ public class toggleOrientationSpinnersCommand extends CommandBase {
     }
     else
       orientation.stop();
-
+      orientation.toggleSolenoid();
     
   }
   @Override

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.primitive.DriveCommand;
 import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
 import frc.robot.commands.primitive.rotateArmToAngleCommand;
 import frc.robot.commands.primitive.setGripperAngleCommnad;
@@ -29,6 +30,8 @@ import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
+import frc.robot.commands.primitive.DriveCommand;
+import frc.robot.subsystems.Tank;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -47,6 +50,8 @@ public class RobotContainer {
   LimeLight limeLight = LimeLight.getInstance();
   Vision vision = Vision.GetInstance();
   FaultChecker faultchecker = FaultChecker.getInstance();
+  double speed = 0.0;
+  double rot = 0.0;
 
   // Controller
   private final CommandPS5Controller driveController = new CommandPS5Controller(0);
@@ -87,7 +92,6 @@ public class RobotContainer {
     restOfRobotController.L1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cube));
     restOfRobotController.R1().onTrue(new toggleOrientationSpinnersCommand(SequenceType.Cone));
     restOfRobotController.R1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cone));
-
   }
 
 
