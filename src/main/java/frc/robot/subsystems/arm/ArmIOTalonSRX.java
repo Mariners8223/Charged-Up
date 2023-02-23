@@ -89,7 +89,7 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
-    rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg) * Constants.FALCON500_COUNTS_PER_REVOLUTION);
+    rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg) * Constants.FALCON500_COUNTS_PER_REVOLUTION * Constants.ArmConstants.ARM_ROTATION_GEAR_RATIO);
   }  
 
   @Override
