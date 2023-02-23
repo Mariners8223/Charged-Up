@@ -34,6 +34,6 @@ public class extendAndRotateArmToMetersDeg extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return arm.isAtExtensionSetpoint()&&arm.isAtRotationSetpoint();
+    return arm.isAtExtensionSetpoint() && arm.isAtRotationSetpoint();
   }
 }
