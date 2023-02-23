@@ -14,6 +14,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
+import frc.robot.commands.primitive.rotateArmToAngleCommand;
+import frc.robot.commands.primitive.setGripperAngleCommnad;
+import frc.robot.commands.primitive.toggleOrientationSpinnersCommand;
 import frc.robot.subsystems.FaultChecker;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Tank;
@@ -22,7 +26,9 @@ import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
+import frc.util.SequenceType;
 import frc.util.humanIO.CommandPS5Controller;
+import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,7 +49,8 @@ public class RobotContainer {
   FaultChecker faultchecker = FaultChecker.getInstance();
 
   // Controller
-  private final CommandPS5Controller mainController = new CommandPS5Controller(0);
+  private final CommandPS5Controller driveController = new CommandPS5Controller(0);
+  private final CommandPS5Controller restOfRobotController = new CommandPS5Controller(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -70,8 +77,19 @@ public class RobotContainer {
     //.onTrue(new extendArmToLengthMetersCommand(-0.03));
     //.onTrue(new rotateArmToAngleCommand(smth));
     //.onTrue(new rotateArmToAngleCommand(-smth));
-    
+    restOfRobotController.circle().whileTrue(new extendArmToLengthMetersCommand(0.1));
+    restOfRobotController.square().whileTrue(new extendArmToLengthMetersCommand(-0.1));
+    restOfRobotController.cross().whileTrue(new rotateArmToAngleCommand(-15));
+    restOfRobotController.triangle().whileTrue(new rotateArmToAngleCommand(15));
+    restOfRobotController.R2().onTrue(new setGripperAngleCommnad(10));
+    restOfRobotController.R2().onFalse(new setGripperAngleCommnad(0));
+    restOfRobotController.L1().onTrue(new toggleOrientationSpinnersCommand(SequenceType.Cube));
+    restOfRobotController.L1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cube));
+    restOfRobotController.R1().onTrue(new toggleOrientationSpinnersCommand(SequenceType.Cone));
+    restOfRobotController.R1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cone));
+
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

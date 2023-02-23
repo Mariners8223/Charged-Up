@@ -29,6 +29,8 @@ public class toggleOrientationSpinnersCommand extends CommandBase {
     }
     else
       orientation.stop();
+
+    
   }
   @Override
   public void end(boolean interrupted) {
