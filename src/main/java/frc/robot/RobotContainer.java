@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.primitive.DriveCommand;
@@ -53,6 +54,8 @@ public class RobotContainer {
   double speed = 0.0;
   double rot = 0.0;
 
+
+
   // Controller
   private final CommandPS5Controller driveController = new CommandPS5Controller(0);
   private final CommandPS5Controller restOfRobotController = new CommandPS5Controller(1);
@@ -69,6 +72,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    tank.setDefaultCommand(new RunCommand(() -> tank.Drive(driveController.getLeftY(), driveController.getRightX()), tank));
   }
 
   /**
@@ -78,10 +83,6 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //.onTrue(new extendArmToLengthMetersCommand(0.03));
-    //.onTrue(new extendArmToLengthMetersCommand(-0.03));
-    //.onTrue(new rotateArmToAngleCommand(smth));
-    //.onTrue(new rotateArmToAngleCommand(-smth));
     restOfRobotController.circle().whileTrue(new extendArmToLengthMetersCommand(0.1));
     restOfRobotController.square().whileTrue(new extendArmToLengthMetersCommand(-0.1));
     restOfRobotController.cross().whileTrue(new rotateArmToAngleCommand(-15));
