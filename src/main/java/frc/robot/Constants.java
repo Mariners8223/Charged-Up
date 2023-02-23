@@ -69,7 +69,7 @@ public final class Constants {
   public static class GripperConstants {
     public static final double GRIPPER_KP = 0.1;
     public static final double GRIPPER_SPEED = 1.0;
-    public static final double GRIPPER_GEAR_RATIO = 0.625;
+    public static final double GRIPPER_GEAR_RATIO = 1.6;
     public static final double GRIPPER_TOLERANCE = Units.degreesToRadians(2);
   }
 
@@ -91,8 +91,8 @@ public final class Constants {
     public static final double ARM_EXTENSION_KI = 0.0;
     public static final double ARM_EXTENSION_KD = 0.0;
 
-    public static final double ARM_ROTATION_GEAR_RATIO = 0.0;
-    public static final double ARM_EXTENSION_GEAR_RATIO = 0.0;
+    public static final double ARM_ROTATION_GEAR_RATIO = 81.0;
+    public static final double ARM_EXTENSION_GEAR_RATIO = 2.3;
     public static final double PINION_CIRCUMFERENCE_INCHES = 2.358268;
     public static final double PINION_CIRCUMFERENCE_METERS = Units.inchesToMeters(PINION_CIRCUMFERENCE_INCHES);
     public static final double PINION_RADIUS_INCHES = PINION_CIRCUMFERENCE_INCHES / 2;
