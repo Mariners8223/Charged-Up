@@ -62,7 +62,7 @@ public final class Constants {
     public static final int GRIPPER_MOTOR = 9;
     public static final int ORIENTATION_LEFT_MOTOR = 5;
     public static final int ORIENTATION_RIGHT_MOTOR = 6;
-    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {0, 1};
+    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {8, 9};
 
   }
 

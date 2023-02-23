@@ -8,7 +8,7 @@ public class extendArmToLengthMetersCommand extends CommandBase {
   private double desiredLengthMeters;
   public extendArmToLengthMetersCommand(double desiredLengthMeters) {
     arm = Arm.getInstance();
-    this.desiredLengthMeters = desiredLengthMeters;
+    this.desiredLengthMeters = desiredLengthMeters+ this.desiredLengthMeters;
 
     addRequirements(arm);
   }

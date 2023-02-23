@@ -37,6 +37,9 @@ public class Orientation extends SubsystemBase {
   public boolean getIsRunning(){
     return io.isRunning;
   }
+  public void setIsRunning(boolean state){
+    io.isRunning = state;
+  }
 
   @Override
   public void periodic() {

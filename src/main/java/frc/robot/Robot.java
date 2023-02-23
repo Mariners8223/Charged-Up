@@ -38,9 +38,6 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
-    LimeLight.getInstance();
-    Vision.GetInstance();
-    FaultChecker.getInstance();
     Logger logger = Logger.getInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);

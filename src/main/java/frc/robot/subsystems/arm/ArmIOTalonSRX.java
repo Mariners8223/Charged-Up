@@ -84,7 +84,7 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public void stopExtension() {
-    rotationMotor.set(ControlMode.Disabled, 0);
+    extensionMotor.set(ControlMode.Disabled, 0);
   }
  
   @Override
@@ -94,7 +94,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void extendToLength(double extensionMeters) {
-    rotationMotor.set(ControlMode.Position, 
+    extensionMotor.set(ControlMode.Position, 
     (Units.metersToInches(extensionMeters) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO) / ArmConstants.DISTANCE_PER_REVOLUTION
     );
   }

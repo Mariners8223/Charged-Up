@@ -48,9 +48,6 @@ public class RobotContainer {
   Orientation orientation = Orientation.getInstance();
   Pneumatics pneumatics = Pneumatics.getInstance();
   Tank tank = Tank.getInstance();
-  LimeLight limeLight = LimeLight.getInstance();
-  Vision vision = Vision.GetInstance();
-  FaultChecker faultchecker = FaultChecker.getInstance();
   double speed = 0.0;
   double rot = 0.0;
 
@@ -84,15 +81,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     restOfRobotController.circle().whileTrue(new extendArmToLengthMetersCommand(0.1));
-    restOfRobotController.square().whileTrue(new extendArmToLengthMetersCommand(-0.1));
+    restOfRobotController.square().whileTrue(new extendArmToLengthMetersCommand(0.1));
     restOfRobotController.cross().whileTrue(new rotateArmToAngleCommand(-15));
     restOfRobotController.triangle().whileTrue(new rotateArmToAngleCommand(15));
     restOfRobotController.R2().onTrue(new setGripperAngleCommnad(10));
     restOfRobotController.R2().onFalse(new setGripperAngleCommnad(0));
-    restOfRobotController.L1().onTrue(new toggleOrientationSpinnersCommand(SequenceType.Cube));
-    restOfRobotController.L1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cube));
-    restOfRobotController.R1().onTrue(new toggleOrientationSpinnersCommand(SequenceType.Cone));
-    restOfRobotController.R1().onFalse(new toggleOrientationSpinnersCommand(SequenceType.Cone));
+    restOfRobotController.L1().whileTrue(new toggleOrientationSpinnersCommand(0.4));
+    restOfRobotController.R1().whileTrue(new toggleOrientationSpinnersCommand(0.6));
   }
 
 

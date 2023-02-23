@@ -10,32 +10,26 @@ import frc.util.SequenceType;
 
 public class toggleOrientationSpinnersCommand extends CommandBase {
   private Orientation orientation;
-  private SequenceType sqncType;
+  private double speed;
 
-  public toggleOrientationSpinnersCommand(SequenceType type) {
+  public toggleOrientationSpinnersCommand(double speed) {
     this.orientation = Orientation.getInstance();
-    this.sqncType = type;
+    this.speed = speed;
 
     addRequirements(orientation);
   }
 
   @Override
   public void initialize() {
-    if(!orientation.getIsRunning()){
-      orientation.toggleSolenoid();
-      if(sqncType == SequenceType.Cube)
-        orientation.setSpeed(0.4);
-      else
-        orientation.setSpeed(0.6);
-    }
-    else
-      orientation.stop();
-      orientation.toggleSolenoid();
-    
+    orientation.setSpeed(speed);
+    orientation.toggleSolenoid();
+    orientation.setIsRunning(!orientation.getIsRunning());
   }
   @Override
   public void end(boolean interrupted) {
-    orientation.stop();
+    orientation.setSpeed(0);
+    orientation.toggleSolenoid();
+    orientation.setIsRunning(!orientation.getIsRunning());
   }
 
   // Returns true when the command should end.

@@ -1,5 +1,7 @@
 package frc.robot.subsystems.pneumatics;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pneumatics extends SubsystemBase {
@@ -9,6 +11,8 @@ public class Pneumatics extends SubsystemBase {
 
   private Pneumatics(PneumaticsIO io) {
     this.io = io;
+    SmartDashboard.putBoolean("compressor", false);
+    SmartDashboard.putNumber("pressure", getPressure());
   }
 
   public static Pneumatics getInstance() {
@@ -39,15 +43,19 @@ public class Pneumatics extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    if(getPressure() < 120.0){
-      if(!inputs.isEnabled){
-        enableCompressor();
+    SmartDashboard.putNumber("pressure", getPressure());
+    if(SmartDashboard.getBoolean("compressor", false)){
+      if(getPressure() < 110){
+        if(!inputs.isEnabled){
+          enableCompressor();
+        }
       }
     }
-    else{
-      if(inputs.isEnabled){
-        disableCompressor();
-      }
+  else{
+    if(inputs.isEnabled){
+      disableCompressor();
     }
+  }
+  
   }
 }
