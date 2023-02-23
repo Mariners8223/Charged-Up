@@ -55,11 +55,11 @@ public class GripperIOTalonSRX implements GripperIO {
   @Override
   public boolean isAtSetpoint(){
     SmartDashboard.putNumber("Gripper Setpoint", gripperMotor.getClosedLoopTarget());
-    return Math.abs(Units.degreesToRotations(getGripperRotationDegrees() - gripperMotor.getClosedLoopTarget())) < GripperConstants.GRIPPER_TOLERANCE;
+    return Math.abs(gripperMotor.getSelectedSensorPosition() - gripperMotor.getClosedLoopTarget()) < GripperConstants.GRIPPER_TOLERANCE;
   }
   @Override
   public void setAngle(double desiredAngle) {
-    gripperMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAngle));
+    gripperMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAngle) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
   }
 
 }

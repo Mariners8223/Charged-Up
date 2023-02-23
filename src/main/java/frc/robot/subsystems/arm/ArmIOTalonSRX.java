@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -33,6 +34,12 @@ public class ArmIOTalonSRX implements ArmIO {
     
     rotationMotor.setNeutralMode(NeutralMode.Brake);
     extensionMotor.setNeutralMode(NeutralMode.Brake);
+
+    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+    rotationMotor.setSelectedSensorPosition(0);
+    extensionMotor.setSelectedSensorPosition(0);
   }
 
   public static ArmIOTalonSRX getInstance() {
@@ -50,13 +57,13 @@ public class ArmIOTalonSRX implements ArmIO {
   
   public double getArmAngleRad() {
     return Units.rotationsToRadians(
-      rotationMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
+      rotationMotor.getSelectedSensorPosition() / Constants.FALCON500_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
     );
   }
 
   public double getArmVelocityPerSecRad() {
     return Units.rotationsPerMinuteToRadiansPerSecond(
-      rotationMotor.getSelectedSensorVelocity() * 10 / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
+      rotationMotor.getSelectedSensorVelocity() * 10 / Constants.FALCON500_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
     );
   }
 
@@ -66,7 +73,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   public boolean isArmAtSetpoint() {
     SmartDashboard.putNumber("arm setpoint", rotationMotor.getClosedLoopTarget());
-    return Math.abs((Units.radiansToRotations(getArmAngleRad()) - rotationMotor.getClosedLoopTarget())) < ArmConstants.ARM_ROTATION_TOLERANCE;
+    return Math.abs(rotationMotor.getSelectedSensorPosition() - rotationMotor.getClosedLoopTarget()) < ArmConstants.ARM_ROTATION_TOLERANCE;
   }
   public boolean isArmAtExtensionSetpoint() {
     SmartDashboard.putNumber("arm extension point", extensionMotor.getClosedLoopTarget());
@@ -82,7 +89,7 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
-    rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg));
+    rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg) * Constants.FALCON500_COUNTS_PER_REVOLUTION);
   }  
 
   @Override
