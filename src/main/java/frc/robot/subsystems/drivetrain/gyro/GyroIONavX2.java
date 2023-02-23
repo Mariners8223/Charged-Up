@@ -4,6 +4,9 @@ import com.kauailabs.navx.frc.AHRS;
 
 
 public class GyroIONavX2 implements GyroIO {
+
+  // TODO: COMMENT
+
   private AHRS gyro;
   private static GyroIONavX2 instance;
 
