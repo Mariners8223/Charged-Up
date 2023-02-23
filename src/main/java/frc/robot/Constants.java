@@ -34,10 +34,10 @@ public final class Constants {
   }
 
   public static class TemporaryConstants {
-    public static final int LEFT_LEADER = 0;
-    public static final int RIGHT_LEADER = 0;
-    public static final int LEFT_FOLLOWER = 0;
-    public static final int RIGHT_FOLLOWER = 0;
+    public static final int LEFT_LEADER = 3;
+    public static final int RIGHT_LEADER = 1;
+    public static final int LEFT_FOLLOWER = 4;
+    public static final int RIGHT_FOLLOWER = 2;
   }
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
@@ -57,11 +57,11 @@ public final class Constants {
 
 
   public static class RobotConstants {
-    public static final int ARM_ROTATION_MOTOR = 1;
-    public static final int ARM_EXTENSION_MOTOR = 2;
-    public static final int GRIPPER_MOTOR = 3;
-    public static final int ORIENTATION_LEFT_MOTOR = 4;
-    public static final int ORIENTATION_RIGHT_MOTOR = 5;
+    public static final int ARM_ROTATION_MOTOR = 7;
+    public static final int ARM_EXTENSION_MOTOR = 8;
+    public static final int GRIPPER_MOTOR = 9;
+    public static final int ORIENTATION_LEFT_MOTOR = 5;
+    public static final int ORIENTATION_RIGHT_MOTOR = 6;
     public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {0, 1};
 
   }
