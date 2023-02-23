@@ -66,6 +66,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //.onTrue(new extendArmToLengthMetersCommand(0.03));
+    //.onTrue(new extendArmToLengthMetersCommand(-0.03));
+    //.onTrue(new rotateArmToAngleCommand(smth));
+    //.onTrue(new rotateArmToAngleCommand(-smth));
     
   }
 
