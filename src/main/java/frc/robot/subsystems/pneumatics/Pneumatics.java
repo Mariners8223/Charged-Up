@@ -39,5 +39,15 @@ public class Pneumatics extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    if(getPressure() < 120.0){
+      if(!inputs.isEnabled){
+        enableCompressor();
+      }
+    }
+    else{
+      if(inputs.isEnabled){
+        disableCompressor();
+      }
+    }
   }
 }
