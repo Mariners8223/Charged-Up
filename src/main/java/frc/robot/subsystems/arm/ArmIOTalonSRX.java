@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.util.SequenceType;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
@@ -21,6 +22,9 @@ public class ArmIOTalonSRX implements ArmIO {
   private ArmIOTalonSRX() {
     rotationMotor = new TalonFX(RobotConstants.ARM_ROTATION_MOTOR);
     extensionMotor = new TalonSRX(RobotConstants.ARM_EXTENSION_MOTOR);
+
+    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     rotationMotor.config_kP(0, ArmConstants.ARM_ROTATION_KP);
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);

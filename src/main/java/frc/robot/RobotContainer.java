@@ -52,8 +52,7 @@ public class RobotContainer {
 
 
   // Controller
-  private final CommandPS5Controller driveController = new CommandPS5Controller(0);
-  private final CommandPS5Controller restOfRobotController = new CommandPS5Controller(1);
+  private static final CommandPS5Controller controller = new CommandPS5Controller(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -78,16 +77,14 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    restOfRobotController.circle().whileTrue(new extendArmToLengthMetersCommand(0.1));
-    restOfRobotController.square().whileTrue(new extendArmToLengthMetersCommand(0.1));
-    restOfRobotController.cross().whileTrue(new rotateArmToAngleCommand(-15));
-    restOfRobotController.triangle().whileTrue(new rotateArmToAngleCommand(15));
-    restOfRobotController.R2().onTrue(new setGripperAngleCommnad(10));
-    restOfRobotController.R2().onFalse(new setGripperAngleCommnad(0));
-    restOfRobotController.L1().whileTrue(new toggleOrientationSpinnersCommand(0.4));
-    restOfRobotController.R1().whileTrue(new toggleOrientationSpinnersCommand(0.6));
+    controller.circle().onTrue(new toggleGripperV2Solenoid());
+    Tank.getinstance().setDefaultCommand(new TankDrive());
+    Arm.getInstance().setDefaultCommand(new humenArmAndRotate());
   }
 
+  public static double getRawAxis(int axis){
+    return controller.getRawAxis(axis);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
