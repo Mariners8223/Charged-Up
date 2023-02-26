@@ -55,6 +55,15 @@ public final class Constants {
     public static final int ORIENTATION_LEFT_MOTOR = 4;
     public static final int ORIENTATION_RIGHT_MOTOR = 5;
     public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {0, 1};
+    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {8, 9};
+
+  }
+
+  public static class TempConstants{
+    public static final int ENGINE1_ID = 1;
+    public static final int ENGINE2_ID = 2;
+    public static final int ENGINE3_ID = 3;
+    public static final int ENGINE4_ID = 4;
 
   }
 
@@ -74,17 +83,17 @@ public final class Constants {
     public static final double ARM_KG = 0.0;
     public static final double ARM_KS = 0.0;
 
-    public static final double ARM_ROTATION_KP = 0.0;
-    public static final double ARM_ROTATION_KI = 0.0;
-    public static final double ARM_ROTATION_KD = 0.0;
-    public static final double ARM_ROTATION_KF = 0.0;
+    public static final double ARM_ROTATION_KP = 0.8;
+    public static final double ARM_ROTATION_KI = 0.5;
+    public static final double ARM_ROTATION_KD = 0.3;
+    public static final double ARM_ROTATION_KF = 0.5;
     public static final double ARM_ROTATION_TOLERANCE = Units.degreesToRotations(3);
-    public static final double ARM_EXTENSION_KP = 0.0;
-    public static final double ARM_EXTENSION_KI = 0.0;
-    public static final double ARM_EXTENSION_KD = 0.0;
+    public static final double ARM_EXTENSION_KP = 0.8;
+    public static final double ARM_EXTENSION_KI = 0.5;
+    public static final double ARM_EXTENSION_KD = 0.3;
 
-    public static final double ARM_ROTATION_GEAR_RATIO = 0.0;
-    public static final double ARM_EXTENSION_GEAR_RATIO = 0.0;
+    public static final double ARM_ROTATION_GEAR_RATIO = 776.25;
+    public static final double ARM_EXTENSION_GEAR_RATIO = 2.3;
     public static final double PINION_CIRCUMFERENCE_INCHES = 2.358268;
     public static final double PINION_CIRCUMFERENCE_METERS = Units.inchesToMeters(PINION_CIRCUMFERENCE_INCHES);
     public static final double PINION_RADIUS_INCHES = PINION_CIRCUMFERENCE_INCHES / 2;

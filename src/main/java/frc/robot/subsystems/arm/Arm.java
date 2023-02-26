@@ -52,4 +52,14 @@ public class Arm extends SubsystemBase {
   public void rotateToAngleDegrees(double desiredAngleDeg) {
     io.moveToAngle(desiredAngleDeg);
   }
+
+  public void extendPlusLengthMeters(double length){
+    length += io.getArmLengthMeters();
+    io.extendToLength(length);
+  }
+
+  public void rotatePlusAbgleDegrees(double angle){
+    angle += Math.toDegrees(io.getArmAngleRad());
+    io.moveToAngle(angle);
+  }
 }

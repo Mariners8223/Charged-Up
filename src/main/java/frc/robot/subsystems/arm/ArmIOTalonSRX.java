@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.util.SequenceType;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
@@ -20,6 +22,9 @@ public class ArmIOTalonSRX implements ArmIO {
   private ArmIOTalonSRX() {
     rotationMotor = new TalonFX(RobotConstants.ARM_ROTATION_MOTOR);
     extensionMotor = new TalonSRX(RobotConstants.ARM_EXTENSION_MOTOR);
+
+    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     rotationMotor.config_kP(0, ArmConstants.ARM_ROTATION_KP);
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);
@@ -77,7 +82,7 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public void stopExtension() {
-    rotationMotor.set(ControlMode.Disabled, 0);
+    extensionMotor.set(ControlMode.Disabled, 0);
   }
  
   @Override
@@ -87,7 +92,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void extendToLength(double extensionMeters) {
-    rotationMotor.set(ControlMode.Position, 
+    extensionMotor.set(ControlMode.Position, 
     (Units.metersToInches(extensionMeters) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO) / ArmConstants.DISTANCE_PER_REVOLUTION
     );
   }
