@@ -32,10 +32,6 @@ public class Pneumatics extends SubsystemBase {
       enableCompressor();
   }
 
-  public double getPressure() {
-    return io.getPressure();
-  }
-
   @Override
   public void periodic() {
     io.updateInputs(inputs);
