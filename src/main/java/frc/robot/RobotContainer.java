@@ -20,6 +20,10 @@ import frc.robot.Commands.primitive.humenArmAndRotate;
 import frc.robot.Commands.primitive.toggleGripperV2Solenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.gripper.Gripper;
+import frc.robot.subsystems.gripperV2.GripperV2;
+import frc.robot.subsystems.orientation.Orientation;
+import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.humanIO.CommandPS5Controller;
 
 /**
@@ -32,10 +36,10 @@ import frc.util.humanIO.CommandPS5Controller;
 public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
-  Gripper gripper = Gripper.getInstance();
+  GripperV2 gripperV2 = GripperV2.getInstance();
   Orientation orientation = Orientation.getInstance();
   Pneumatics pneumatics = Pneumatics.getInstance();
-  Tank tank = Tank.getInstance();
+  Tank tank = Tank.getinstance();
   double speed = 0.0;
   double rot = 0.0;
 
@@ -57,7 +61,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    tank.setDefaultCommand(new RunCommand(() -> tank.Drive(driveController.getLeftY(), driveController.getRightX()), tank));
   }
 
   /**
@@ -67,7 +70,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controller.circle().onTrue(new toggleGripperV2Solenoid());
+    controller.circle().onTrue(new toggleGripperV2Solenoid(1));
+    controller.square().onTrue(new toggleGripperV2Solenoid(2));
+    controller.triangle().onTrue(new toggleGripperV2Solenoid(3));
     Tank.getinstance().setDefaultCommand(new TankDrive());
     Arm.getInstance().setDefaultCommand(new humenArmAndRotate());
   }

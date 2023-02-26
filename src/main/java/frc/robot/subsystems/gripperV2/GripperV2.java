@@ -25,10 +25,17 @@ public class GripperV2 extends SubsystemBase {
     return instance;
   }
 
-  public void toggleSolenoid(){
-    solenoid.toggle();
+  public void solenoidForward(){
+    solenoid.set(Value.kForward);
   }
 
+  public void solenoidBack(){
+    solenoid.set(Value.kReverse);
+  }
+  
+  public void solenoidOff(){
+    solenoid.set(Value.kOff);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

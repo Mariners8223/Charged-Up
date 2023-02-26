@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -16,6 +17,10 @@ public class Arm extends SubsystemBase {
 
   private Arm(ArmIOTalonSRX io) {
     this.io = io;
+    SmartDashboard.putBoolean("reset rotation", false);
+    SmartDashboard.putBoolean("reset extension", false);
+    SmartDashboard.putNumber("rotaion", 0);
+    SmartDashboard.putNumber("extension", 0);
   }
 
   public static Arm getInstance() {
@@ -43,6 +48,16 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
+    SmartDashboard.putNumber("rotaion", ArmIOTalonSRX.getInstance().testRotaion());
+    SmartDashboard.putNumber("extension", ArmIOTalonSRX.getInstance().testExtension());
+    if(SmartDashboard.getBoolean("reset rotation", false)){
+      // io.resetRotation();
+      SmartDashboard.putBoolean("reset rotation", false);
+    }
+    if(SmartDashboard.getBoolean("reset extension", false)){
+      // io.resetExtension();
+      SmartDashboard.putBoolean("reset extension", false);
+    }
   }
 
   public void extendToLengthMeters(double lengthMeters) {

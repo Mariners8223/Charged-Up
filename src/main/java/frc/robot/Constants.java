@@ -57,8 +57,8 @@ public final class Constants {
 
 
   public static class RobotConstants {
-    public static final int ARM_ROTATION_MOTOR = 1;
-    public static final int ARM_EXTENSION_MOTOR = 2;
+    public static final int ARM_ROTATION_MOTOR = 7;
+    public static final int ARM_EXTENSION_MOTOR = 8;
     public static final int GRIPPER_MOTOR = 3;
     public static final int ORIENTATION_LEFT_MOTOR = 4;
     public static final int ORIENTATION_RIGHT_MOTOR = 5;

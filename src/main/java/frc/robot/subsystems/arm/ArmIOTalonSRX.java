@@ -38,6 +38,9 @@ public class ArmIOTalonSRX implements ArmIO {
     
     rotationMotor.setNeutralMode(NeutralMode.Brake);
     extensionMotor.setNeutralMode(NeutralMode.Brake);
+
+    rotationMotor.setSelectedSensorPosition(0);
+    extensionMotor.setSelectedSensorPosition(0);
   }
 
   public static ArmIOTalonSRX getInstance() {
@@ -51,6 +54,14 @@ public class ArmIOTalonSRX implements ArmIO {
     inputs.armAngleRad = getArmAngleRad();
     inputs.armVelocityPerSecRad = getArmVelocityPerSecRad();
     inputs.armExtensionMeters = getArmLengthMeters();
+  }
+
+  public void resetRotation(){
+    rotationMotor.setSelectedSensorPosition(0);
+  }
+
+  public void resetExtension(){
+    extensionMotor.setSelectedSensorPosition(0);
   }
   
   public double getArmAngleRad() {
@@ -87,11 +98,19 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
+    if(desiredAnglesDeg <= 0){
+      stopExtension();
+      return;
+    }
     rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg) * 2048);
   }  
 
   @Override
   public void extendToLength(double extensionMeters) {
+    if(extensionMeters <= 0){
+      stopExtension();
+      return;
+    }
     extensionMotor.set(ControlMode.Position, 
     (Units.metersToInches(extensionMeters) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO) / ArmConstants.DISTANCE_PER_REVOLUTION
     );

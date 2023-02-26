@@ -9,9 +9,11 @@ import frc.robot.subsystems.gripperV2.GripperV2;
 
 public class toggleGripperV2Solenoid extends CommandBase {
   private static GripperV2 gripperV2;
+  private int shit;
   /** Creates a new toggleGripperV2Solenoid. */
-  public toggleGripperV2Solenoid() {
+  public toggleGripperV2Solenoid(int shit) {
     gripperV2 = GripperV2.getInstance();
+    this.shit = shit;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gripperV2);
   }
@@ -19,7 +21,18 @@ public class toggleGripperV2Solenoid extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    gripperV2.toggleSolenoid();
+    if(shit == 1){
+      gripperV2.solenoidForward();
+      System.out.println(1);
+    }
+    else if(shit == 2){
+      gripperV2.solenoidBack();
+      System.out.println(2);
+    }
+    else if(shit == 3){
+      gripperV2.solenoidOff();
+      System.out.println(3);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

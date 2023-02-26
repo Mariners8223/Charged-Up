@@ -20,4 +20,12 @@ public interface ArmIO {
 
   public default void extendToLength(double extensionMeters) {
   }
+
+  public default void resetRotation(){
+
+  }
+
+  public default void resetExtension(){
+    
+  }
 }
