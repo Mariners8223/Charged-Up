@@ -19,13 +19,7 @@ public class PneumaticsIORevPH implements PneumaticsIO {
 
   @Override
   public void updateInputs(PneumaticsIOInputs inputs) {
-    inputs.currentPSI = compressor.getPressure();
     inputs.isEnabled = compressor.isEnabled();
-  }
-
-  @Override
-  public double getPressure() {
-    return compressor.getPressure();
   }
 
   @Override
