@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.FaultChecker;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.gripper.Gripper;
+import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
 
@@ -85,7 +87,6 @@ public class Robot extends LoggedRobot {
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
   }
 
   /** This function is called once when the robot is disabled. */
