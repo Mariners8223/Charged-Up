@@ -15,22 +15,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
-import frc.robot.commands.primitive.rotateArmToAngleCommand;
-import frc.robot.commands.primitive.setGripperAngleCommnad;
-import frc.robot.commands.primitive.toggleOrientationSpinnersCommand;
-import frc.robot.subsystems.FaultChecker;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.Commands.primitive.TankDrive;
+import frc.robot.Commands.primitive.humenArmAndRotate;
+import frc.robot.Commands.primitive.toggleGripperV2Solenoid;
 import frc.robot.subsystems.Tank;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.gripper.Gripper;
-import frc.robot.subsystems.orientation.Orientation;
-import frc.robot.subsystems.pneumatics.Pneumatics;
-import frc.util.SequenceType;
 import frc.util.humanIO.CommandPS5Controller;
-import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
-import frc.robot.subsystems.Tank;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
