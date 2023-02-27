@@ -31,7 +31,7 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);
     rotationMotor.config_kD(0, ArmConstants.ARM_ROTATION_KD);
     rotationMotor.config_kF(0, ArmConstants.ARM_ROTATION_KF);
-    rotationMotor.setInverted(InvertType.None);
+    rotationMotor.setInverted(InvertType.InvertMotorOutput);
     rotationMotor.configClosedloopRamp(0.3);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
@@ -104,7 +104,8 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
-    rotationMotor.set(ControlMode.Position, desiredAnglesDeg * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE * Constants.FALCON500_COUNTS_PER_REVOLUTION);
+    SmartDashboard.putNumber("rotation closed loop target", rotationMotor.getClosedLoopTarget() / ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
+    rotationMotor.set(ControlMode.Position, desiredAnglesDeg * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
   }  
 
   @Override

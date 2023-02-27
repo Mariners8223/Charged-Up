@@ -76,10 +76,12 @@ public class RobotContainer {
     controller.circle().onTrue(new toggleGripperV2Solenoid(1));
     controller.povLeft().onTrue(new rotateArmToAngleCommand(90));
     controller.povRight().onTrue(new rotateArmToAngleCommand(45));
+    controller.povDown().onTrue(new rotateArmToAngleCommand(0));
+    controller.L1().onTrue(new extendArmToLengthMetersCommand(20));
+    controller.R1().onTrue(new extendArmToLengthMetersCommand(0));
     controller.square().onTrue(new toggleGripperV2Solenoid(2));
     controller.triangle().onTrue(new toggleGripperV2Solenoid(3));
     Tank.getinstance().setDefaultCommand(new TankDrive());
-    Arm.getInstance().setDefaultCommand(new humenArmAndRotate());
   }
 
   public static double getRawAxis(int axis){
