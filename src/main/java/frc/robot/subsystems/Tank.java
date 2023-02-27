@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.ejml.dense.row.mult.VectorVectorMult_CDRM;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;

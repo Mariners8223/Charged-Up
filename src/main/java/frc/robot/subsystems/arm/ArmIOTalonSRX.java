@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
-import frc.util.SequenceType;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;

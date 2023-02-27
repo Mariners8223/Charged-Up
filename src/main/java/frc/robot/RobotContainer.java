@@ -6,23 +6,13 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.primitive.TankDrive;
 import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
-import frc.robot.commands.primitive.humenArmAndRotate;
 import frc.robot.commands.primitive.rotateArmToAngleCommand;
-import frc.robot.commands.primitive.toggleGripperV2Solenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.gripperV2.GripperV2;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
@@ -73,15 +63,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controller.circle().onTrue(new toggleGripperV2Solenoid(1));
     controller.povLeft().onTrue(new rotateArmToAngleCommand(90));
     controller.povRight().onTrue(new rotateArmToAngleCommand(45));
     controller.povDown().onTrue(new rotateArmToAngleCommand(0));
-    controller.L1().onTrue(new extendArmToLengthMetersCommand(20));
+    controller.L1().onTrue(new extendArmToLengthMetersCommand(25));
     controller.R1().onTrue(new extendArmToLengthMetersCommand(0));
-    controller.square().onTrue(new toggleGripperV2Solenoid(2));
-    controller.triangle().onTrue(new toggleGripperV2Solenoid(3));
-    Tank.getinstance().setDefaultCommand(new TankDrive());
   }
 
   public static double getRawAxis(int axis){
