@@ -48,14 +48,15 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
-    SmartDashboard.putNumber("rotaion", ArmIOTalonSRX.getInstance().testRotaion());
-    SmartDashboard.putNumber("extension", ArmIOTalonSRX.getInstance().testExtension());
+    SmartDashboard.putNumber("rotaion", ArmIOTalonSRX.getInstance().getArmAngleDeg());
+    SmartDashboard.putNumber("extension", ArmIOTalonSRX.getInstance().getArmLengthMeters());
+    SmartDashboard.putNumber("extension output", io.getExtensionOutputPercent());
     if(SmartDashboard.getBoolean("reset rotation", false)){
-      // io.resetRotation();
+      io.resetRotation();
       SmartDashboard.putBoolean("reset rotation", false);
     }
     if(SmartDashboard.getBoolean("reset extension", false)){
-      // io.resetExtension();
+      io.resetExtension();
       SmartDashboard.putBoolean("reset extension", false);
     }
   }
@@ -74,7 +75,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void rotatePlusAbgleDegrees(double angle){
-    angle += Math.toDegrees(io.getArmAngleRad());
+    angle += Math.toDegrees(io.getArmAngleDeg());
     io.moveToAngle(angle);
   }
 }

@@ -91,24 +91,22 @@ public final class Constants {
     public static final double ARM_KG = 0.0;
     public static final double ARM_KS = 0.0;
 
-    public static final double ARM_ROTATION_KP = 0.8;
-    public static final double ARM_ROTATION_KI = 0.5;
-    public static final double ARM_ROTATION_KD = 0.3;
-    public static final double ARM_ROTATION_KF = 0.5;
+    public static final double ARM_ROTATION_KP = 0.1;
+    public static final double ARM_ROTATION_KI = 0.0;
+    public static final double ARM_ROTATION_KD = 0.0;
+    public static final double ARM_ROTATION_KF = 0.0;
+    public static final double ARM_REVOLUTIONS_PER_DEGREE = 4432;
     public static final double ARM_ROTATION_TOLERANCE = Units.degreesToRotations(3);
     public static final double ARM_EXTENSION_KP = 0.8;
-    public static final double ARM_EXTENSION_KI = 0.5;
-    public static final double ARM_EXTENSION_KD = 0.3;
+    public static final double ARM_EXTENSION_KI = 0.0;
+    public static final double ARM_EXTENSION_KD = 0.0;
 
     public static final double ARM_ROTATION_GEAR_RATIO = 776.25;
     public static final double ARM_EXTENSION_GEAR_RATIO = 2.3;
-    public static final double PINION_CIRCUMFERENCE_INCHES = 2.358268;
-    public static final double PINION_CIRCUMFERENCE_METERS = Units.inchesToMeters(PINION_CIRCUMFERENCE_INCHES);
-    public static final double PINION_RADIUS_INCHES = PINION_CIRCUMFERENCE_INCHES / 2;
-    public static final double PINION_RADIUS_METERS = PINION_RADIUS_INCHES / 2 ;
-    public static final double DISTANCE_PER_REVOLUTION = PINION_CIRCUMFERENCE_INCHES * Math.PI;
+    public static final double DISTANCE_PER_REVOLUTION_CM = 1.568;
 
-    public static final double ARM_EXTENSION_TOLERENCE = Units.metersToInches(0.05) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO / ArmConstants.DISTANCE_PER_REVOLUTION;
+    public static final double ARM_EXTENSION_TOLERANCE = 1 / DISTANCE_PER_REVOLUTION_CM * SRX_MAG_COUNTS_PER_REVOLUTION;
+
 
     
   }

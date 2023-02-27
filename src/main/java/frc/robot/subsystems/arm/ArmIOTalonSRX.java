@@ -2,6 +2,7 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -30,11 +31,13 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);
     rotationMotor.config_kD(0, ArmConstants.ARM_ROTATION_KD);
     rotationMotor.config_kF(0, ArmConstants.ARM_ROTATION_KF);
+    rotationMotor.setInverted(InvertType.None);
     rotationMotor.configClosedloopRamp(0.3);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);
     extensionMotor.config_kD(0, ArmConstants.ARM_EXTENSION_KD);
+
     
     rotationMotor.setNeutralMode(NeutralMode.Brake);
     extensionMotor.setNeutralMode(NeutralMode.Brake);
@@ -51,7 +54,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.armAngleRad = getArmAngleRad();
+    inputs.armAngleDeg = getArmAngleDeg();
     inputs.armVelocityPerSecRad = getArmVelocityPerSecRad();
     inputs.armExtensionMeters = getArmLengthMeters();
   }
@@ -64,10 +67,12 @@ public class ArmIOTalonSRX implements ArmIO {
     extensionMotor.setSelectedSensorPosition(0);
   }
   
-  public double getArmAngleRad() {
-    return Units.rotationsToRadians(
-      rotationMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
-    );
+  public double getArmAngleDeg() {
+    return rotationMotor.getSelectedSensorPosition() / ArmConstants.ARM_REVOLUTIONS_PER_DEGREE;
+  }
+
+  public double getExtensionOutputPercent() {
+    return extensionMotor.getMotorOutputPercent();
   }
 
   public double getArmVelocityPerSecRad() {
@@ -77,16 +82,17 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public double getArmLengthMeters() {
-    return Units.inchesToMeters((extensionMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_EXTENSION_GEAR_RATIO) * ArmConstants.DISTANCE_PER_REVOLUTION);
+    return extensionMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.DISTANCE_PER_REVOLUTION_CM;
+
   }
 
   public boolean isArmAtSetpoint() {
     SmartDashboard.putNumber("arm setpoint", rotationMotor.getClosedLoopTarget());
-    return Math.abs((Units.radiansToRotations(getArmAngleRad()) - rotationMotor.getClosedLoopTarget())) < ArmConstants.ARM_ROTATION_TOLERANCE;
+    return Math.abs(rotationMotor.getSelectedSensorPosition() - rotationMotor.getClosedLoopTarget()) < ArmConstants.ARM_ROTATION_TOLERANCE;
   }
   public boolean isArmAtExtensionSetpoint() {
     SmartDashboard.putNumber("arm extension point", extensionMotor.getClosedLoopTarget());
-    return Math.abs(extensionMotor.getSelectedSensorPosition() - extensionMotor.getClosedLoopTarget()) < ArmConstants.ARM_EXTENSION_TOLERENCE;
+    return Math.abs(extensionMotor.getSelectedSensorPosition() - extensionMotor.getClosedLoopTarget()) < ArmConstants.ARM_EXTENSION_TOLERANCE;
   }
   public void stopRotation() {
     rotationMotor.set(ControlMode.Disabled, 0);
@@ -98,21 +104,11 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
-    if(desiredAnglesDeg <= 0){
-      stopExtension();
-      return;
-    }
-    rotationMotor.set(ControlMode.Position, Units.degreesToRotations(desiredAnglesDeg) * 2048);
+    rotationMotor.set(ControlMode.Position, desiredAnglesDeg * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE * Constants.FALCON500_COUNTS_PER_REVOLUTION);
   }  
 
   @Override
-  public void extendToLength(double extensionMeters) {
-    if(extensionMeters <= 0){
-      stopExtension();
-      return;
-    }
-    extensionMotor.set(ControlMode.Position, 
-    (Units.metersToInches(extensionMeters) * Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.ARM_EXTENSION_GEAR_RATIO) / ArmConstants.DISTANCE_PER_REVOLUTION
-    );
+  public void extendToLength(double extensionCM) {
+    extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
   }
 }

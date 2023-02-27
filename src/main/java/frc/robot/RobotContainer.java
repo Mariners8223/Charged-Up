@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.primitive.TankDrive;
+import frc.robot.Commands.primitive.extendArmToLengthMetersCommand;
 import frc.robot.Commands.primitive.humenArmAndRotate;
+import frc.robot.Commands.primitive.rotateArmToAngleCommand;
 import frc.robot.Commands.primitive.toggleGripperV2Solenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
@@ -57,6 +59,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    pneumatics.disableCompressor();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -71,6 +74,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     controller.circle().onTrue(new toggleGripperV2Solenoid(1));
+    controller.povLeft().onTrue(new rotateArmToAngleCommand(90));
+    controller.povRight().onTrue(new rotateArmToAngleCommand(45));
     controller.square().onTrue(new toggleGripperV2Solenoid(2));
     controller.triangle().onTrue(new toggleGripperV2Solenoid(3));
     Tank.getinstance().setDefaultCommand(new TankDrive());
