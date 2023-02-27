@@ -51,6 +51,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("rotaion", ArmIOTalonSRX.getInstance().getArmAngleDeg());
     SmartDashboard.putNumber("extension", ArmIOTalonSRX.getInstance().getArmLengthMeters());
     SmartDashboard.putNumber("extension output", io.getExtensionOutputPercent());
+    SmartDashboard.putNumber("Rotation Error", io.getClosedLoopRotationError());
     if(SmartDashboard.getBoolean("reset rotation", false)){
       io.resetRotation();
       SmartDashboard.putBoolean("reset rotation", false);

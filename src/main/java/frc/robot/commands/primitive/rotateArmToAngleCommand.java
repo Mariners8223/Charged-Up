@@ -20,6 +20,7 @@ public class rotateArmToAngleCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Rotate finished");
     arm.stopRotationMotor();
   }
 

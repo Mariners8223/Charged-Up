@@ -65,6 +65,10 @@ public class ArmIOTalonSRX implements ArmIO {
   public void resetExtension(){
     extensionMotor.setSelectedSensorPosition(0);
   }
+
+  public double getClosedLoopRotationError() {
+    return rotationMotor.getClosedLoopError();
+  }
   
   public double getArmAngleDeg() {
     return rotationMotor.getSelectedSensorPosition() / ArmConstants.ARM_REVOLUTIONS_PER_DEGREE;
@@ -86,7 +90,6 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public boolean isArmAtSetpoint() {
-    SmartDashboard.putNumber("arm setpoint", rotationMotor.getClosedLoopTarget());
     return Math.abs(rotationMotor.getSelectedSensorPosition() - rotationMotor.getClosedLoopTarget()) < ArmConstants.ARM_ROTATION_TOLERANCE;
   }
   public boolean isArmAtExtensionSetpoint() {

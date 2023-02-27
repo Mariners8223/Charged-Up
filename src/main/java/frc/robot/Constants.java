@@ -84,12 +84,12 @@ public final class Constants {
     public static final double ARM_KG = 0.0;
     public static final double ARM_KS = 0.0;
 
-    public static final double ARM_ROTATION_KP = 0.1;
+    public static final double ARM_ROTATION_KP = 0.05;
     public static final double ARM_ROTATION_KI = 0.0;
     public static final double ARM_ROTATION_KD = 0.0;
     public static final double ARM_ROTATION_KF = 0.0;
     public static final double ARM_REVOLUTIONS_PER_DEGREE = 4432;
-    public static final double ARM_ROTATION_TOLERANCE = Units.degreesToRotations(3);
+    public static final double ARM_ROTATION_TOLERANCE = 1 * 4432;
     public static final double ARM_EXTENSION_KP = 0.8;
     public static final double ARM_EXTENSION_KI = 0.0;
     public static final double ARM_EXTENSION_KD = 0.0;
