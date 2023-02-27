@@ -1,4 +1,4 @@
-package frc.robot.Commands.primitive;
+package frc.robot.commands.primitive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.Arm;
@@ -8,7 +8,7 @@ public class extendArmToLengthMetersCommand extends CommandBase {
   private double desiredLengthMeters;
   public extendArmToLengthMetersCommand(double desiredLengthMeters) {
     arm = Arm.getInstance();
-    this.desiredLengthMeters = desiredLengthMeters+ this.desiredLengthMeters;
+    this.desiredLengthMeters = desiredLengthMeters;
 
     addRequirements(arm);
   }

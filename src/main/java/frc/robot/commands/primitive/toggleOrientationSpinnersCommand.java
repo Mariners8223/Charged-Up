@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.primitive;
+package frc.robot.commands.primitive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.orientation.Orientation;
@@ -10,26 +10,29 @@ import frc.util.SequenceType;
 
 public class toggleOrientationSpinnersCommand extends CommandBase {
   private Orientation orientation;
-  private double speed;
+  private SequenceType sqncType;
 
-  public toggleOrientationSpinnersCommand(double speed) {
+  public toggleOrientationSpinnersCommand(SequenceType type) {
     this.orientation = Orientation.getInstance();
-    this.speed = speed;
+    this.sqncType = type;
 
     addRequirements(orientation);
   }
 
   @Override
   public void initialize() {
-    orientation.setSpeed(speed);
-    orientation.toggleSolenoid();
-    orientation.setIsRunning(!orientation.getIsRunning());
+    if(!orientation.getIsRunning()){
+      if(sqncType == SequenceType.Cube)
+        orientation.setSpeed(0.4);
+      else
+        orientation.setSpeed(0.6);
+    }
+    else
+      orientation.stop();
   }
   @Override
   public void end(boolean interrupted) {
-    orientation.setSpeed(0);
-    orientation.toggleSolenoid();
-    orientation.setIsRunning(!orientation.getIsRunning());
+    orientation.stop();
   }
 
   // Returns true when the command should end.
