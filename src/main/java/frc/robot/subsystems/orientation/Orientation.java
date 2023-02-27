@@ -25,7 +25,6 @@ public class Orientation extends SubsystemBase {
     io.isRunning = true;
     io.setPercent(speedAsPercent);
   }
-
   public void stop() {
     io.isRunning = false;
     io.setPercent(0);

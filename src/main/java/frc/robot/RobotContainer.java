@@ -12,7 +12,9 @@ import frc.robot.commands.pickup;
 import frc.robot.commands.primitive.extendAndRotateArmToMetersDeg;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
+import frc.robot.commands.primitive.orienation;
 import frc.robot.commands.primitive.rotateArmToAngleCommand;
+import frc.robot.commands.primitive.tankDrive;
 import frc.robot.commands.primitive.useGripper;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
@@ -33,8 +35,6 @@ public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
   GripperV2 gripperV2 = GripperV2.getInstance();
-  Orientation orientation = Orientation.getInstance();
-  Pneumatics pneumatics = Pneumatics.getInstance();
   Tank tank = Tank.getinstance();
   double speed = 0.0;
   double rot = 0.0;
@@ -53,7 +53,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    pneumatics.enableCompressor();
     // Configure the button bindings
     configureButtonBindings();
 
@@ -75,6 +74,8 @@ public class RobotContainer {
     controller.circle().onTrue(new useGripper(SequenceType.Cone));
     controller.square().onTrue(new useGripper(SequenceType.Cube));
     controller.triangle().onTrue(new pickup());
+    controller.cross().whileTrue(new orienation());
+    tank.setDefaultCommand(new tankDrive());
   }
 
   public static double getRawAxis(int axis){

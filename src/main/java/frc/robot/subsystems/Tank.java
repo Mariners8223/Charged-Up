@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -20,10 +21,10 @@ public class Tank extends SubsystemBase {
   private static VictorSPX engine4;
   /** Creates a new Tank. */
   private Tank() {
-    engine1 = new VictorSPX(TempConstants.ENGINE1_ID);
-    engine2 = new VictorSPX(TempConstants.ENGINE2_ID);
-    engine3 = new VictorSPX(TempConstants.ENGINE3_ID);
-    engine4 = new VictorSPX(TempConstants.ENGINE4_ID);
+    engine1 = new VictorSPX(TempConstants.ENGINE1_ID); // right leader
+    engine2 = new VictorSPX(TempConstants.ENGINE2_ID); // right follower
+    engine3 = new VictorSPX(TempConstants.ENGINE3_ID); // left leader
+    engine4 = new VictorSPX(TempConstants.ENGINE4_ID); // left follower
     engine2.follow(engine1);
     engine4.follow(engine3);
   }
@@ -35,7 +36,7 @@ public class Tank extends SubsystemBase {
   }
 
   public void setRightSpeed(double speed){
-    engine1.set(ControlMode.PercentOutput, speed);
+    engine1.set(ControlMode.PercentOutput, -speed);
   }
 
   public void setLeftSpeed(double speed){

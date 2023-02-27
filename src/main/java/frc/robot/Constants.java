@@ -53,8 +53,8 @@ public final class Constants {
     public static final int ARM_ROTATION_MOTOR = 7;
     public static final int ARM_EXTENSION_MOTOR = 8;
     public static final int GRIPPER_MOTOR = 3;
-    public static final int ORIENTATION_LEFT_MOTOR = 4;
-    public static final int ORIENTATION_RIGHT_MOTOR = 5;
+    public static final int ORIENTATION_LEFT_MOTOR = 5;
+    public static final int ORIENTATION_RIGHT_MOTOR = 6;
     public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {0, 1};
     public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {8, 9};
 
@@ -84,7 +84,8 @@ public final class Constants {
     public static final double ARM_KG = 0.0;
     public static final double ARM_KS = 0.0;
 
-    public static final double ARM_ROTATION_KP = 0.05;
+    public static final double ARM_ROTATION_KP = 0.05
+    ;
     public static final double ARM_ROTATION_KI = 0.0;
     public static final double ARM_ROTATION_KD = 0.0;
     public static final double ARM_ROTATION_KF = 0.0;
