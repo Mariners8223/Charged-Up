@@ -57,6 +57,11 @@ public class ModuleIOFXAndSMax implements ModuleIO {
 
   }
 
+  /**
+   * Updates the inputs for the module.
+   * Goes over each parameter in inputs and uses one of the defined functions to update.
+   * @param inputs Autologged subclass of ModuleIOInputs. Used to transfer inputs to AdvantageScope.
+   */
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
     inputs.drivePositionRad = Units.rotationsToRadians(
@@ -71,6 +76,14 @@ public class ModuleIOFXAndSMax implements ModuleIO {
         steeringEncoder.getVelocity() / Drivetrain.SwerveModuleConstants.steeringRatio);
   }
 
+  /**
+   * Configures a CANSparkMax with the given PID controller and encoder.
+   * @param id The CAN ID of the motor.
+   * @param pidController The PID controller to use.
+   * @param encoder The encoder to use.
+   * @param gains The gains to use.
+   * @return The configured CANSparkMax.
+   */
   private static CANSparkMax configSparkMax(int id, SparkMaxPIDController pidController, RelativeEncoder encoder,
       PIDFGains gains) {
     CANSparkMax sparkMax = new CANSparkMax(id, MotorType.kBrushless);
@@ -79,6 +92,13 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     return sparkMax;
   }
 
+  /**
+   * Configures the CANCoder with the given ID to use the BootToZero sensor initialization strategy,
+   * and sets the magnet offset to the given angle.
+   * @param id The CANCoder ID.
+   * @param zeroAngle The zero angle of the CANCoder.
+   * @return The configured CANCoder.
+   */
   private static CANCoder configCANCoder(int id, double zeroAngle) {
 
     CANCoder canCoder = new CANCoder(id);
@@ -90,6 +110,11 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     return canCoder;
   }
 
+  /**
+   * Sets the PID gains for the given PID controller.
+   * @param pidController The PID controller to set the gains for.
+   * @param gains The gains to set for the PID controller.
+   */
   private static void setPIDGains(SparkMaxPIDController pidController, PIDFGains gains) {
     pidController.setI(gains.getI());
     pidController.setP(gains.getP());
@@ -99,6 +124,9 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     pidController.setOutputRange(-1.0, 1.0);
   }
 
+  /**
+   * Calibrates the steering encoder to the current absolute position.
+   */
   public void calibrateSteering() {
     this.steeringEncoder
         .setPosition(absEncoder.getAbsolutePosition() / 360 / Drivetrain.SwerveModuleConstants.steeringRatio);
@@ -108,6 +136,11 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     driveMotor.set(ControlMode.Disabled, 0);
   }
 
+  /**
+   * Sets the desired state of the module.
+   * Goes through the optimizeAngle function, and adds Delta from zero angle to the encoder state. 
+   * @param desiredState The desired state of the module.
+   */
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state = optimizeAngle(desiredState, Rotation2d.fromDegrees(getAngle()));
@@ -125,6 +158,12 @@ public class ModuleIOFXAndSMax implements ModuleIO {
       driveMotor.set(ControlMode.Velocity, driveSetpoint);
   }
 
+  /**
+  * Optimizes the angle of the desired state to be within 90 degrees of the current angle.
+  * @param desiredState the desired state to optimize the angle for.
+  * @param currentRadian the current angle of the module.
+  * @return the optimized state.
+   */
   public static SwerveModuleState optimizeAngle(SwerveModuleState desiredState, Rotation2d currentRadian) {
     Rotation2d angle = desiredState.angle.minus(currentRadian);
     double speed = desiredState.speedMetersPerSecond;
