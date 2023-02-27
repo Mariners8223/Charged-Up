@@ -178,6 +178,10 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     return new SwerveModuleState(speed, angle);
   }
 
+  /**
+   * Returns the current state of said module through the speedMetersPerSec and angle constructor
+   * @return The current state of the swerve module.
+   */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
         Units.rotationsPerMinuteToRadiansPerSecond(
@@ -187,6 +191,10 @@ public class ModuleIOFXAndSMax implements ModuleIO {
             .rotateBy(Rotation2d.fromDegrees(Units.rotationsToDegrees(steeringEncoder.getPosition()))));
   }
 
+  /**
+   * Gets the current position of the drivetrain modules.
+   * @return The current position of the drivetrain modules.
+   */
   public SwerveModulePosition getModulePosition() {
     return new SwerveModulePosition(
         driveMotor.getSelectedSensorPosition() / Constants.FALCON500_COUNTS_PER_REVOLUTION
