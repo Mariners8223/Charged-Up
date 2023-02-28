@@ -23,7 +23,7 @@ public class Orientation extends SubsystemBase {
 
   public void setSpeed(double speedAsPercentTop, double bottom) {
     io.isRunning = true;
-    io.setPercent(speedAsPercentTop, bottom);
+    io.setPercent(speedAsPercentTop);
   }
   public void stop() {
     io.isRunning = false;
