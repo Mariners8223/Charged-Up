@@ -73,9 +73,11 @@ public final class Constants {
     public static final double GRIPPER_SPEED = 1.0;
     public static final double GRIPPER_GEAR_RATIO = 1.6;
     public static final double GRIPPER_TOLERANCE = Units.degreesToRadians(2);
+    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {8, 9};
   }
 
   public static class OrientationConstants {
+    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {6, 7};
   }
 
   public static class ArmConstants {

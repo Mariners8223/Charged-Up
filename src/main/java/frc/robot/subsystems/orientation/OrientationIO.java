@@ -19,7 +19,7 @@ public interface OrientationIO {
     
   }
 
-  public default void setPercent(double percent) {
+  public default void setPercent(double percenttop, double percentbottom) {
   }
 
   public default void disableMotors(){
