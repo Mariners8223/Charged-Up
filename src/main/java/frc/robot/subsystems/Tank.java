@@ -21,10 +21,19 @@ public class Tank extends SubsystemBase {
   private static VictorSPX engine4;
   /** Creates a new Tank. */
   private Tank() {
+<<<<<<< Updated upstream
     engine1 = new VictorSPX(TempConstants.ENGINE1_ID); // right leader
     engine2 = new VictorSPX(TempConstants.ENGINE2_ID); // right follower
     engine3 = new VictorSPX(TempConstants.ENGINE3_ID); // left leader
     engine4 = new VictorSPX(TempConstants.ENGINE4_ID); // left follower
+=======
+    engine1 = new VictorSPX(TempConstants.ENGINE1_ID);
+    engine2 = new VictorSPX(TempConstants.ENGINE2_ID);
+    engine3 = new VictorSPX(TempConstants.ENGINE3_ID);
+    engine4 = new VictorSPX(TempConstants.ENGINE4_ID);
+    engine2.setInverted(true);
+    engine4.setInverted(true);
+>>>>>>> Stashed changes
     engine2.follow(engine1);
     engine4.follow(engine3);
   }

@@ -37,7 +37,20 @@ public class Pneumatics extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+<<<<<<< Updated upstream
   
   
+=======
+    if(SmartDashboard.getBoolean("compressor", false)){
+      if(!inputs.isEnabled){
+        io.enableCompressor();
+      }
+    }
+    else{
+      if(inputs.isEnabled){
+        io.disableCompressor();
+      }
+    }
+>>>>>>> Stashed changes
   }
 }

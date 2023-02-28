@@ -19,9 +19,13 @@ import frc.robot.commands.primitive.useGripper;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripperV2.GripperV2;
+<<<<<<< Updated upstream
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
+=======
+import frc.robot.subsystems.pneumatics.Pneumatics;
+>>>>>>> Stashed changes
 import frc.util.humanIO.CommandPS5Controller;
 
 /**
@@ -51,6 +55,29 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+<<<<<<< Updated upstream
+=======
+    Pneumatics.getInstance();
+    GripperV2.getInstance();
+    switch (Constants.currentMode) {
+      // Real robot, instantiate hardware IO implementations
+      case REAL:
+        // drive = new Drive(new DriveIOFalcon500());
+        // flywheel = new Flywheel(new FlywheelIOFalcon500());
+        break;
+
+      // Sim robot, instantiate physics sim IO implementations
+      case SIM:
+        break;
+
+      // Replayed robot, disable IO implementations
+      default:
+        //drive = new Drive(new DriveIO() {
+        //});
+        break;
+    }
+
+>>>>>>> Stashed changes
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     // Configure the button bindings
