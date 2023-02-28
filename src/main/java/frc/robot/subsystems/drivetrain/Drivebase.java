@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Drivetrain;
@@ -26,7 +27,7 @@ public class Drivebase extends SubsystemBase {
 
   private GyroIONavX2 gyroIO;
   private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
-  private ModuleIOFXAndSMax[] swerveModules = new ModuleIOFXAndSMax[4];
+  private ModuleIOFXAndSMax[] swerveModules = new ModuleIOFXAndSMax[1];
   private ModuleIOInputsAutoLogged[] moduleInputs = new ModuleIOInputsAutoLogged[] { new ModuleIOInputsAutoLogged(),
       new ModuleIOInputsAutoLogged(), new ModuleIOInputsAutoLogged(),
       new ModuleIOInputsAutoLogged() };
@@ -37,50 +38,54 @@ public class Drivebase extends SubsystemBase {
 
   private Drivebase(GyroIONavX2 gyroIO, ModuleIOFXAndSMax[] Modules) {
     swerveModules[0] = Modules[0];
-    swerveModules[1] = Modules[1];
-    swerveModules[2] = Modules[2];
-    swerveModules[3] = Modules[3];
+    // swerveModules[1] = Modules[1];
+    // swerveModules[2] = Modules[2];
+    // swerveModules[3] = Modules[3];
     this.gyroIO = gyroIO;
 
     kinematics = new SwerveDriveKinematics(getModuleTranslations());
-    odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(gyroIO.getAngleDeg()), new SwerveModulePosition[] {
-      swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
-      swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition()
-    });
+    // odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(gyroIO.getAngleDeg()), new SwerveModulePosition[] {
+    //   swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
+    //   swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition()
+    // });
   }
 
   public static Drivebase getInstance() {
     if (instance == null) {
       instance = new Drivebase(GyroIONavX2.getInstance(),
           new ModuleIOFXAndSMax[] { new ModuleIOFXAndSMax(Drivetrain.TLModule),
-              new ModuleIOFXAndSMax(Drivetrain.TRModule),
-              new ModuleIOFXAndSMax(Drivetrain.BLModule), new ModuleIOFXAndSMax(Drivetrain.BRModule) });
+              // new ModuleIOFXAndSMax(Drivetrain.TRModule),
+              // new ModuleIOFXAndSMax(Drivetrain.BLModule), new ModuleIOFXAndSMax(Drivetrain.BRModule) });
+          });
     }
     ;
     return instance;
   }
 
   public void Drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    SmartDashboard.putNumber("xSpeed", xSpeed);
+    SmartDashboard.putNumber("ySpeed", ySpeed);
+    SmartDashboard.putNumber("rot", rot);
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(
         fieldRelative && gyroIO.isConnected()
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(gyroIO.getAngleDeg()))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates,
         Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond);
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].setDesiredState(moduleStates[i]);
+    for (int i = 0; i < 1/*swerveModules.length*/; i++) {
+      swerveModules[0].setDesiredState(moduleStates[0]);
     }
   }
 
   public void setChassisSpeeds(ChassisSpeeds speeds) {
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-    for (int i = 0; i< swerveModules.length; i++) {
+    for (int i = 0; i< 1 /* swerveModules.length */; i++) {
       swerveModules[i].setDesiredState(moduleStates[i]);
     }
   }
 
   public void setModulesState(SwerveModuleState[] states) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 1; i++) {
       swerveModules[i].setDesiredState(states[i]);
     }
   }
@@ -98,20 +103,22 @@ public class Drivebase extends SubsystemBase {
   public void periodic() {
     gyroIO.updateInputs(gyroInputs);
     Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 1; i++) {
       swerveModules[i].updateInputs(moduleInputs[i]);
       swerveModules[i].setDriveBrakeMode(brakeMode);
       Logger.getInstance().processInputs("Drive/Module" + Integer.toString(i),
           moduleInputs[i]);
     }
 
-    odometry.update(getRotation2d(), new SwerveModulePosition[] {
-        swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
-        swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition()
-    });
+    // odometry.update(getRotation2d(), new SwerveModulePosition[] {
+    //     swerveModules[0].getModulePosition(), swerveModules[1].getModulePosition(),
+    //     swerveModules[2].getModulePosition(), swerveModules[3].getModulePosition()
+    // });
 
     
     Logger.getInstance().recordOutput("Odometry", getPose());
+
+    SmartDashboard.putNumber("cancoder angle", swerveModules[0].getAbsSteeringPos());
 
   }
 
@@ -131,7 +138,8 @@ public class Drivebase extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return odometry.getPoseMeters();
+    // return odometry.getPoseMeters();
+    return new Pose2d();
   }
 
   public SwerveDriveKinematics getKinematics() {

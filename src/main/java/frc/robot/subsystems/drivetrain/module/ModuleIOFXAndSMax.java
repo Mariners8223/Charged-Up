@@ -143,8 +143,8 @@ public class ModuleIOFXAndSMax implements ModuleIO {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
-    SwerveModuleState state = optimizeAngle(desiredState, Rotation2d.fromDegrees(getAngle()));
 
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, Rotation2d.fromDegrees(getAbsSteeringPos()));
     steeringSetpoint = addDeltaFromZeroToEncoder(state.angle.getDegrees());
     driveSetpoint = driveVelocityToRPM(state.speedMetersPerSecond);
 
@@ -157,6 +157,7 @@ public class ModuleIOFXAndSMax implements ModuleIO {
     else
       driveMotor.set(ControlMode.Velocity, driveSetpoint);
   }
+
 
   /**
   * Optimizes the angle of the desired state to be within 90 degrees of the current angle.

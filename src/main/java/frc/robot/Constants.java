@@ -111,7 +111,7 @@ public final class Constants {
 
   public static final class Drivetrain {
     public static class SwerveModuleConstants {
-      public static final double freeSpeedMetersPerSecond = 4.000;
+      public static final double freeSpeedMetersPerSecond = 2.000;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
@@ -129,7 +129,7 @@ public final class Constants {
       public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, double cancoderZeroAngle,
           int canCoderId) {
         this(position, idDrive, idSteering, new PIDFGains(0, 0, 0, 0, 1, 0),
-            new PIDFGains(0, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId);
+            new PIDFGains(0.05, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId);
       }
 
       public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, PIDFGains driveGains,
@@ -147,7 +147,7 @@ public final class Constants {
     public static final SwerveModuleConstants TLModule = new SwerveModuleConstants(new Translation2d(-0.215, 0.215), 1,
         2, 0, 10);
     public static final SwerveModuleConstants TRModule = new SwerveModuleConstants(new Translation2d(0.215, 0.215), 3,
-        4, 0, 11);
+        4, 129.462, 11);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(new Translation2d(-0.215, -0.215), 5,
         6, 0, 12);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(new Translation2d(0.215, -0.215), 7,
