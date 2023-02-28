@@ -27,11 +27,16 @@ public class Orientation extends SubsystemBase {
   }
   public void stop() {
     io.isRunning = false;
-    io.setPercent(0);
+    io.disableMotors();
   }
 
-  public void toggleSolenoid() {
-    io.toggleOrientation();
+  public void toggleSolenoid(boolean mode) {
+    if(mode){
+      io.toggleRampSolenoid();
+    }
+    else{
+      io.toggleUpSolenoid();
+    }
   }
   public boolean getIsRunning(){
     return io.isRunning;

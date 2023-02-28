@@ -12,9 +12,17 @@ public interface OrientationIO {
   public default void updateInputs(OrientationIOInputs inputs) {
   }
 
-  public default void toggleOrientation() {
+  public default void toggleRampSolenoid() {
+  }
+
+  public default void toggleUpSolenoid(){
+    
   }
 
   public default void setPercent(double percent) {
+  }
+
+  public default void disableMotors(){
+
   }
 }

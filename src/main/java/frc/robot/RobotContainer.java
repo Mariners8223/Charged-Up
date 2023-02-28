@@ -71,16 +71,37 @@ public class RobotContainer {
     controller.povUp().onTrue(new extendAndRotateArmToMetersDeg(90, 20));
     controller.L1().onTrue(new extendArmToLengthMetersCommand(40));
     controller.R1().onTrue(new extendArmToLengthMetersCommand(0));
-    controller.circle().onTrue(new useGripper(SequenceType.Cone));
-    controller.square().onTrue(new useGripper(SequenceType.Cube));
+    //controller.circle().onTrue(new useGripper(SequenceType.Cone));
+    //controller.square().onTrue(new useGripper(SequenceType.Cube));
     controller.triangle().onTrue(new pickup());
-    controller.cross().whileTrue(new orienation());
+    controller.cross().whileTrue(new orienation(false, false));
+    controller.circle().onTrue(new orienation(true, true));
+    controller.square().onTrue(new orienation(true, false));
+    controller.circle().onFalse(new orienation(false, false));
+    controller.square().onFalse(new orienation(false, false));
+
     tank.setDefaultCommand(new tankDrive());
   }
 
   public static double getRawAxis(int axis){
     return controller.getRawAxis(axis);
   }
+
+  public static double getOrintaionSpeed(){
+    if(controller.cross().getAsBoolean()){
+      return -0.6;
+    }
+    else{
+      return 0.0;
+    }
+  }
+
+  public static int getOriantaionSolenoid(){
+    if(controller.circle().getAsBoolean()){ return 1;}
+    if(controller.square().getAsBoolean()){ return 2;}
+    return 3;
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
