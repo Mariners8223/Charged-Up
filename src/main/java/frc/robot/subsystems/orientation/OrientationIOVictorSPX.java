@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.Constants.OrientationConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class OrientationIOVictorSPX implements OrientationIO {
@@ -19,10 +20,9 @@ public class OrientationIOVictorSPX implements OrientationIO {
   private OrientationIOVictorSPX() {
     orientationLeftMotor = new VictorSPX(RobotConstants.ORIENTATION_LEFT_MOTOR);
     orientationRightMotor = new VictorSPX(RobotConstants.ORIENTATION_RIGHT_MOTOR);
-    orientationRightMotor.follow(orientationLeftMotor);
     orientationLeftMotor.setInverted(true);
-    orientationRightMotor.setInverted(InvertType.OpposeMaster);
-    orientationDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[1]);
+    orientationRightMotor.setInverted(false);
+    orientationDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, OrientationConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[0], OrientationConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[1]);
     orientationDoubleSolenoid.set(Value.kReverse);
     isRunning = false;
   }
@@ -45,8 +45,9 @@ public class OrientationIOVictorSPX implements OrientationIO {
   }
   
   @Override
-  public void setPercent(double percent) {
-    orientationLeftMotor.set(ControlMode.PercentOutput, percent);
+  public void setPercent(double percenttop, double percentbottom) {
+    orientationLeftMotor.set(ControlMode.PercentOutput, percenttop);
+    orientationRightMotor.set(ControlMode.PercentOutput, percentbottom);
   }
 
 }

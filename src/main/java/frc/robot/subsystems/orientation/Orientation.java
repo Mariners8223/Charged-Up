@@ -21,13 +21,13 @@ public class Orientation extends SubsystemBase {
     return instance;
   }
 
-  public void setSpeed(double speedAsPercent) {
+  public void setSpeed(double speedAsPercentTop, double bottom) {
     io.isRunning = true;
-    io.setPercent(speedAsPercent);
+    io.setPercent(speedAsPercentTop, bottom);
   }
   public void stop() {
     io.isRunning = false;
-    io.setPercent(0);
+    io.setPercent(0, 0);
   }
 
   public void toggleSolenoid() {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class GripperV2 extends SubsystemBase {
@@ -16,7 +17,7 @@ public class GripperV2 extends SubsystemBase {
   private static DoubleSolenoid solenoid;
   /** Creates a new Gripper. */
   private GripperV2() {
-    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], RobotConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
+    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
   }
   public static GripperV2 getInstance(){
     if(instance == null){

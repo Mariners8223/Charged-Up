@@ -15,6 +15,6 @@ public interface OrientationIO {
   public default void toggleOrientation() {
   }
 
-  public default void setPercent(double percent) {
+  public default void setPercent(double percenttop, double percentbottom) {
   }
 }

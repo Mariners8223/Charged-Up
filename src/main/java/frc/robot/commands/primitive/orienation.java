@@ -19,7 +19,7 @@ public class orienation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    orientation.setSpeed(-0.6);
+    orientation.setSpeed(-0.3, -0.3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
