@@ -31,12 +31,12 @@ public class manualAdjust extends CommandBase {
   @Override
   public void execute() {
     if(motor){
-      double speed = RobotContainer.getRawAxis(4)/2;
+      double speed = RobotContainer.getRawAxis(2)/2;
       if(inverted){ speed = -speed;}
       arm.setPercentSpeed(motor, speed);
     }
     else{
-      double speed = RobotContainer.getRawAxis(5)/2;
+      double speed = RobotContainer.getRawAxis(3)/2;
       if(inverted){ speed = -speed;}
       arm.setPercentSpeed(motor, speed);
     }
