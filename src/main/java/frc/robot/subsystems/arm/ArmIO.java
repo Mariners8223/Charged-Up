@@ -28,4 +28,12 @@ public interface ArmIO {
   public default void resetExtension(){
     
   }
+
+  public default void extendPrecentSpeed(double speed){
+
+  }
+
+  public default void rotatePrecentSpeed(double speed){
+    
+  }
 }

@@ -5,7 +5,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface OrientationIO {
   @AutoLog
   public static class OrientationIOInputs {
-    boolean isClosed = true;
+    boolean isOrientaionClosed = true;
+    boolean isRampClosed = true;
     boolean isRunning = false;
   }
 
@@ -16,6 +17,14 @@ public interface OrientationIO {
   }
 
   public default void toggleUpSolenoid(){
+    
+  }
+
+  public default void SetRampSolenoidState(){
+
+  }
+
+  public default void SetUpSolenoid(){
     
   }
 

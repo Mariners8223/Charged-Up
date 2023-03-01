@@ -6,40 +6,48 @@ package frc.robot.commands.primitive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Tank;
+import frc.robot.subsystems.arm.Arm;
 
-public class tankDrive extends CommandBase {
-  private static Tank tank;  /** Creates a new tankDrive. */
-  public tankDrive() {
-    tank = Tank.getinstance();
+public class manualAdjust extends CommandBase {
+  private static Arm arm;
+  private  boolean inverted;
+  private boolean motor;
+  /** Creates a new manualAdjust. */
+  public manualAdjust(boolean motor,boolean inverted) {
+    arm = arm.getInstance();
+    this.inverted = inverted;
+    this.motor = motor;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(tank);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    tank.setLeftSpeed(0);
-    tank.setRightSpeed(0);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speedX = -RobotContainer.getRawAxis(0);
-    double speedY = -RobotContainer.getRawAxis(1);
-    if(speedX < 0.2 && speedX > -0.2){ speedX = 0;}
-    if(speedY < 0.2 && speedY > -0.2){ speedY = 0;}
-    speedX = speedX/3;
-    speedY = speedY/3;
-    tank.setLeftSpeed(speedY - speedX);
-    tank.setRightSpeed(speedY + speedX);
+    if(motor){
+      double speed = RobotContainer.getRawAxis(4)/2;
+      if(inverted){ speed = -speed;}
+      arm.setPercentSpeed(motor, speed);
+    }
+    else{
+      double speed = RobotContainer.getRawAxis(5)/2;
+      if(inverted){ speed = -speed;}
+      arm.setPercentSpeed(motor, speed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.stopExtensionMotor();
+    arm.stopRotationMotor();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -22,14 +22,14 @@ public class useGripper extends CommandBase {
     switch (type) {
       case Cone:
         gripper.solenoidForward();
-        ph.enableCompressor();
-        System.out.println("cone");
         break;
-    
-      default:
+      
+      case Cube:
+        gripper.solenoidOff();
+        break;
+      
+      case off:
         gripper.solenoidBack();
-        ph.disableCompressor();
-        System.out.println("cube");
         break;
     }
   }

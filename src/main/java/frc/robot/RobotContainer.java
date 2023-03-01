@@ -8,13 +8,12 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.pickup;
+import frc.robot.commands.PickupToUpperCone;
 import frc.robot.commands.primitive.extendAndRotateArmToMetersDeg;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
-import frc.robot.commands.primitive.orienation;
+import frc.robot.commands.primitive.toggleOrientaionSolenoid;
 import frc.robot.commands.primitive.rotateArmToAngleCommand;
-import frc.robot.commands.primitive.tankDrive;
 import frc.robot.commands.primitive.useGripper;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
@@ -37,8 +36,6 @@ public class RobotContainer {
   Arm arm = Arm.getInstance();
   GripperV2 gripperV2 = GripperV2.getInstance();
   Tank tank = Tank.getinstance();
-  double speed = 0.0;
-  double rot = 0.0;
 
 
 
@@ -85,41 +82,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controller.povLeft().onTrue(new rotateArmToAngleCommand(90));
-    controller.povRight().onTrue(new rotateArmToAngleCommand(45));
-    controller.povDown().onTrue(new rotateArmToAngleCommand(0));
-    controller.povUp().onTrue(new extendAndRotateArmToMetersDeg(90, 20));
-    controller.L1().onTrue(new extendArmToLengthMetersCommand(40));
-    controller.R1().onTrue(new extendArmToLengthMetersCommand(0));
-    //controller.circle().onTrue(new useGripper(SequenceType.Cone));
-    //controller.square().onTrue(new useGripper(SequenceType.Cube));
-    controller.triangle().onTrue(new pickup());
-    controller.cross().whileTrue(new orienation(false, false));
-    controller.circle().onTrue(new orienation(true, true));
-    controller.square().onTrue(new orienation(true, false));
-    controller.circle().onFalse(new orienation(false, false));
-    controller.square().onFalse(new orienation(false, false));
 
-    tank.setDefaultCommand(new tankDrive());
   }
 
   public static double getRawAxis(int axis){
     return controller.getRawAxis(axis);
-  }
-
-  public static double getOrintaionSpeed(){
-    if(controller.cross().getAsBoolean()){
-      return -0.6;
-    }
-    else{
-      return 0.0;
-    }
-  }
-
-  public static int getOriantaionSolenoid(){
-    if(controller.circle().getAsBoolean()){ return 1;}
-    if(controller.square().getAsBoolean()){ return 2;}
-    return 3;
   }
 
 

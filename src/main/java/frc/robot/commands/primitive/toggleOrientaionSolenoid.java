@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.orientation.Orientation;
 
-public class orienation extends CommandBase {
+public class toggleOrientaionSolenoid extends CommandBase {
   private static Orientation orientation;
   private boolean mode;
   private boolean solenoid;
   /** Creates a new orienation. */
-  public orienation(boolean solenoid, boolean mode) {
+  public toggleOrientaionSolenoid(boolean solenoid, boolean mode) {
     orientation = Orientation.getInstance();
     this.mode = mode;
     this.solenoid = solenoid;
@@ -25,15 +25,8 @@ public class orienation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    orientation.setSpeed(RobotContainer.getOrintaionSpeed());
-    if(solenoid){
-      if(mode){
-        orientation.toggleSolenoid(true);
-      }
-      else{
-        orientation.toggleSolenoid(false);
-      }
-    }
+    if(solenoid){ orientation.SetRampSolenoidState(mode);}
+    else{ orientation.SetUpSolenoid(mode);}
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +36,6 @@ public class orienation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    orientation.stop();
   }
 
   // Returns true when the command should end.

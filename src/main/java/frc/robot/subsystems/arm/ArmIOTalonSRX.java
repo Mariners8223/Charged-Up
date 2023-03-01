@@ -114,4 +114,12 @@ public class ArmIOTalonSRX implements ArmIO {
   public void extendToLength(double extensionCM) {
     extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
   }
+
+  public void extendPrecentSpeed(double speed){
+    extensionMotor.set(ControlMode.PercentOutput, speed/2);
+  }
+
+  public void rotatePrecentSpeed(double speed){
+    rotationMotor.set(ControlMode.PercentOutput, speed/2);
+  }
 }

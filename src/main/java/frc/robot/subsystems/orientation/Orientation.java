@@ -21,9 +21,9 @@ public class Orientation extends SubsystemBase {
     return instance;
   }
 
-  public void setSpeed(double speedAsPercentTop) {
+  public void setSpeed(double speed) {
     io.isRunning = true;
-    io.setPercent(speedAsPercentTop);
+    io.setPercent(speed);
   }
   public void stop() {
     io.isRunning = false;
@@ -31,6 +31,7 @@ public class Orientation extends SubsystemBase {
   }
 
   public void toggleSolenoid(boolean mode) {
+    //true is ramp and false is up
     if(mode){
       io.toggleRampSolenoid();
     }
@@ -38,6 +39,15 @@ public class Orientation extends SubsystemBase {
       io.toggleUpSolenoid();
     }
   }
+
+  public void SetRampSolenoidState(boolean state){
+    io.SetRampSolenoidState(state);
+  }
+
+  public void SetUpSolenoid(boolean state){
+    io.SetRampSolenoidState();
+  }
+
   public boolean getIsRunning(){
     return io.isRunning;
   }

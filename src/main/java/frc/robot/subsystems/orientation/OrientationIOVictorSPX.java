@@ -15,14 +15,14 @@ import frc.robot.Constants.RobotConstants;
 public class OrientationIOVictorSPX implements OrientationIO {
   private static OrientationIOVictorSPX instance;
   private VictorSPX orientationUpMotor;
-  private VictorSPX orientationDownMotor;
+  private VictorSPX orientationRampMotor;
   private DoubleSolenoid orientationRampDoubleSolenoid;
   private DoubleSolenoid orientationUpDoubleSolenoid;
   public boolean isRunning; // I'm too lazy to implement an efficient system someone else do it
 
   private OrientationIOVictorSPX() {
     orientationUpMotor = new VictorSPX(RobotConstants.ORIENTATION_UP_MOTOR);
-    orientationDownMotor = new VictorSPX(RobotConstants.ORIENTATION_DOWN_MOTOR);
+    orientationRampMotor = new VictorSPX(RobotConstants.ORIENTATION_DOWN_MOTOR);
     orientationRampDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[1]);
     orientationRampDoubleSolenoid.set(Value.kReverse);
     orientationUpDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[2], RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[3]);
@@ -38,7 +38,8 @@ public class OrientationIOVictorSPX implements OrientationIO {
 
   @Override
   public void updateInputs(OrientationIOInputs inputs) {
-    inputs.isClosed = (Value.kReverse == orientationRampDoubleSolenoid.get());
+    inputs.isOrientaionClosed = (Value.kReverse == orientationUpDoubleSolenoid.get());
+    inputs.isRampClosed = (Value.kReverse == orientationRampDoubleSolenoid.get());
     inputs.isRunning = isRunning;
   }
 
@@ -51,15 +52,25 @@ public class OrientationIOVictorSPX implements OrientationIO {
     orientationUpDoubleSolenoid.toggle();
   }
 
+  public void SetRampSolenoidState(boolean state){
+    if(state){ orientationRampDoubleSolenoid.set(Value.kForward);}
+    else{ orientationUpDoubleSolenoid.set(Value.kReverse);}
+  }
+
+  public void SetUpSolenoid(boolean state){
+    if(state){ orientationUpDoubleSolenoid.set(Value.kForward);}
+    else{ orientationUpDoubleSolenoid.set(Value.kReverse);}
+  }
+
   public void disableMotors(){
-    orientationDownMotor.set(ControlMode.Disabled, 0);
+    orientationRampMotor.set(ControlMode.Disabled, 0);
     orientationUpMotor.set(ControlMode.Disabled, 0);
   }
   
   @Override
   public void setPercent(double percent) {
-    if(percent != 0){orientationUpMotor.set(ControlMode.PercentOutput, -percent- 0.2);}
-    orientationDownMotor.set(ControlMode.PercentOutput, percent);
+    orientationRampMotor.set(ControlMode.PercentOutput, percent - 0.3);
+    orientationRampMotor.set(ControlMode.PercentOutput, percent);
   }
 
 }
