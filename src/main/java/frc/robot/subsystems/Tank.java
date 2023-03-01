@@ -37,6 +37,7 @@ public class Tank extends SubsystemBase {
     left = new MotorControllerGroup(engine3, engine4);
     right = new MotorControllerGroup(engine1, engine2);
     drive = new DifferentialDrive(left, right);
+    drive.setSafetyEnabled(true);
   }
   public static Tank getinstance(){
     if(instance == null){
@@ -47,8 +48,8 @@ public class Tank extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double X = RobotContainer.getRawAxis(0);
-    double Y = RobotContainer.getRawAxis(1);
+    double X = RobotContainer.getRawAxis(1);
+    double Y = -RobotContainer.getRawAxis(0);
     Y = Y/1.5;
     drive.arcadeDrive(Y, X);
   }

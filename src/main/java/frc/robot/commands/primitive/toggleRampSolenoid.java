@@ -4,20 +4,14 @@
 
 package frc.robot.commands.primitive;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.orientation.Orientation;
 
-public class toggleOrientaionSolenoid extends CommandBase {
+public class toggleRampSolenoid extends CommandBase {
   private static Orientation orientation;
-  private boolean mode;
-  private boolean solenoid;
-  /** Creates a new orienation. */
-  public toggleOrientaionSolenoid(boolean solenoid, boolean mode) {
+  /** Creates a new toggleRampSolenoid. */
+  public toggleRampSolenoid() {
     orientation = Orientation.getInstance();
-    this.mode = mode;
-    this.solenoid = solenoid;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(orientation);
   }
@@ -25,8 +19,7 @@ public class toggleOrientaionSolenoid extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(solenoid){ orientation.SetRampSolenoidState(mode);}
-    else{ orientation.SetUpSolenoid(mode);}
+    orientation.toggleSolenoid(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,8 +28,7 @@ public class toggleOrientaionSolenoid extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

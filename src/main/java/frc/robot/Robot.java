@@ -38,7 +38,6 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotInit() {
     Pneumatics.getInstance();
-    Gripper.getInstance();
     Logger logger = Logger.getInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);

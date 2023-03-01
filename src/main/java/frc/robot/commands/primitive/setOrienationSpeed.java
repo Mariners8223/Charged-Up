@@ -9,13 +9,11 @@ import frc.robot.subsystems.orientation.Orientation;
 
 public class setOrienationSpeed extends CommandBase {
   private static Orientation orientation;
-  private static double speed;
-  private static boolean state;
+  private double speed;
   /** Creates a new setOrienationSpeed. */
-  public setOrienationSpeed(double speed, boolean state) {
+  public setOrienationSpeed(double speed) {
     orientation = Orientation.getInstance();
     this.speed = speed;
-    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(orientation);
   }
@@ -23,21 +21,23 @@ public class setOrienationSpeed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(state){orientation.setSpeed(speed);}
-    else{orientation.stop();}
+    orientation.setSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    orientation.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

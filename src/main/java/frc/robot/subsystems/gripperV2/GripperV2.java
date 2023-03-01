@@ -17,7 +17,7 @@ public class GripperV2 extends SubsystemBase {
   private static DoubleSolenoid solenoid;
   /** Creates a new Gripper. */
   private GripperV2() {
-    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
+    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
   }
   public static GripperV2 getInstance(){
     if(instance == null){

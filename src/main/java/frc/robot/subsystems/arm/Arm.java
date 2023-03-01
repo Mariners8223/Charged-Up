@@ -44,10 +44,6 @@ public class Arm extends SubsystemBase {
     io.stopExtension();
   }
 
-  public void setPercentSpeed(boolean motor, double speed){
-    if(motor){io.extendPrecentSpeed(speed);}
-    else{io.rotatePrecentSpeed(speed);}
-  }
 
   @Override
   public void periodic() {

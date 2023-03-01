@@ -8,46 +8,34 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.Arm;
 
-public class manualAdjust extends CommandBase {
+public class minorAdjustRotaion extends CommandBase {
   private static Arm arm;
-  private  boolean inverted;
-  private boolean motor;
-  /** Creates a new manualAdjust. */
-  public manualAdjust(boolean motor,boolean inverted) {
-    arm = arm.getInstance();
-    this.inverted = inverted;
-    this.motor = motor;
+  /** Creates a new minorAdjustRotaion. */
+  public minorAdjustRotaion() {
+    arm = Arm.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(motor){
-      double speed = RobotContainer.getRawAxis(2)/2;
-      if(inverted){ speed = -speed;}
-      arm.setPercentSpeed(motor, speed);
+    double speed = RobotContainer.getRawAxis(3);
+    if(speed < 0.2 && speed > -0.2){ speed = 0;}
+    speed = speed/2;
+    if(RobotContainer.toggleinvert() == 1){
+      speed = -speed;
     }
-    else{
-      double speed = RobotContainer.getRawAxis(3)/2;
-      if(inverted){ speed = -speed;}
-      arm.setPercentSpeed(motor, speed);
-    }
+    arm.rotatePlusAbgleDegrees(speed*10);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    arm.stopExtensionMotor();
-    arm.stopRotationMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

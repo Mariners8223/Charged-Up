@@ -21,12 +21,11 @@ public class PickupToUpperCone extends SequentialCommandGroup {
     arm = Arm.getInstance();
     orientation = Orientation.getInstance();
     addCommands(
-      new toggleOrientaionSolenoid(true, true),
+      new toggleOrientaionSolenoid(true, false),
       new useGripper(SequenceType.Cone),
       new rotateArmToAngleCommand(-32),
-      new extendArmToLengthMetersCommand(12),
       new useGripper(SequenceType.off),
-      new extendArmToLengthMetersCommand(20),
+      new extendArmToLengthMetersCommand(18),
       new useGripper(SequenceType.Cone),
       new extendArmToLengthMetersCommand(0),
       new rotateArmToAngleCommand(95),

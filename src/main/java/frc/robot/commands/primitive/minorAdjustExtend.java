@@ -4,38 +4,39 @@
 
 package frc.robot.commands.primitive;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.orientation.Orientation;
+import frc.robot.subsystems.arm.Arm;
 
-public class toggleOrientaionSolenoid extends CommandBase {
-  private static Orientation orientation;
-  private boolean mode;
-  private boolean solenoid;
-  /** Creates a new orienation. */
-  public toggleOrientaionSolenoid(boolean solenoid, boolean mode) {
-    orientation = Orientation.getInstance();
-    this.mode = mode;
-    this.solenoid = solenoid;
+public class minorAdjustExtend extends CommandBase {
+  private static Arm arm;
+  /** Creates a new minorAdjustExtend. */
+  public minorAdjustExtend() {
+    arm = Arm.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(orientation);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(solenoid){ orientation.SetRampSolenoidState(mode);}
-    else{ orientation.SetUpSolenoid(mode);}
+    double speed = RobotContainer.getRawAxis(5);
+    if(speed < 0.2 && speed > -0.2){ speed = 0;}
+    speed = speed/2;
+    if(RobotContainer.toggleinvert() == 1){speed = -speed;}
+    arm.extendPlusLengthMeters(speed*10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    arm.extendPlusLengthMeters(0);
   }
 
   // Returns true when the command should end.

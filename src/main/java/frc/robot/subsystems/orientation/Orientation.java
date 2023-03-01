@@ -45,7 +45,7 @@ public class Orientation extends SubsystemBase {
   }
 
   public void SetUpSolenoid(boolean state){
-    io.SetRampSolenoidState();
+    io.SetRampSolenoidState(state);
   }
 
   public boolean getIsRunning(){
