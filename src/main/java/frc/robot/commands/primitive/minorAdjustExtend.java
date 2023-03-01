@@ -23,7 +23,6 @@ public class minorAdjustExtend extends CommandBase {
     double speed = RobotContainer.getRawAxis(5);
     if(speed < 0.2 && speed > -0.2){ speed = 0;}
     speed = speed/2;
-    if(RobotContainer.toggleinvert() == 1){speed = -speed;}
     arm.extendPlusLengthMeters(speed*10);
   }
 

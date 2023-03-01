@@ -5,6 +5,7 @@
 package frc.robot.commands.primitiveV2.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.Arm;
 
 public class extendArmPlusLength extends CommandBase {
@@ -19,16 +20,23 @@ public class extendArmPlusLength extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.extendPlusLengthMeters(0);
+    arm.stopExtensionMotor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    double length = RobotContainer.getRawAxis(4);
+    if(length < 0.2 && length > -0.2){ length = 0;}
+    if(RobotContainer.getInverted()){ length = -length;}
+    arm.extendPlusLengthMeters(length);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted){
+    arm.stopExtensionMotor();
+  }
 
   // Returns true when the command should end.
   @Override
