@@ -10,14 +10,12 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-<<<<<<< Updated upstream
-=======
+
 import frc.robot.subsystems.FaultChecker;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.pneumatics.Pneumatics;
->>>>>>> Stashed changes
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
 
@@ -39,11 +37,8 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
-<<<<<<< Updated upstream
-=======
     Pneumatics.getInstance();
     Gripper.getInstance();
->>>>>>> Stashed changes
     Logger logger = Logger.getInstance();
     // Record metadata
     logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
