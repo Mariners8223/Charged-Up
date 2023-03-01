@@ -2,24 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitive;
+package frc.robot.commands.primitiveV2.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.orientation.Orientation;
+import frc.robot.RobotContainer;
 
-public class toggleRampSolenoid extends CommandBase {
-  private static Orientation orientation;
-  /** Creates a new toggleRampSolenoid. */
-  public toggleRampSolenoid() {
-    orientation = Orientation.getInstance();
+public class InvertManualDirectaion extends CommandBase {
+  private static boolean inverted;
+  /** Creates a new InvertManualDirectaion. */
+  public InvertManualDirectaion() {
+    inverted = false;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(orientation);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    orientation.toggleRampSolenoid();
+    if(inverted){
+      inverted = false;
+      RobotContainer.SetInverted(inverted);
+    }
+    else{
+      inverted = true;
+      RobotContainer.SetInverted(inverted);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

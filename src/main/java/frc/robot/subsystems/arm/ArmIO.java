@@ -7,7 +7,6 @@ public interface ArmIO {
   public static class ArmIOInputs {
     double armAngleDeg = 0.0;
     double armExtensionMeters = 0.0;
-    double armVelocityPerSecRad = 0.0;
   }
   
 
@@ -26,6 +25,14 @@ public interface ArmIO {
   }
 
   public default void resetExtension(){
+    
+  }
+
+  public default void setRotationPrecent(double speed){
+
+  }
+
+  public default void setExtensionPrecent(double speed){
     
   }
 

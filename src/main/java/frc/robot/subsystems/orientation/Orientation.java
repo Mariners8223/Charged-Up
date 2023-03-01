@@ -30,14 +30,12 @@ public class Orientation extends SubsystemBase {
     io.disableMotors();
   }
 
-  public void toggleSolenoid(boolean mode) {
-    //true is ramp and false is up
-    if(mode){
-      io.toggleRampSolenoid();
-    }
-    else{
-      io.toggleUpSolenoid();
-    }
+  public void toggleUpSolenoid() {
+    io.toggleUpSolenoid();
+  }
+
+  public void toggleRampSolenoid(){
+    io.toggleRampSolenoid();
   }
 
   public void SetRampSolenoidState(boolean state){

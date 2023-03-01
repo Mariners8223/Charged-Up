@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.FaultChecker;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
@@ -30,6 +29,8 @@ public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
   private TimerWidget widget;
+  private boolean inverted;
+  private boolean state;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -85,6 +86,7 @@ public class Robot extends LoggedRobot {
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    if(robotContainer.getController().touchpad().getAsBoolean())
   }
 
   /** This function is called once when the robot is disabled. */

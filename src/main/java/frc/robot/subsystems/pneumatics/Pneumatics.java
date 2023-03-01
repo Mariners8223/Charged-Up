@@ -10,7 +10,6 @@ public class Pneumatics extends SubsystemBase {
 
   private Pneumatics(PneumaticsIO io) {
     this.io = io;
-    SmartDashboard.putBoolean("compressor", false);
   }
 
   public static Pneumatics getInstance() {
@@ -37,15 +36,5 @@ public class Pneumatics extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    if(SmartDashboard.getBoolean("compressor", false)){
-      if(!inputs.isEnabled){
-        io.enableCompressor();
-      }
-    }
-    else{
-      if(inputs.isEnabled){
-        io.disableCompressor();
-      }
-    }
   }
 }

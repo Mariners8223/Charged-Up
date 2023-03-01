@@ -2,25 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitive;
+package frc.robot.commands.primitiveV2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.orientation.Orientation;
 
-public class toggleRampSolenoid extends CommandBase {
+public class setRampSolenoidState extends CommandBase {
   private static Orientation orientation;
-  /** Creates a new toggleRampSolenoid. */
-  public toggleRampSolenoid() {
+  private boolean state;
+  /** Creates a new setRampSolenoidState. */
+  public setRampSolenoidState(boolean state) {
     orientation = Orientation.getInstance();
+    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(orientation);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    orientation.toggleRampSolenoid();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,6 +33,6 @@ public class toggleRampSolenoid extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

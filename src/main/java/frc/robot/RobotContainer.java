@@ -19,6 +19,7 @@ import frc.robot.commands.primitive.toggleRampSolenoid;
 import frc.robot.commands.primitive.rotateArmToAngleCommand;
 import frc.robot.commands.primitive.setOrienationSpeed;
 import frc.robot.commands.primitive.useGripper;
+import frc.robot.commands.primitiveV2.arm.InvertManualDirectaion;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripperV2.GripperV2;
@@ -102,25 +103,19 @@ public class RobotContainer {
     controller.povRight().onTrue(new rotateArmToAngleCommand(70));
     controller.L2().onTrue(new minorAdjustRotaion());
     controller.R2().whileTrue(new minorAdjustExtend());
-
+    controller.touchpad().onTrue(new InvertManualDirectaion());
   }
 
   public static double getRawAxis(int axis){
     return controller.getRawAxis(axis);
   }
 
-  public static int toggleinvert(){
-    if(controller.touchpad().getAsBoolean()){
-      if(inverted){
-        inverted = false;
-        return 1;
-      }
-      else{
-        inverted = true;
-        return 2;
-      }
-    }
-    return 3;
+  public static void SetInverted(boolean state){
+    inverted = state;
+  }
+
+  public static boolean getInverted(){
+    return inverted;
   }
 
 

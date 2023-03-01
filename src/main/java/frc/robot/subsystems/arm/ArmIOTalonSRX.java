@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.commands.primitiveV2.arm.RotateArmToPoint;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
@@ -54,7 +55,6 @@ public class ArmIOTalonSRX implements ArmIO {
   @Override
   public void updateInputs(ArmIOInputs inputs) {
     inputs.armAngleDeg = getArmAngleDeg();
-    inputs.armVelocityPerSecRad = getArmVelocityPerSecRad();
     inputs.armExtensionMeters = getArmLengthMeters();
   }
 
@@ -93,7 +93,6 @@ public class ArmIOTalonSRX implements ArmIO {
     return Math.abs(rotationMotor.getSelectedSensorPosition() - rotationMotor.getClosedLoopTarget()) < ArmConstants.ARM_ROTATION_TOLERANCE;
   }
   public boolean isArmAtExtensionSetpoint() {
-    SmartDashboard.putNumber("arm extension point", extensionMotor.getClosedLoopTarget());
     return Math.abs(extensionMotor.getSelectedSensorPosition() - extensionMotor.getClosedLoopTarget()) < ArmConstants.ARM_EXTENSION_TOLERANCE;
   }
   public void stopRotation() {
@@ -106,7 +105,6 @@ public class ArmIOTalonSRX implements ArmIO {
  
   @Override
   public void moveToAngle(double desiredAnglesDeg) {
-    SmartDashboard.putNumber("rotation closed loop target", rotationMotor.getClosedLoopTarget() / ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
     rotationMotor.set(ControlMode.Position, desiredAnglesDeg * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
   }  
 
@@ -114,4 +112,19 @@ public class ArmIOTalonSRX implements ArmIO {
   public void extendToLength(double extensionCM) {
     extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
   }
+
+  public void setPrecentLength(double speed){
+    extensionMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setExtensionPrecent(double speed){
+    extensionMotor.set(ControlMode.PercentOutput, speed);
+    extendToLength(extensionMotor.getSelectedSensorPosition()/Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.DISTANCE_PER_REVOLUTION_CM );
+  }
+
+  public void setRotationPrecent(double speed){
+    extensionMotor.set(ControlMode.PercentOutput, speed);
+    moveToAngle(rotationMotor.getSelectedSensorPosition() * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
+  }
+
 }

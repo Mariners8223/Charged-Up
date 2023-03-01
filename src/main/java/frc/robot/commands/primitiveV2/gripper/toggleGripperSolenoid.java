@@ -2,24 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitive;
+package frc.robot.commands.primitiveV2.gripper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.orientation.Orientation;
+import frc.robot.subsystems.gripperV2.GripperV2;
 
-public class toggleRampSolenoid extends CommandBase {
-  private static Orientation orientation;
-  /** Creates a new toggleRampSolenoid. */
-  public toggleRampSolenoid() {
-    orientation = Orientation.getInstance();
+public class toggleGripperSolenoid extends CommandBase {
+  private static GripperV2 gripperV2;
+  /** Creates a new toggleGripperSolenoid. */
+  public toggleGripperSolenoid() {
+    gripperV2 = GripperV2.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(orientation);
+    addRequirements(gripperV2);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    orientation.toggleRampSolenoid();
+    gripperV2.toggleSolenoid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

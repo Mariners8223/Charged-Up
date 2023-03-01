@@ -17,10 +17,6 @@ public class Arm extends SubsystemBase {
 
   private Arm(ArmIOTalonSRX io) {
     this.io = io;
-    SmartDashboard.putBoolean("reset rotation", false);
-    SmartDashboard.putBoolean("reset extension", false);
-    SmartDashboard.putNumber("rotaion", 0);
-    SmartDashboard.putNumber("extension", 0);
   }
 
   public static Arm getInstance() {
@@ -49,18 +45,6 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
-    SmartDashboard.putNumber("rotaion", ArmIOTalonSRX.getInstance().getArmAngleDeg());
-    SmartDashboard.putNumber("extension", ArmIOTalonSRX.getInstance().getArmLengthMeters());
-    SmartDashboard.putNumber("extension output", io.getExtensionOutputPercent());
-    SmartDashboard.putNumber("Rotation Error", io.getClosedLoopRotationError());
-    if(SmartDashboard.getBoolean("reset rotation", false)){
-      io.resetRotation();
-      SmartDashboard.putBoolean("reset rotation", false);
-    }
-    if(SmartDashboard.getBoolean("reset extension", false)){
-      io.resetExtension();
-      SmartDashboard.putBoolean("reset extension", false);
-    }
   }
 
   public void extendToLengthMeters(double lengthMeters) {
@@ -71,13 +55,11 @@ public class Arm extends SubsystemBase {
     io.moveToAngle(desiredAngleDeg);
   }
 
-  public void extendPlusLengthMeters(double length){
-    length += io.getArmLengthMeters();
-    io.extendToLength(length);
+  public void extendPlusLengthMeters(double speed){
+    io.setExtensionPrecent(speed);
   }
 
-  public void rotatePlusAbgleDegrees(double angle){
-    angle += Math.toDegrees(io.getArmAngleDeg());
-    io.moveToAngle(angle);
+  public void rotatePlusAbgleDegrees(double speed){
+    io.setRotationPrecent(speed);
   }
 }
