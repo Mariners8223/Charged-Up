@@ -5,21 +5,21 @@
 package frc.robot.commands.primitive.gripper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.gripper.gripper;
+import frc.robot.subsystems.gripper.Gripper;
 
 public class toggleGripperSolenoid extends CommandBase {
-  private static gripper gripperV2;
+  private static Gripper gripper;
   /** Creates a new toggleGripperSolenoid. */
   public toggleGripperSolenoid() {
-    gripperV2 = gripper.getInstance();
+    gripper = Gripper.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(gripperV2);
+    addRequirements(gripper);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    gripperV2.toggleSolenoid();
+    gripper.toggleSolenoid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

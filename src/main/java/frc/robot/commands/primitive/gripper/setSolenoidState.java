@@ -7,18 +7,18 @@ package frc.robot.commands.primitive.gripper;
 import javax.sound.midi.Sequence;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.gripper.gripper;
+import frc.robot.subsystems.gripper.Gripper;
 import frc.util.SequenceType;
 
 public class setSolenoidState extends CommandBase {
-  private static gripper gripperV2;
+  private static Gripper gripper;
   private SequenceType state;
   /** Creates a new setSolenoidState. */
   public setSolenoidState(SequenceType state) {
-    gripperV2 = gripper.getInstance();
+    gripper = gripper.getInstance();
     this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(gripperV2);
+    addRequirements(gripper);
   }
 
   // Called when the command is initially scheduled.
@@ -26,15 +26,15 @@ public class setSolenoidState extends CommandBase {
   public void initialize() {
     switch(state){
       case Cone:
-        gripperV2.solenoidForward();
+        gripper.solenoidForward();
         break;
       
       case Cube:
-        gripperV2.solenoidOff();
+        gripper.solenoidOff();
         break;
       
       case off:
-        gripperV2.solenoidBack();
+        gripper.solenoidBack();
         break;
 
     }

@@ -20,7 +20,7 @@ import frc.robot.commands.primitive.oriantion.toggleOrienationMotors;
 import frc.robot.commands.primitive.oriantion.toggleRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.gripper.gripper;
+import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
@@ -37,7 +37,7 @@ import frc.util.humanIO.CommandPS5Controller;
 public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
-  gripper gripperV2 = gripper.getInstance();
+  Gripper gripperV2 = Gripper.getInstance();
   Tank tank = Tank.getinstance();
 
 
@@ -54,7 +54,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     Pneumatics.getInstance();
-    gripper.getInstance();
+    Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
 
     switch (Constants.currentMode) {

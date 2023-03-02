@@ -14,17 +14,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
 
-public class gripper extends SubsystemBase {
-  private static gripper instance;
+public class Gripper extends SubsystemBase {
+  private static Gripper instance;
   private static DoubleSolenoid solenoid;
   /** Creates a new Gripper. */
-  private gripper() {
+  private Gripper() {
     solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
     solenoid.set(Value.kForward);
   }
-  public static gripper getInstance(){
+  public static Gripper getInstance(){
     if(instance == null){
-      instance = new gripper();
+      instance = new Gripper();
     }
     return instance;
   }
