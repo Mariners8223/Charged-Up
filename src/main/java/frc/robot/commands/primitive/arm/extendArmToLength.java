@@ -2,17 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitiveV2.arm;
+package frc.robot.commands.primitive.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.Arm;
 
-public class rotatePlusAngle extends CommandBase {
+public class extendArmToLength extends CommandBase {
   private static Arm arm;
-  /** Creates a new rotatePlusAngle. */
-  public rotatePlusAngle() {
+  private double length;
+  /** Creates a new extendArmToLength. */
+  public extendArmToLength(double length) {
     arm = Arm.getInstance();
+    this.length = length;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
   }
@@ -20,29 +21,20 @@ public class rotatePlusAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.stopRotationMotor();
+    arm.extendToLengthMeters(length);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    double speed = RobotContainer.getRawAxis(5);
-    if(speed < 0.2 && speed > -0.2){
-      speed = 0;
-    }
-    if(RobotContainer.getInverted()){ speed = -speed;}
-    arm.rotatePlusAbgleDegrees(speed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    arm.stopRotationMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return arm.isAtExtensionSetpoint();
   }
 }

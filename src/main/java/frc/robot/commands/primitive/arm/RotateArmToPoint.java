@@ -2,18 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitiveV2.arm;
+package frc.robot.commands.primitive.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.Arm;
 
-public class extendArmToLength extends CommandBase {
+public class RotateArmToPoint extends CommandBase {
   private static Arm arm;
-  private double length;
-  /** Creates a new extendArmToLength. */
-  public extendArmToLength(double length) {
+  private double dgree;
+  /** Creates a new RotateArmToPoint. */
+  public RotateArmToPoint(double dgree) {
     arm = Arm.getInstance();
-    this.length = length;
+    this.dgree = dgree;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
   }
@@ -21,7 +21,7 @@ public class extendArmToLength extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.extendToLengthMeters(length);
+    arm.rotateToAngleDegrees(dgree);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +35,6 @@ public class extendArmToLength extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm.isAtExtensionSetpoint();
+    return arm.isAtRotationSetpoint();
   }
 }

@@ -10,18 +10,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.basic.resetArmExtender;
 import frc.robot.commands.basic.resetArmRotaion;
-// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.primitiveV2.arm.InvertManualDirectaion;
-import frc.robot.commands.primitiveV2.arm.RotateArmToPoint;
-import frc.robot.commands.primitiveV2.arm.extendArmPlusLength;
-import frc.robot.commands.primitiveV2.arm.extendArmToLength;
-import frc.robot.commands.primitiveV2.arm.rotatePlusAngle;
-import frc.robot.commands.primitiveV2.gripper.toggleGripperSolenoid;
-import frc.robot.commands.primitiveV2.oriantion.toggleOrienationMotors;
-import frc.robot.commands.primitiveV2.oriantion.toggleRampSolenoid;
+import frc.robot.commands.primitive.arm.InvertManualDirectaion;
+import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.extendArmPlusLength;
+import frc.robot.commands.primitive.arm.extendArmToLength;
+import frc.robot.commands.primitive.arm.rotatePlusAngle;
+import frc.robot.commands.primitive.gripper.toggleGripperSolenoid;
+import frc.robot.commands.primitive.oriantion.toggleOrienationMotors;
+import frc.robot.commands.primitive.oriantion.toggleRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.gripperV2.GripperV2;
+import frc.robot.subsystems.gripper.gripper;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
@@ -38,7 +37,7 @@ import frc.util.humanIO.CommandPS5Controller;
 public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
-  GripperV2 gripperV2 = GripperV2.getInstance();
+  gripper gripperV2 = gripper.getInstance();
   Tank tank = Tank.getinstance();
 
 
@@ -55,7 +54,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     Pneumatics.getInstance();
-    GripperV2.getInstance();
+    gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
 
     switch (Constants.currentMode) {

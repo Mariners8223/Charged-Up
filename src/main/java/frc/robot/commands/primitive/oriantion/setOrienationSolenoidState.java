@@ -2,20 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.primitiveV2.oriantion;
+package frc.robot.commands.primitive.oriantion;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.orientation.Orientation;
 
-public class toggleOrienationMotors extends CommandBase {
+public class setOrienationSolenoidState extends CommandBase {
   private static Orientation orientation;
-  private boolean toggled;
-  private double speed;
-  /** Creates a new toggleOrienationMotors. */
-  public toggleOrienationMotors(double speed) {
+  private boolean state;
+  /** Creates a new setOrienationSolenoidState. */
+  public setOrienationSolenoidState(boolean state) {
     orientation = Orientation.getInstance();
-    toggled = false;
-    this.speed = speed;
+    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(orientation);
   }
@@ -23,14 +21,7 @@ public class toggleOrienationMotors extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(toggled){
-      toggled = false;
-      orientation.stop();
-    }
-    else{
-      toggled = true;
-      orientation.setSpeed(speed);
-    }
+    orientation.SetUpSolenoid(state);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

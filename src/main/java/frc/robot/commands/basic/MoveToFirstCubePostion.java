@@ -5,8 +5,8 @@
 package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.primitiveV2.arm.RotateArmToPoint;
-import frc.robot.commands.primitiveV2.arm.extendArmToLength;
+import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.extendArmToLength;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

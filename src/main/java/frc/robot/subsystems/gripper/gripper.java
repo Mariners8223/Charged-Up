@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.gripperV2;
+package frc.robot.subsystems.gripper;
 
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator.Validity;
 
@@ -14,17 +14,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
 
-public class GripperV2 extends SubsystemBase {
-  private static GripperV2 instance;
+public class gripper extends SubsystemBase {
+  private static gripper instance;
   private static DoubleSolenoid solenoid;
   /** Creates a new Gripper. */
-  private GripperV2() {
+  private gripper() {
     solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
     solenoid.set(Value.kForward);
   }
-  public static GripperV2 getInstance(){
+  public static gripper getInstance(){
     if(instance == null){
-      instance = new GripperV2();
+      instance = new gripper();
     }
     return instance;
   }
