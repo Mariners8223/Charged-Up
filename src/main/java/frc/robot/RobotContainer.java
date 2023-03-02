@@ -8,8 +8,17 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.basic.resetArmExtender;
+import frc.robot.commands.basic.resetArmRotaion;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.primitiveV2.arm.InvertManualDirectaion;
+import frc.robot.commands.primitiveV2.arm.RotateArmToPoint;
+import frc.robot.commands.primitiveV2.arm.extendArmPlusLength;
+import frc.robot.commands.primitiveV2.arm.extendArmToLength;
+import frc.robot.commands.primitiveV2.arm.rotatePlusAngle;
+import frc.robot.commands.primitiveV2.gripper.toggleGripperSolenoid;
+import frc.robot.commands.primitiveV2.oriantion.toggleOrienationMotors;
+import frc.robot.commands.primitiveV2.oriantion.toggleRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripperV2.GripperV2;
@@ -80,6 +89,18 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    controller.touchpad().onTrue(new InvertManualDirectaion());
+    controller.L2().whileTrue(new extendArmPlusLength());
+    controller.R2().whileTrue(new rotatePlusAngle());
+    controller.cross().onTrue(new toggleOrienationMotors(0.6));
+    controller.square().onTrue(new toggleRampSolenoid());
+    controller.circle().onTrue(new toggleGripperSolenoid());
+    controller.povDown().onTrue(new resetArmRotaion());
+    controller.L1().onTrue(new extendArmToLength(25));
+    controller.R2().onTrue(new resetArmExtender());
+    controller.povRight().onTrue(new RotateArmToPoint(45));
+    controller.povUp().onTrue(new RotateArmToPoint(91));
+    controller.povLeft().onTrue(new RotateArmToPoint(-17));
   }
 
   public static double getRawAxis(int axis){
