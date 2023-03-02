@@ -8,17 +8,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.PickupToUpperCone;
-import frc.robot.commands.primitive.extendAndRotateArmToMetersDeg;
 // import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.primitive.extendArmToLengthMetersCommand;
-import frc.robot.commands.primitive.minorAdjustExtend;
-import frc.robot.commands.primitive.minorAdjustRotaion;
-import frc.robot.commands.primitive.toggleOrientaionSolenoid;
-import frc.robot.commands.primitive.toggleRampSolenoid;
-import frc.robot.commands.primitive.rotateArmToAngleCommand;
-import frc.robot.commands.primitive.setOrienationSpeed;
-import frc.robot.commands.primitive.useGripper;
 import frc.robot.commands.primitiveV2.arm.InvertManualDirectaion;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
@@ -90,20 +80,6 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controller.cross().whileTrue(new setOrienationSpeed(0.6));
-    controller.share().whileTrue(new setOrienationSpeed(0.3));
-    controller.triangle().onTrue(new PickupToUpperCone());
-    controller.square().onTrue(new toggleRampSolenoid());
-    controller.circle().onTrue(new useGripper(SequenceType.Cone));
-    controller.options().onTrue(new useGripper(SequenceType.off));
-    controller.L1().onTrue(new extendArmToLengthMetersCommand(40));
-    controller.R1().onTrue(new extendArmToLengthMetersCommand(0));
-    controller.povDown().onTrue(new rotateArmToAngleCommand(0));
-    controller.povUp().onTrue(new rotateArmToAngleCommand(90));
-    controller.povRight().onTrue(new rotateArmToAngleCommand(70));
-    controller.L2().onTrue(new minorAdjustRotaion());
-    controller.R2().whileTrue(new minorAdjustExtend());
-    controller.touchpad().onTrue(new InvertManualDirectaion());
   }
 
   public static double getRawAxis(int axis){
