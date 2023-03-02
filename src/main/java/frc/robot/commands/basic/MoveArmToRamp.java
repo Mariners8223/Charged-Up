@@ -5,6 +5,8 @@
 package frc.robot.commands.basic;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.primitiveV2.arm.RotateArmToPoint;
+import frc.robot.commands.primitiveV2.arm.extendArmToLength;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -14,6 +16,9 @@ public class MoveArmToRamp extends SequentialCommandGroup {
   public MoveArmToRamp() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new RotateArmToPoint(-17),
+      new extendArmToLength(16)
+    );
   }
 }
