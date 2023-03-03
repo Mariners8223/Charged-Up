@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.gripper;
 
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator.Validity;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -15,21 +14,21 @@ import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class Gripper extends SubsystemBase {
+  private DoubleSolenoid solenoid;
   private static Gripper instance;
-  private static DoubleSolenoid solenoid;
-  /** Creates a new Gripper. */
-  private Gripper() {
-    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], RobotConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
-    solenoid.set(Value.kForward);
+  private GripperIO io;
+
+  private Gripper(GripperIO io) {
+    this.io = io;
   }
-  public static Gripper getInstance(){
-    if(instance == null){
-      instance = new Gripper();
-    }
+
+  public static Gripper getInstance() {
+    if(instance == null)
+      instance = new Gripper(GripperIOSolenoid.getInstance());
     return instance;
   }
 
-  public void toggleSolenoid(){
+  public void toggleSolenoid() {
     solenoid.toggle();
   }
 
@@ -48,6 +47,7 @@ public class Gripper extends SubsystemBase {
   public void solenoidOff(){
     solenoid.set(Value.kOff);
   }
+
   @Override
   public void periodic() {
   }
