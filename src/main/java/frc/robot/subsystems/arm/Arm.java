@@ -6,7 +6,6 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {

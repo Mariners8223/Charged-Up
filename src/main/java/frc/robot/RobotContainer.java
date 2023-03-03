@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.time.Instant;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -16,10 +15,8 @@ import frc.robot.commands.primitive.orientation.setRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripper.Gripper;
-import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
-import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.util.humanIO.JoystickAxis;
 
@@ -53,7 +50,6 @@ public class RobotContainer {
   public RobotContainer() {
     Pneumatics.getInstance();
     Gripper.getInstance();
-    Arm arm = Arm.getInstance();
     Pneumatics.getInstance().enableCompressor();
 
     switch (Constants.currentMode) {
