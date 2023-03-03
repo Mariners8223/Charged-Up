@@ -36,6 +36,8 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.configReverseSoftLimitThreshold(ArmConstants.ARM_REVERSE_SOFT_LIMIT, 0);
     rotationMotor.configForwardSoftLimitEnable(true, 0);
     rotationMotor.configReverseSoftLimitEnable(false, 0);
+    rotationMotor.configVoltageCompSaturation(12);
+    rotationMotor.enableVoltageCompensation(true);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);
