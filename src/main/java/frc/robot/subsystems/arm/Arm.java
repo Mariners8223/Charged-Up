@@ -55,11 +55,12 @@ public class Arm extends SubsystemBase {
     io.moveToAngle(desiredAngleDeg);
   }
 
-  public void extendPlusLengthMeters(double speed){
+  public void setFalconPO(double speed) {
+    io.setRotationPrecent(speed);
+  }
+
+  public void set775PO(double speed) {
     io.setExtensionPrecent(speed);
   }
 
-  public void rotatePlusAbgleDegrees(double speed){
-    io.setRotationPrecent(speed);
-  }
 }

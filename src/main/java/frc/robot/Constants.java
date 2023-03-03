@@ -52,10 +52,10 @@ public final class Constants {
   public static class RobotConstants {
     public static final int ARM_ROTATION_MOTOR = 7;
     public static final int ARM_EXTENSION_MOTOR = 8;
-    public static final int GRIPPER_MOTOR = 3;
-    public static final int ORIENTATION_UP_MOTOR = 5;
-    public static final int ORIENTATION_DOWN_MOTOR = 6;
-    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {8, 9, 10, 11};
+    public static final int ORIENTATION_ELEVATED_MOTOR = 5;
+    public static final int ORIENTATION_RAMP_MOTOR = 6;
+    public static final int[] ORIENTATION_RAMP_SOLENOID_PORTS = {8, 9};
+    public static final int[] ORIENTATION_ELEVATED_SOLENOID_PORTS = {10, 11};
 
   }
 

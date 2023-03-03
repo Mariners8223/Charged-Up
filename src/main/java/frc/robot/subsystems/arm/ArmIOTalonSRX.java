@@ -78,11 +78,6 @@ public class ArmIOTalonSRX implements ArmIO {
     return extensionMotor.getMotorOutputPercent();
   }
 
-  public double getArmVelocityPerSecRad() {
-    return Units.rotationsPerMinuteToRadiansPerSecond(
-      rotationMotor.getSelectedSensorVelocity() * 10 / Constants.SRX_MAG_COUNTS_PER_REVOLUTION / ArmConstants.ARM_ROTATION_GEAR_RATIO
-    );
-  }
 
   public double getArmLengthMeters() {
     return extensionMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.DISTANCE_PER_REVOLUTION_CM;

@@ -9,11 +9,11 @@ import frc.robot.subsystems.arm.Arm;
 
 public class RotateArmToPoint extends CommandBase {
   private static Arm arm;
-  private double dgree;
+  private double degree;
   /** Creates a new RotateArmToPoint. */
-  public RotateArmToPoint(double dgree) {
+  public RotateArmToPoint(double degree) {
     arm = Arm.getInstance();
-    this.dgree = dgree;
+    this.degree = degree;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
   }
@@ -21,7 +21,7 @@ public class RotateArmToPoint extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.rotateToAngleDegrees(dgree);
+    arm.rotateToAngleDegrees(degree);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

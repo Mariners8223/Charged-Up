@@ -38,13 +38,10 @@ public class Orientation extends SubsystemBase {
     io.toggleRampSolenoid();
   }
 
-  public void SetRampSolenoidState(boolean state){
-    io.SetRampSolenoidState(state);
-  }
-
-  public void SetUpSolenoid(boolean state){
-    io.SetRampSolenoidState(state);
-  }
+  public void lowerRamp() { io.lowerRamp(); }
+  public void raiseRamp() { io.raiseRamp(); }
+  public void lowerOrientation() { io.lowerOrientation(); }
+  public void raiseOrientation() { io.raiseOrientation(); }
 
   public boolean getIsRunning(){
     return io.isRunning;
