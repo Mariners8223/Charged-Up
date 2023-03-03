@@ -18,7 +18,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static final Mode currentMode = Mode.SIM;
   public static final double fullThres = 0.99;
-  public static final double heldThres = 0.1;
+  public static final double heldThres = -0.9;
   public static final boolean IsLimeLightAprilTags = false;
   public static final int FALCON500_COUNTS_PER_REVOLUTION = 2048;
   static class FieldConstants {
@@ -55,8 +55,8 @@ public final class Constants {
     public static final int GRIPPER_MOTOR = 3;
     public static final int ORIENTATION_UP_MOTOR = 5;
     public static final int ORIENTATION_DOWN_MOTOR = 6;
-    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {8, 9, 1, 0};
-    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {10, 11};
+    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {8, 9, 10, 11};
+    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {13, 15};
 
   }
 
@@ -76,9 +76,6 @@ public final class Constants {
     public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {8, 9};
   }
 
-  public static class OrientationConstants {
-    public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {6, 7};
-  }
 
   public static class ArmConstants {
     public static final double ARM_KA = 0.0;

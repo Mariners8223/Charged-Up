@@ -33,7 +33,7 @@ public class setSolenoidState extends CommandBase {
         gripper.solenoidOff();
         break;
       
-      case off:
+      case Off:
         gripper.solenoidBack();
         break;
 

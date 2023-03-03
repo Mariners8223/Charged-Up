@@ -12,11 +12,13 @@ import frc.robot.commands.basic.resetArmExtender;
 import frc.robot.commands.basic.resetArmRotaion;
 import frc.robot.commands.primitive.arm.InvertManualDirectaion;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
-import frc.robot.commands.primitive.arm.extendArmPlusLength;
+
 import frc.robot.commands.primitive.arm.extendArmToLength;
-import frc.robot.commands.primitive.arm.rotatePlusAngle;
+import frc.robot.commands.primitive.arm.manualAdjust;
+import frc.robot.commands.primitive.gripper.setSolenoidState;
 import frc.robot.commands.primitive.gripper.toggleGripperSolenoid;
 import frc.robot.commands.primitive.oriantion.toggleOrienationMotors;
+import frc.robot.commands.primitive.oriantion.toggleOrienationSoleniod;
 import frc.robot.commands.primitive.oriantion.toggleRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
@@ -26,6 +28,7 @@ import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.humanIO.CommandPS5Controller;
+import frc.util.humanIO.JoystickAxis;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,6 +47,8 @@ public class RobotContainer {
 
   // Controller
   private static final CommandPS5Controller controller = new CommandPS5Controller(0);
+  private static final JoystickAxis R2Trigger = new JoystickAxis(controller, 4);
+  private static final JoystickAxis L2Trigger = new JoystickAxis(controller, 3);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -89,14 +94,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     controller.touchpad().onTrue(new InvertManualDirectaion());
-    controller.L2().whileTrue(new extendArmPlusLength());
-    controller.R2().whileTrue(new rotatePlusAngle());
     controller.cross().onTrue(new toggleOrienationMotors(0.6));
+    R2Trigger.whileTrue(new manualAdjust(SequenceType.Arm));
+    L2Trigger.whileTrue(new manualAdjust(SequenceType.Extenion));
     controller.square().onTrue(new toggleRampSolenoid());
-    controller.circle().onTrue(new toggleGripperSolenoid());
+    controller.circle().onTrue(new setSolenoidState(SequenceType.Cone));
+    controller.triangle().onTrue(new setSolenoidState(SequenceType.Cube));
+    controller.options().onTrue(new setSolenoidState(SequenceType.Off));
     controller.povDown().onTrue(new resetArmRotaion());
-    controller.L1().onTrue(new extendArmToLength(25));
-    controller.R2().onTrue(new resetArmExtender());
+    controller.L1().onTrue(new toggleOrienationSoleniod());
+    controller.R1().onTrue(new toggleOrienationSoleniod());
     controller.povRight().onTrue(new RotateArmToPoint(45));
     controller.povUp().onTrue(new RotateArmToPoint(91));
     controller.povLeft().onTrue(new RotateArmToPoint(-17));

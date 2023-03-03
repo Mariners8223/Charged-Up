@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -43,6 +44,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
     rotationMotor.setSelectedSensorPosition(0);
     extensionMotor.setSelectedSensorPosition(0);
+    rotationMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 100);
   }
 
   public static ArmIOTalonSRX getInstance() {
@@ -112,18 +114,12 @@ public class ArmIOTalonSRX implements ArmIO {
     extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
   }
 
-  public void setPrecentLength(double speed){
-    extensionMotor.set(ControlMode.PercentOutput, speed);
-  }
-
   public void setExtensionPrecent(double speed){
     extensionMotor.set(ControlMode.PercentOutput, speed);
-    extendToLength(extensionMotor.getSelectedSensorPosition()/Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.DISTANCE_PER_REVOLUTION_CM );
   }
 
   public void setRotationPrecent(double speed){
-    extensionMotor.set(ControlMode.PercentOutput, speed);
-    moveToAngle(rotationMotor.getSelectedSensorPosition() * ArmConstants.ARM_REVOLUTIONS_PER_DEGREE);
+    rotationMotor.set(ControlMode.PercentOutput, speed);
   }
 
 }

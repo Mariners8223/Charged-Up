@@ -10,6 +10,7 @@ public class Pneumatics extends SubsystemBase {
 
   private Pneumatics(PneumaticsIO io) {
     this.io = io;
+    io.enableCompressor();
   }
 
   public static Pneumatics getInstance() {

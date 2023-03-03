@@ -3,5 +3,9 @@ package frc.util;
 public enum SequenceType {
     Cone,
     Cube,
-    off
+    Off,
+    Arm,
+    Extenion,
+    Ramp,
+    Orienation
 }

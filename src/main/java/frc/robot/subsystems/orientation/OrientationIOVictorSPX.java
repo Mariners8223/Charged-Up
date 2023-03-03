@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator.Validity
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import frc.robot.Constants.OrientationConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class OrientationIOVictorSPX implements OrientationIO {
@@ -24,7 +23,7 @@ public class OrientationIOVictorSPX implements OrientationIO {
   private OrientationIOVictorSPX() {
     orientationUpMotor = new VictorSPX(RobotConstants.ORIENTATION_UP_MOTOR);
     orientationRampMotor = new VictorSPX(RobotConstants.ORIENTATION_DOWN_MOTOR);
-    orientationRampDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 8, 9);
+    orientationRampDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[1]);
     orientationRampDoubleSolenoid.set(Value.kReverse);
     orientationUpDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[2], RobotConstants.ORIENTATION_DOUBLE_SOLENOID_PORTS[3]);
     orientationUpDoubleSolenoid.set(Value.kReverse);
@@ -49,7 +48,6 @@ public class OrientationIOVictorSPX implements OrientationIO {
   @Override
   public void toggleRampSolenoid() {
     orientationRampDoubleSolenoid.toggle();
-    System.out.println("shit");
   }
 
   public void toggleUpSolenoid(){

@@ -16,14 +16,14 @@ import frc.robot.Constants;
  * <p>This class exists in the util>humanIO directory
 */
 public class JoystickAxis extends Trigger {
-    PS5Controller c;
+    CommandPS5Controller c;
     int axis;
     EventLoop loop;
     /**
      * Creates a JoystickAxis instance.
      * @param axis The axis (see {@link PS5Controller.Axis}) to bind this JoystickAxis to.
      */
-    public JoystickAxis(PS5Controller c, int axis)
+    public JoystickAxis(CommandPS5Controller c, int axis)
     {
         super(() -> c.getRawAxis(axis) > 0.1); // onTrue and onFalse return 
         this.c = c;
@@ -31,7 +31,7 @@ public class JoystickAxis extends Trigger {
         loop = CommandScheduler.getInstance().getDefaultButtonLoop();
     }
 
-    public JoystickAxis(EventLoop loop, PS5Controller c, int axis)
+    public JoystickAxis(EventLoop loop, CommandPS5Controller c, int axis)
     {
         super(loop, () -> c.getRawAxis(axis) > 0.1); // onTrue and onFalse 
         this.c = c;
