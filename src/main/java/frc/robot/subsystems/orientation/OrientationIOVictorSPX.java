@@ -23,7 +23,7 @@ public class OrientationIOVictorSPX implements OrientationIO {
     rampSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
         RobotConstants.ORIENTATION_RAMP_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_RAMP_SOLENOID_PORTS[1]);
     elevatedSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-        RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[2], RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[3]);
+        RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[1]);
     isRunning = false;
     rampSolenoid.set(Value.kReverse);
     elevatedSolenoid.set(Value.kReverse);
