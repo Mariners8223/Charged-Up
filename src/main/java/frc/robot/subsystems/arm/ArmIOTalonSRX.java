@@ -32,7 +32,6 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.config_kD(0, ArmConstants.ARM_ROTATION_KD);
     rotationMotor.config_kF(0, ArmConstants.ARM_ROTATION_KF);
     rotationMotor.setInverted(InvertType.InvertMotorOutput);
-    rotationMotor.configClosedloopRamp(0.3);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);

@@ -12,13 +12,14 @@ public class GripperIOSolenoid implements GripperIO {
 
   private GripperIOSolenoid() {
     solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
-    solenoid.set(Value.kForward);
+    solenoid.set(Value.kOff);
   }
 
   public static GripperIOSolenoid getInstance(){
     if(instance == null){
       instance = new GripperIOSolenoid();
     }
+    
     return instance;
   }
   

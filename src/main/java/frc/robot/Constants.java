@@ -82,8 +82,8 @@ public final class Constants {
     public static final double ARM_KG = 0.0;
     public static final double ARM_KS = 0.0;
 
-    public static final double ARM_ROTATION_KP = 0.05
-    ;
+    // public static final double ARM_ROTATION_KP = 0.05;
+    public static final double ARM_ROTATION_KP = 0.0;
     public static final double ARM_ROTATION_KI = 0.0;
     public static final double ARM_ROTATION_KD = 0.0;
     public static final double ARM_ROTATION_KF = 0.0;

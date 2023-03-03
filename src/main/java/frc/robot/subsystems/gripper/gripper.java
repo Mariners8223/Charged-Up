@@ -14,7 +14,6 @@ import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.RobotConstants;
 
 public class Gripper extends SubsystemBase {
-  private DoubleSolenoid solenoid;
   private static Gripper instance;
   private GripperIO io;
 
@@ -29,23 +28,23 @@ public class Gripper extends SubsystemBase {
   }
 
   public void toggleSolenoid() {
-    solenoid.toggle();
+    io.toggleSolenoid();
   }
 
   public boolean isClosed() {
-    return solenoid.get() == Value.kForward;
+    return io.isClosed();
   }
 
   public void solenoidForward(){
-    solenoid.set(Value.kForward);
+    io.solenoidForward();
   }
 
   public void solenoidBack(){
-    solenoid.set(Value.kReverse);
+    io.solenoidBack();
   }
   
   public void solenoidOff(){
-    solenoid.set(Value.kOff);
+    io.solenoidOff();
   }
 
   @Override

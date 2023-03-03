@@ -62,6 +62,10 @@ public class manualAdjust extends CommandBase {
         if(RobotContainer.getInverted()){ length = -length;}
 
         arm.extendPlusLengthMeters(length);
+      default:
+        arm.extendPlusLengthMeters(0);
+        arm.rotatePlusAbgleDegrees(0);
+        break;
 
     }
   }

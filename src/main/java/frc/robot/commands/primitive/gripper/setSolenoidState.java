@@ -15,7 +15,7 @@ public class setSolenoidState extends CommandBase {
   private SequenceType state;
   /** Creates a new setSolenoidState. */
   public setSolenoidState(SequenceType state) {
-    gripper = gripper.getInstance();
+    gripper = Gripper.getInstance();
     this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gripper);

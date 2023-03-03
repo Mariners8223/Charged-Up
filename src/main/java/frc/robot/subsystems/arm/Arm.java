@@ -43,7 +43,7 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    io.updateInputs(inputs);
+    // io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
   }
 
