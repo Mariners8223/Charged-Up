@@ -3,13 +3,15 @@ package frc.robot.subsystems.gripper;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.Constants.GripperConstants;
+import frc.robot.Constants.RobotConstants;
 
 public class GripperIOSolenoid implements GripperIO {
   private static GripperIOSolenoid instance;
   private static DoubleSolenoid solenoid;
 
   private GripperIOSolenoid() {
-    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
+    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
     solenoid.set(Value.kForward);
   }
 

@@ -4,6 +4,7 @@ public enum SequenceType {
     Cone,
     Cube,
     Off,
+    On,
     Arm,
     Extenion,
     Ramp,

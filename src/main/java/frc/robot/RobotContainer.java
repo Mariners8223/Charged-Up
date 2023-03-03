@@ -8,12 +8,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.basic.resetArmExtender;
-import frc.robot.commands.basic.resetArmRotaion;
+import frc.robot.commands.primitive.arm.ExtendOrRotateArm;
 import frc.robot.commands.primitive.arm.InvertManualDirectaion;
-import frc.robot.commands.primitive.arm.RotateArmToPoint;
-
-import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.arm.manualAdjust;
 import frc.robot.commands.primitive.gripper.setSolenoidState;
 import frc.robot.commands.primitive.gripper.toggleGripperSolenoid;
@@ -101,12 +97,12 @@ public class RobotContainer {
     controller.circle().onTrue(new setSolenoidState(SequenceType.Cone));
     controller.triangle().onTrue(new setSolenoidState(SequenceType.Cube));
     controller.options().onTrue(new setSolenoidState(SequenceType.Off));
-    controller.povDown().onTrue(new resetArmRotaion());
+    controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     controller.L1().onTrue(new toggleOrienationSoleniod());
     controller.R1().onTrue(new toggleOrienationSoleniod());
-    controller.povRight().onTrue(new RotateArmToPoint(45));
-    controller.povUp().onTrue(new RotateArmToPoint(91));
-    controller.povLeft().onTrue(new RotateArmToPoint(-17));
+    controller.povRight().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
+    controller.povUp().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 91));
+    controller.povLeft().onTrue(new ExtendOrRotateArm(SequenceType.Arm, -17));
   }
 
   public static double getRawAxis(int axis){

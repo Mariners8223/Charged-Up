@@ -6,13 +6,16 @@ package frc.robot.commands.primitive.oriantion;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.orientation.Orientation;
+import frc.util.SequenceType;
 
-public class setRampSolenoidState extends CommandBase {
+public class SetOrienationSolenoidSate extends CommandBase {
   private static Orientation orientation;
-  private boolean state;
-  /** Creates a new setRampSolenoidState. */
-  public setRampSolenoidState(boolean state) {
+  private SequenceType solenoid;
+  private SequenceType state;
+  /** Creates a new SetOrienationSolenoidSate. */
+  public SetOrienationSolenoidSate(SequenceType solenoid, SequenceType state) {
     orientation = Orientation.getInstance();
+    this.solenoid = solenoid;
     this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(orientation);
@@ -21,7 +24,31 @@ public class setRampSolenoidState extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    orientation.SetRampSolenoidState(state);
+    switch(solenoid){
+        case Ramp:
+          switch(state){
+              case On:
+                orientation.SetRampSolenoidState(true);
+                break;
+              
+              case Off:
+                orientation.SetRampSolenoidState(false);
+                break;
+          }
+        break;
+
+        case Orienation:
+          switch(state){
+              case On:
+                orientation.SetUpSolenoid(true);
+                break;
+              
+              case Off:
+                orientation.SetUpSolenoid(false);
+                break;
+          }
+        break;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

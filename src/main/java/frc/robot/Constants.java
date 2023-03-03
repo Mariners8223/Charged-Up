@@ -56,7 +56,6 @@ public final class Constants {
     public static final int ORIENTATION_UP_MOTOR = 5;
     public static final int ORIENTATION_DOWN_MOTOR = 6;
     public static final int[] ORIENTATION_DOUBLE_SOLENOID_PORTS = {8, 9, 10, 11};
-    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {13, 15};
 
   }
 
@@ -73,7 +72,7 @@ public final class Constants {
     public static final double GRIPPER_SPEED = 1.0;
     public static final double GRIPPER_GEAR_RATIO = 1.6;
     public static final double GRIPPER_TOLERANCE = Units.degreesToRadians(2);
-    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {8, 9};
+    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {13, 15};
   }
 
 
