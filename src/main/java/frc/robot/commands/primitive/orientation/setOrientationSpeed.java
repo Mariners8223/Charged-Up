@@ -15,6 +15,7 @@ public class setOrientationSpeed extends CommandBase {
   @Override
   public void initialize() {
     orientation.lowerOrientation();
+    orientation.lowerRamp();
     orientation.setSpeed(0.6);
   }
   // Called once the command ends or is interrupted.
@@ -22,6 +23,7 @@ public class setOrientationSpeed extends CommandBase {
   public void end(boolean interrupted) {
     orientation.stop();
     orientation.raiseOrientation();
+    orientation.raiseRamp();
   }
 
   // Returns true when the command should end.
