@@ -92,6 +92,8 @@ public final class Constants {
     public static final double ARM_EXTENSION_KP = 0.8;
     public static final double ARM_EXTENSION_KI = 0.0;
     public static final double ARM_EXTENSION_KD = 0.0;
+    public static final double ARM_FORWARD_SOFT_LIMIT = 110 * ARM_REVOLUTIONS_PER_DEGREE;
+    public static final double ARM_REVERSE_SOFT_LIMIT = -100 * ARM_REVOLUTIONS_PER_DEGREE;
 
     public static final double ARM_ROTATION_GEAR_RATIO = 776.25;
     public static final double ARM_EXTENSION_GEAR_RATIO = 2.3;
