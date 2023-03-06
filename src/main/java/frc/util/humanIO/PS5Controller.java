@@ -61,10 +61,10 @@ public class PS5Controller extends GenericHID {
     public enum Axis {
         kLeftX(0),
         kLeftY(1),
-        kRightX(4),
+        kRightX(2),
         kRightY(5),
-        kL2(2),
-        kR2(3);
+        kL2(3),
+        kR2(4);
 
         public final int value;
 
