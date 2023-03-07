@@ -101,30 +101,39 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    var resultRasberryPiCamera = rasberryPiCamera.getLatestResult();
+    //var resultRasberryPiCamera = rasberryPiCamera.getLatestResult();
     var resultLimelight = limeLightCamera.getLatestResult();
     PhotonTrackedTarget target = null;
-    PhotonPipelineResult bestResult = null;
-    PhotonPoseEstimator bestPoseEstimator = null;
+   // PhotonPipelineResult bestResult = null;
+    //PhotonPoseEstimator bestPoseEstimator = null;
 
-    if(!resultRasberryPiCamera.hasTargets() && !(resultLimelight.hasTargets() &&  LimeLight.getInstance().getIsLimeLightModeAprilTags())){
+    /*if(!resultRasberryPiCamera.hasTargets() && !(resultLimelight.hasTargets() &&  LimeLight.getInstance().getIsLimeLightModeAprilTags())){
       pose2d = null;
       pose3d = null;
       timeStamp = 0;
       return;
+    }*/
+
+    if(!resultLimelight.hasTargets()){
+      if(!LimeLight.getInstance().getIsLimeLightModeAprilTags()){
+        pose2d = null;
+        pose3d = null;
+        timeStamp = 0;
+        return;
+      }    
     }
 
 
-    double cameraAMB = 100;
+    /*double cameraAMB = 100;
     double limelightAMB = 100;
     if(resultRasberryPiCamera.hasTargets()){
       cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
     }
     if(resultLimelight.hasTargets() && LimeLight.getInstance().getIsLimeLightModeAprilTags()){
       limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
-    }
+    }*/
 
-    if(cameraAMB < limelightAMB){
+    /*if(cameraAMB < limelightAMB){
       bestResult = resultRasberryPiCamera;
       bestPoseEstimator = cameraPoseEstimator;
       Logger.getInstance().recordOutput("cameraResultSource", "pi");
@@ -132,13 +141,13 @@ public class Vision extends SubsystemBase {
       bestResult = resultLimelight;
       bestPoseEstimator = limeligPoseEstimator;
       Logger.getInstance().recordOutput("cameraResultSource", "limelight");
-    }
+    }*/
     
-    target = bestResult.getBestTarget();
-    timeStamp = bestResult.getTimestampSeconds();
-    latency = bestResult.getLatencyMillis();
+    target = resultLimelight.getBestTarget();
+    timeStamp = resultLimelight.getTimestampSeconds();
+    latency = resultLimelight.getLatencyMillis();
 
-    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(lastPose2d, bestPoseEstimator);
+    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(lastPose2d, limeligPoseEstimator);
     EstimatedRobotPose camPose = eOptional.get();
     pose3d = camPose.estimatedPose;
     lastPose2d = pose2d;
@@ -154,7 +163,7 @@ public class Vision extends SubsystemBase {
     Logger.getInstance().recordOutput("Vision/Pose2d", pose2d);
     Logger.getInstance().recordOutput("Vision/PoseAmbiguity", target.getPoseAmbiguity());
     Logger.getInstance().recordOutput("Vision/AprilTagId", target.getFiducialId());
-    Logger.getInstance().recordOutput("Vision/Latency", bestResult.getLatencyMillis());
+    Logger.getInstance().recordOutput("Vision/Latency", resultLimelight.getLatencyMillis());
     
   }
 }
