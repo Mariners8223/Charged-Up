@@ -28,7 +28,7 @@ import frc.util.humanIO.JoystickAxis;
 public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
-  Gripper gripperV2 = Gripper.getInstance();
+  Gripper gripper = Gripper.getInstance();
 
 
 
@@ -39,7 +39,6 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
-  private static boolean inverted = false;
 
 
   /**
@@ -104,8 +103,10 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
 
     L2Trigger.onTrue(new intakeCommand());
-    // controller.povLeft().onTrue(new InstantCommand(() -> arm.set775PO(0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
-    // controller.povRight().onTrue(new InstantCommand(() -> arm.set775PO(-0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
+    controller.povLeft().onTrue(new InstantCommand(() -> arm.set775PO(0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
+    controller.povRight().onTrue(new InstantCommand(() -> arm.set775PO(-0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
+    controller.povUp().onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+    controller.povDown().onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
     // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     // controller.L1().onTrue(new toggleOrienationSoleniod());
     // controller.R1().onTrue(new toggleOrienationSoleniod());
@@ -117,14 +118,6 @@ public class RobotContainer {
 
   public static double getRawAxis(int axis){
     return controller.getRawAxis(axis);
-  }
-
-  public static void SetInverted(boolean state){
-    inverted = state;
-  }
-
-  public static boolean getInverted(){
-    return inverted;
   }
 
   public static CommandPS5Controller getCotroller() {
