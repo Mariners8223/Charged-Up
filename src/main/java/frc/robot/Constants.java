@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import frc.util.PIDFGains;
@@ -110,6 +111,18 @@ public final class Constants {
   }
 
   public static final class Drivetrain {
+    /**
+     * The constants for the Swerve module.
+     * 
+     * @param idDrive            The ID of the drive motor.
+     * @param driveGains         The drive gains.
+     * @param idSteering         The ID of the steering motor.
+     * @param steeringGains      The steering gains.
+     * @param cancoderZeroAngle  The zero angle of the CANCoder.
+     * @param canCoderId         The CANCoder ID.
+     * @param isSteeringInverted Whether the steering is inverted.
+     * @param isDriveInverted    Whether the drive is inverted.
+     */
     public static class SwerveModuleConstants {
       public static final double freeSpeedMetersPerSecond = 2.000;
       public static final double driveRatio = 6.75;
@@ -117,46 +130,65 @@ public final class Constants {
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
       public static final double wheelCircumferenceMeters = wheelRadiusMeters * 2 * Math.PI;
       public static final double driveDPRMeters = wheelCircumferenceMeters * driveRatio;
+      public static final double steeringPositionConversionFactor = 1 / steeringRatio * 360; // degrees / rotation
+      public static final double steeringVelocityConversionFactor = steeringPositionConversionFactor / 60; // degrees /
+                                                                                                           // (rotations
+                                                                                                           // *
+                                                                                                           // seconds/minute)
+      public final static double cancoderTLOffset = 139.218;
+      public final static double cancoderTROffset = 290.830;
+      public final static double cancoderBLOffset = 234.404;
+      public final static double cancoderBROffset = 179.12109375;
 
-      public final Translation2d position;
       public final int idDrive;
       public final PIDFGains driveGains;
       public final int idSteering;
       public final PIDFGains steeringGains;
       public final double cancoderZeroAngle;
       public final int canCoderId;
+      public final boolean isSteeringInverted;
+      public final boolean isDriveInverted;
 
-      public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, double cancoderZeroAngle,
-          int canCoderId) {
-        this(position, idDrive, idSteering, new PIDFGains(0, 0, 0, 0, 1, 0),
-            new PIDFGains(0.05, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId);
+      public SwerveModuleConstants(int idDrive, int idSteering, double cancoderZeroAngle,
+          int canCoderId, boolean isSteeringInverted, boolean isDriveInverted) {
+        this(idDrive, idSteering, new PIDFGains(0.05, 0, 0, 0, 1, 0),
+            new PIDFGains(0.2, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
       }
 
-      public SwerveModuleConstants(Translation2d position, int idDrive, int idSteering, PIDFGains driveGains,
-          PIDFGains steeringGains, double cancoderZeroAngle, int canCoderId) {
-        this.position = position;
+      public SwerveModuleConstants(int idDrive, int idSteering, PIDFGains driveGains,
+          PIDFGains steeringGains, double cancoderZeroAngle, int canCoderId, boolean isSteeringInverted, boolean isDriveInverted) {
         this.idDrive = idDrive;
         this.driveGains = driveGains;
         this.idSteering = idSteering;
         this.steeringGains = steeringGains;
         this.cancoderZeroAngle = cancoderZeroAngle;
         this.canCoderId = canCoderId;
+        this.isSteeringInverted = isSteeringInverted;
+        this.isDriveInverted = isDriveInverted;
       }
     }
 
-    public static final SwerveModuleConstants TLModule = new SwerveModuleConstants(new Translation2d(-0.215, 0.215), 1,
-        2, 0, 10);
-    public static final SwerveModuleConstants TRModule = new SwerveModuleConstants(new Translation2d(0.215, 0.215), 3,
-        4, 129.462, 11);
-    public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(new Translation2d(-0.215, -0.215), 5,
-        6, 0, 12);
-    public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(new Translation2d(0.215, -0.215), 7,
-        8, 0, 13);
+    public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
+        SwerveModuleConstants.cancoderTLOffset, 10, false, false);
+    public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
+        SwerveModuleConstants.cancoderTROffset, 11, false, false);
+    public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6, 7,
+        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
+    public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
+        SwerveModuleConstants.cancoderBROffset, 13, false, false);
   
-    public static final PIDFGains xAutoPID = new PIDFGains(0.7, 0.0, 0.0);
-    public static final PIDFGains yAutoPID = new PIDFGains(0.7, 0.0, 0.0);
-    public static final PIDFGains angleAutoPID = new PIDFGains(0.4, 0.0, 0.01);
+    public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
+    public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);
+    public static final PIDFGains angleAutoPID = new PIDFGains(0.1, 0.0, 0.0);
+    public static final double kTrackWidth = 0.55; // Distance between right and left wheels
+    public static final double kWheelBase = 0.55; // Distance between front and back wheels
+    public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
+      
   }
 
 
