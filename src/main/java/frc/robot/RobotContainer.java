@@ -10,8 +10,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.primitive.gripper.setGripperState;
-import frc.robot.commands.primitive.orientation.setOrientationSpeed;
-import frc.robot.commands.primitive.orientation.setRampSolenoid;
 import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.gripper.Gripper;
@@ -87,8 +85,6 @@ public class RobotContainer {
     controller.circle().onTrue(new setGripperState(SequenceType.Cone));
     controller.triangle().onTrue(new setGripperState(SequenceType.Cube));
     controller.options().onTrue(new setGripperState(SequenceType.Off));
-    controller.L1().whileTrue(new setOrientationSpeed());
-    controller.R1().onTrue(new setRampSolenoid(false)).onFalse(new setRampSolenoid(true));
 
     R2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
     L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));

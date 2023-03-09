@@ -40,7 +40,6 @@ public final class Constants {
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
   public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
-  public static final int FALCON500_COUNTS_PER_REVOLUTION = 2048;
 
   public static enum Mode {
     /** Running on a real robot. */
