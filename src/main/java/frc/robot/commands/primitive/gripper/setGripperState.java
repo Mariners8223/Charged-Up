@@ -11,7 +11,6 @@ import frc.util.SequenceType;
 
 public class setGripperState extends CommandBase {
   private static Gripper gripper;
-  private static int count;
   private SequenceType state;
   /** Creates a new setSolenoidState. */
   public setGripperState(SequenceType state) {

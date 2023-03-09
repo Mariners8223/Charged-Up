@@ -8,7 +8,7 @@ import frc.robot.subsystems.orientation.Orientation;
 public class intakeCommand extends CommandBase {
   Orientation orientation;
   double deltaTime;
-  public static boolean runRamp;
+  public boolean runRamp;
   public intakeCommand() {
     orientation = Orientation.getInstance();
     runRamp = false;
@@ -28,7 +28,7 @@ public class intakeCommand extends CommandBase {
     if (Timer.getFPGATimestamp() - deltaTime >= 2 && runRamp) {
       orientation.raiseRamp();
       deltaTime = Timer.getFPGATimestamp();
-    } else {
+    } else if (Timer.getFPGATimestamp() - deltaTime >= 1) {
       orientation.lowerRamp();
     }
   }
