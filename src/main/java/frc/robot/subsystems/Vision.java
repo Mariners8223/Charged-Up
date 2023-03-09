@@ -31,9 +31,9 @@ public class Vision extends SubsystemBase {
   private static Pose3d pose3d;
   private static Pose2d pose2d;    
   private static Pose2d lastPose2d;
-  private static PhotonCamera rasberryPiCamera;
+  //private static PhotonCamera rasberryPiCamera;
   private static PhotonCamera limeLightCamera;
-  private static PhotonPoseEstimator cameraPoseEstimator;
+  //private static PhotonPoseEstimator cameraPoseEstimator;
   private static PhotonPoseEstimator limeligPoseEstimator;
   private static double timeStamp;
   private static double latency;
@@ -56,7 +56,7 @@ public class Vision extends SubsystemBase {
     timeStamp = 0;
     latency = 0.0;
 
-    rasberryPiCamera = new PhotonCamera("mariners-cam");
+    //rasberryPiCamera = new PhotonCamera("mariners-cam");
     limeLightCamera = new PhotonCamera("limelight-mariners");//lime light camera?
     
     try {
@@ -64,7 +64,7 @@ public class Vision extends SubsystemBase {
     } catch (IOException e) {}
     m_field = new Field2d();
 
-    cameraPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, rasberryPiCamera, Constants.robotToCam);
+    //cameraPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, rasberryPiCamera, Constants.robotToCam);
     limeligPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, limeLightCamera, Constants.robotToLimeLight);
   
     SmartDashboard.putData("Field", m_field);
