@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.RobotConstants;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
@@ -19,8 +18,8 @@ public class ArmIOTalonSRX implements ArmIO {
   private static ArmIOTalonSRX instance;
     
   private ArmIOTalonSRX() {
-    rotationMotor = new TalonFX(RobotConstants.ARM_ROTATION_MOTOR);
-    extensionMotor = new TalonSRX(RobotConstants.ARM_EXTENSION_MOTOR);
+    rotationMotor = new TalonFX(ArmConstants.ARM_ROTATION);
+    extensionMotor = new TalonSRX(ArmConstants.ARM_EXTENSION);
 
     rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);

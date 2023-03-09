@@ -9,9 +9,12 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.primitive.gripper.setGripperState;
-import frc.robot.subsystems.Tank;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
@@ -29,7 +32,6 @@ public class RobotContainer {
   // Subsystems
   Arm arm = Arm.getInstance();
   Gripper gripperV2 = Gripper.getInstance();
-  Tank tank = Tank.getinstance();
 
 
 
@@ -66,8 +68,15 @@ public class RobotContainer {
       default:
         break;
     }
+
+    Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
+      Drivebase.getInstance().drive(calculateDeadband(controller.getRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          calculateDeadband(-controller.getRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, calculateDeadband(controller.getRawAxis(2)) * 10);
+    }, Drivebase.getInstance()));
+
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("Drive 2m", Autos.exampleAuto(Drivebase.getInstance()));
     // Configure the button bindings
     configureButtonBindings();
 
@@ -82,15 +91,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // controller.cross().onTrue(new toggleOrienationMotors(0.6));
     // controller.square().onTrue(new toggleRampSolenoid());
-    controller.circle().onTrue(new setGripperState(SequenceType.Cone));
-    controller.triangle().onTrue(new setGripperState(SequenceType.Cube));
-    controller.options().onTrue(new setGripperState(SequenceType.Off));
+    // controller.circle().onTrue(new setGripperState(SequenceType.Cone));
+    // controller.triangle().onTrue(new setGripperState(SequenceType.Cube));
+    // controller.options().onTrue(new setGripperState(SequenceType.Off));
 
-    R2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
-    L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+    // R2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+    // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
 
-    controller.povLeft().onTrue(new InstantCommand(() -> arm.set775PO(0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
-    controller.povRight().onTrue(new InstantCommand(() -> arm.set775PO(-0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
+    controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+
+    // controller.povLeft().onTrue(new InstantCommand(() -> arm.set775PO(0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
+    // controller.povRight().onTrue(new InstantCommand(() -> arm.set775PO(-0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
     // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     // controller.L1().onTrue(new toggleOrienationSoleniod());
     // controller.R1().onTrue(new toggleOrienationSoleniod());
@@ -120,5 +131,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public static double calculateDeadband(double value) {
+    if (Math.abs(value) < 0.2) return 0;
+    return value;
   }
 }

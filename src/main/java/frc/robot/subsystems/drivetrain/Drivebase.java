@@ -70,7 +70,6 @@ public class Drivebase extends SubsystemBase {
 
     calibrate();
 
-    reset(new Pose2d());
     NavX.reset();
 
     odometry = new SwerveDriveOdometry(swerveKinematics, Rotation2d.fromDegrees(0), getModulePositions());
@@ -210,7 +209,7 @@ public class Drivebase extends SubsystemBase {
    * @param ySpeed The speed in the y direction.
    * @param rot The rotation.
    */
-  public void drive(double xSpeed, double ySpeed, double rot) {
+  public void drive(double ySpeed, double xSpeed, double rot) {
     SmartDashboard.putNumber("xSpeed", xSpeed);
     SmartDashboard.putNumber("ySpeed", ySpeed);
     SmartDashboard.putNumber("rot", rot);
@@ -292,6 +291,6 @@ public class Drivebase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    update();
   }
 }

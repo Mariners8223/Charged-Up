@@ -11,11 +11,23 @@ import frc.util.SequenceType;
 
 public class setGripperState extends CommandBase {
   private static Gripper gripper;
+  private static int count = 0;
   private SequenceType state;
   /** Creates a new setSolenoidState. */
-  public setGripperState(SequenceType state) {
+  public setGripperState() {
     gripper = Gripper.getInstance();
-    this.state = state;
+    count++;
+    count = count % 3;
+    switch (count) {
+      case 0:
+        this.state = SequenceType.Cone;
+        break;
+      case 1:
+        this.state = SequenceType.Cube;
+      default:
+        this.state = SequenceType.Off;
+        break;
+    }
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gripper);
   }
@@ -42,15 +54,6 @@ public class setGripperState extends CommandBase {
 
     }
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

@@ -29,13 +29,6 @@ public final class Constants {
     static final double width = Units.feetToMeters(27);
   }
 
-  public static class TemporaryConstants {
-    public static final int LEFT_LEADER = 3;
-    public static final int RIGHT_LEADER =
-     10;
-    public static final int LEFT_FOLLOWER = 4;
-    public static final int RIGHT_FOLLOWER = 2;
-  }
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
@@ -53,34 +46,26 @@ public final class Constants {
   }
 
 
-  public static class RobotConstants {
-    public static final int ARM_ROTATION_MOTOR = 7;
-    public static final int ARM_EXTENSION_MOTOR = 8;
-    public static final int ORIENTATION_ELEVATED_MOTOR = 5;
-    public static final int ORIENTATION_RAMP_MOTOR = 6;
-    public static final int[] ORIENTATION_RAMP_SOLENOID_PORTS = {8, 9};
-    public static final int[] ORIENTATION_ELEVATED_SOLENOID_PORTS = {10, 11};
-
-  }
-
-  public static class TempConstants{
-    public static final int ENGINE1_ID = 10;
-    public static final int ENGINE2_ID = 2;
-    public static final int ENGINE3_ID = 3;
-    public static final int ENGINE4_ID = 4;
-
-  }
 
   public static class GripperConstants {
     public static final double GRIPPER_KP = 0.1;
     public static final double GRIPPER_SPEED = 1.0;
     public static final double GRIPPER_GEAR_RATIO = 1.6;
     public static final double GRIPPER_TOLERANCE = Units.degreesToRadians(2);
-    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {13, 15};
+    public static final int[] GRIPPER_DOUBLE_SOLENOID_PORTS = {4, 5};
+  }
+
+  public static class OrientationConstants {
+    public static final int ORIENTATION_ELEVATED_MOTOR = 21;
+    public static final int ORIENTATION_RAMP_MOTOR = 20;
+    public static final int[] ORIENTATION_ELEVATED_SOLENOID_PORTS = {0, 1};
+    public static final int[] ORIENTATION_RAMP_SOLENOID_PORTS = {2, 3};
   }
 
 
   public static class ArmConstants {
+    public static final int ARM_ROTATION = 23;
+    public static final int ARM_EXTENSION = 24;
     public static final double ARM_KA = 0.0;
     public static final double ARM_KV = 0.0;
     public static final double ARM_KG = 0.0;
@@ -134,8 +119,13 @@ public final class Constants {
                                                                                                            // (rotations
                                                                                                            // *
                                                                                                            // seconds/minute)
+      // public final static double cancoderTLOffset = 0;
+      // public final static double cancoderTROffset = 0;
+      // public final static double cancoderBLOffset = 0;
+      // public final static double cancoderBROffset = 0;
+
       public final static double cancoderTLOffset = 139.218;
-      public final static double cancoderTROffset = 290.830;
+      public final static double cancoderTROffset = 130.253;
       public final static double cancoderBLOffset = 234.404;
       public final static double cancoderBROffset = 179.12109375;
 
@@ -151,7 +141,7 @@ public final class Constants {
       public SwerveModuleConstants(int idDrive, int idSteering, double cancoderZeroAngle,
           int canCoderId, boolean isSteeringInverted, boolean isDriveInverted) {
         this(idDrive, idSteering, new PIDFGains(0.05, 0, 0, 0, 1, 0),
-            new PIDFGains(0.2, 0, 0, 0, 1, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
+            new PIDFGains(0.1, 0, 0.1, 0, 1, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
       }
 
       public SwerveModuleConstants(int idDrive, int idSteering, PIDFGains driveGains,

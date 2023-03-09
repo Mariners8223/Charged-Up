@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.OrientationConstants;
 
 public class OrientationIOVictorSPX implements OrientationIO {
   private static OrientationIOVictorSPX instance;
@@ -18,12 +18,12 @@ public class OrientationIOVictorSPX implements OrientationIO {
   public boolean isRunning; // I'm too lazy to implement an efficient system someone else do it
 
   private OrientationIOVictorSPX() {
-    elevatedMotor = new VictorSPX(RobotConstants.ORIENTATION_ELEVATED_MOTOR);
-    rampMotor = new VictorSPX(RobotConstants.ORIENTATION_RAMP_MOTOR);
+    elevatedMotor = new VictorSPX(OrientationConstants.ORIENTATION_ELEVATED_MOTOR);
+    rampMotor = new VictorSPX(OrientationConstants.ORIENTATION_RAMP_MOTOR);
     rampSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-        RobotConstants.ORIENTATION_RAMP_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_RAMP_SOLENOID_PORTS[1]);
+        OrientationConstants.ORIENTATION_RAMP_SOLENOID_PORTS[0], OrientationConstants.ORIENTATION_RAMP_SOLENOID_PORTS[1]);
     elevatedSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-        RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[0], RobotConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[1]);
+        OrientationConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[0], OrientationConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[1]);
     isRunning = false;
     rampSolenoid.set(Value.kReverse);
     elevatedSolenoid.set(Value.kReverse);
