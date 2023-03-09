@@ -11,23 +11,12 @@ import frc.util.SequenceType;
 
 public class setGripperState extends CommandBase {
   private static Gripper gripper;
-  private static int count = 0;
+  private static int count;
   private SequenceType state;
   /** Creates a new setSolenoidState. */
-  public setGripperState() {
+  public setGripperState(SequenceType state) {
     gripper = Gripper.getInstance();
-    count++;
-    count = count % 3;
-    switch (count) {
-      case 0:
-        this.state = SequenceType.Cone;
-        break;
-      case 1:
-        this.state = SequenceType.Cube;
-      default:
-        this.state = SequenceType.Off;
-        break;
-    }
+    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gripper);
   }
