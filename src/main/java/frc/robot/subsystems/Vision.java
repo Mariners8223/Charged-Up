@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.drivetrain.Drivebase;
 
 public class Vision extends SubsystemBase {
   //creates all vars needed for here
@@ -30,7 +31,6 @@ public class Vision extends SubsystemBase {
   private static Vision instance;
   private static Pose3d pose3d;
   private static Pose2d pose2d;    
-  private static Pose2d lastPose2d;
   //private static PhotonCamera rasberryPiCamera;
   private static PhotonCamera limeLightCamera;
   //private static PhotonPoseEstimator cameraPoseEstimator;
@@ -51,7 +51,6 @@ public class Vision extends SubsystemBase {
   //creates new constractur
   private Vision() {
     pose2d = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
-    lastPose2d = pose2d;
     pose3d = new Pose3d(pose2d);
     timeStamp = 0;
     latency = 0.0;
@@ -147,10 +146,9 @@ public class Vision extends SubsystemBase {
     timeStamp = resultLimelight.getTimestampSeconds();
     latency = resultLimelight.getLatencyMillis();
 
-    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(lastPose2d, limeligPoseEstimator);
+    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(Drivebase.getInstance().getPose(), limeligPoseEstimator);
     EstimatedRobotPose camPose = eOptional.get();
     pose3d = camPose.estimatedPose;
-    lastPose2d = pose2d;
     pose2d = camPose.estimatedPose.toPose2d();
     m_field.setRobotPose(pose2d);
 
