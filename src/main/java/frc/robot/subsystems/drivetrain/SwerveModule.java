@@ -97,6 +97,15 @@ public class SwerveModule {
     return sparkMax;
   }
 
+  public void setDesiredAngle(Rotation2d desiredAngle) {
+    desiredAngle = SwerveModuleState.optimize(new SwerveModuleState(0, desiredAngle), currentState.angle).angle;
+
+    SmartDashboard.putNumber(moduleName + "desired angle", minChangeInSteerAngle(desiredAngle.getDegrees()));
+    m_steeringMotor.getPIDController().setReference(degreesToRotations(minChangeInSteerAngle(desiredAngle.getDegrees())),
+        CANSparkMax.ControlType.kPosition);
+    m_driveMotor.set(ControlMode.Disabled, 0);
+  }
+
   /**
   * Configures the CANCoder with the given ID.
   * @param id The ID of the CANCoder to configure.

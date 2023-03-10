@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -44,6 +45,8 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
+    SmartDashboard.putNumber("rotation sensor position", io.getArmAngleDeg());
+    SmartDashboard.putNumber("Extension Length CM", io.getArmEncoder());
   }
 
   public void extendToLengthMeters(double lengthMeters) {
@@ -54,6 +57,8 @@ public class Arm extends SubsystemBase {
     io.moveToAngle(desiredAngleDeg);
   }
 
+  public boolean getExtensionLimitSwitch() { return io.getLimitSwitch(); }
+
   public void setFalconPO(double speed) {
     io.setRotationPrecent(speed);
   }
@@ -61,5 +66,7 @@ public class Arm extends SubsystemBase {
   public void set775PO(double speed) {
     io.setExtensionPrecent(speed);
   }
+
+  
 
 }

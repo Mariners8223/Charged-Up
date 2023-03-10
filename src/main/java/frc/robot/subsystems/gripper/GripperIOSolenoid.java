@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants.GripperConstants;
+import frc.robot.subsystems.pneumatics.Pneumatics;
 
 public class GripperIOSolenoid implements GripperIO {
   private static GripperIOSolenoid instance;
@@ -35,11 +36,13 @@ public class GripperIOSolenoid implements GripperIO {
   @Override
   public void solenoidForward(){
     solenoid.set(Value.kForward);
+    // Pneumatics.getInstance().disableCompressor();
   }
 
   @Override
   public void solenoidBack(){
     solenoid.set(Value.kReverse);
+    Pneumatics.getInstance().enableCompressor();
   }
   
   @Override

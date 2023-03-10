@@ -7,13 +7,21 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
+import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.util.humanIO.JoystickAxis;
@@ -27,8 +35,6 @@ import frc.util.humanIO.JoystickAxis;
  */
 public class RobotContainer {
   // Subsystems
-  Arm arm = Arm.getInstance();
-  Gripper gripper = Gripper.getInstance();
 
 
 
@@ -65,11 +71,6 @@ public class RobotContainer {
         break;
     }
 
-    // Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-    //   Drivebase.getInstance().drive(calculateDeadband(controller.getRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-    //       calculateDeadband(-controller.getRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, calculateDeadband(controller.getRawAxis(2)) * 10);
-    // }, Drivebase.getInstance()));
-
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Drive 2m", Autos.exampleAuto(Drivebase.getInstance()));
@@ -97,22 +98,46 @@ public class RobotContainer {
     controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
     // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
     // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
-    controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidBack()))
-        .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidForward()));
-    controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidBack()))
+    controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
+        .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidBack()));
+    controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
         .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
 
-    L2Trigger.onTrue(new intakeCommand());
-    controller.povLeft().onTrue(new InstantCommand(() -> arm.set775PO(0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
-    controller.povRight().onTrue(new InstantCommand(() -> arm.set775PO(-0.5))).onFalse(new InstantCommand(() -> arm.set775PO(0)));
-    controller.povUp().onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
-    controller.povDown().onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+    // L2Trigger.onTrue(new intakeCommand(0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
+    // R2Trigger.onTrue(new intakeCommand(-0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
+
+
+    controller.L2().whileTrue(new intakeCommand(0.6));
+    controller.R2().whileTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6)))
+        .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+      
+    controller.triangle().onTrue(new InstantCommand(() -> {
+      Orientation.getInstance().setSpeed(0.6);
+    })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+
+    // R2Trigger.onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6)))
+    //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    // L2Trigger.onTrue(new InstantCommand(() ->  Orientation.getInstance().lowerRamp()))
+
+    controller.circle().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+    controller.square().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+    controller.povUp().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
+    controller.povDown().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
     // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     // controller.L1().onTrue(new toggleOrienationSoleniod());
     // controller.R1().onTrue(new toggleOrienationSoleniod());
     // controller.povRight().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     // controller.povUp().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 91));
     // controller.povLeft().onTrue(new ExtendOrRotateArm(SequenceType.Arm, -17));
+    // controller.povUp().onTrue(new RotateArmToPoint(100));
+    // controller.povUpLeft().onTrue(new RotateArmToPoint(80));
+    // controller.povLeft().onTrue(new RotateArmToPoint(45));
+    // controller.povDown().onTrue(new RotateArmToPoint(0));
+    // controller.povDownLeft().onTrue(new RotateArmToPoint(-15));
+    // controller.circle().onTrue(new extendArmToLength(30));
+    // controller.square().onTrue(new extendArmToLength(0));
+    controller.share().onTrue(new extendArmToLength(0));
+    controller.options().onTrue(new extendArmToLength(-2));
   }
   
 

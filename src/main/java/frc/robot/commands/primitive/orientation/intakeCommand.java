@@ -1,43 +1,34 @@
 package frc.robot.commands.primitive.orientation;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.orientation.Orientation;
+import frc.robot.subsystems.pneumatics.Pneumatics;
 
 public class intakeCommand extends CommandBase {
   Orientation orientation;
-  double deltaTime;
-  public boolean runRamp;
-  public intakeCommand() {
+  double speed;
+  public intakeCommand(double speed) {
     orientation = Orientation.getInstance();
-    runRamp = false;
+    this.speed = speed;
   }
 
   @Override
   public void initialize() {
-    deltaTime = Timer.getFPGATimestamp();
+    System.out.println("the fuck??");
     orientation.lowerRamp();
     orientation.lowerOrientation();
-    orientation.setSpeed(0.6);
+    orientation.setSpeed(speed);
+    // Pneumatics.getInstance().disableCompressor();
   }
 
-  @Override
-  public void execute() {
-    if (!runRamp) runRamp = RobotContainer.getR2JoystickAxis().getAsBoolean();
-    if (Timer.getFPGATimestamp() - deltaTime >= 2 && runRamp) {
-      orientation.raiseRamp();
-      deltaTime = Timer.getFPGATimestamp();
-    } else if (Timer.getFPGATimestamp() - deltaTime >= 1) {
-      orientation.lowerRamp();
-    }
-  }
 
   @Override
   public void end(boolean interrupted) {
     orientation.stop();
     orientation.raiseRamp();
     orientation.raiseOrientation();
+    // Pneumatics.getInstance().enableCompressor();
   }
 
   @Override

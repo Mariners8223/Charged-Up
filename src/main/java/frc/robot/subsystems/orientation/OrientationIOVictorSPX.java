@@ -1,6 +1,8 @@
 package frc.robot.subsystems.orientation;
 
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -25,7 +27,7 @@ public class OrientationIOVictorSPX implements OrientationIO {
     elevatedSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
         OrientationConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[0], OrientationConstants.ORIENTATION_ELEVATED_SOLENOID_PORTS[1]);
     isRunning = false;
-    rampSolenoid.set(Value.kReverse);
+    rampSolenoid.set(Value.kForward);
     elevatedSolenoid.set(Value.kReverse);
   }
 
@@ -37,8 +39,9 @@ public class OrientationIOVictorSPX implements OrientationIO {
 
   @Override
   public void updateInputs(OrientationIOInputs inputs) {
-    inputs.isOrientaionClosed = (Value.kReverse == elevatedSolenoid.get());
-    inputs.isRampClosed = (Value.kReverse == rampSolenoid.get());
+    // inputs.isOrientaionClosed = (Value.kReverse == elevatedSolenoid.get());
+    inputs.isOrientaionClosed = false;
+    // inputs.isRampClosed = (Value.kReverse == rampSolenoid.get());
     inputs.isRunning = isRunning;
   }
 

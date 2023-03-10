@@ -19,7 +19,7 @@ public class PneumaticsIORevPH implements PneumaticsIO {
 
   @Override
   public void updateInputs(PneumaticsIOInputs inputs) {
-    inputs.isEnabled = compressor.isEnabled();
+    // inputs.isEnabled = compressor.isEnabled();
   }
 
   @Override

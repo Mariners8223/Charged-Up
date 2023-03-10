@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -14,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -84,7 +85,7 @@ public class Drivebase extends SubsystemBase {
       }
     }));
 
-    CommandScheduler.getInstance().registerSubsystem(this);
+    // CommandScheduler.getInstance().registerSubsystem(this);
   }
 
   /**
@@ -225,7 +226,7 @@ public class Drivebase extends SubsystemBase {
         desiredStates = swerveKinematics.toSwerveModuleStates(new ChassisSpeeds(xSpeed, ySpeed, rot));
         break;
     }
-    System.out.println(this.targetSpeeds);
+    // System.out.println(this.targetSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveModuleConstants.freeSpeedMetersPerSecond);
     for (wheels wheel : wheels.values()) {
       swerveModules[wheel.ordinal()].set(desiredStates[wheel.ordinal()]);

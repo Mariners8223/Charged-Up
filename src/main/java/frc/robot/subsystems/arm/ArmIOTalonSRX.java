@@ -4,39 +4,34 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
   private TalonSRX extensionMotor;
+  private DigitalInput extensionLimitSwitch;
 
   private static ArmIOTalonSRX instance;
     
   private ArmIOTalonSRX() {
     rotationMotor = new TalonFX(ArmConstants.ARM_ROTATION);
     extensionMotor = new TalonSRX(ArmConstants.ARM_EXTENSION);
+    extensionLimitSwitch = new DigitalInput(ArmConstants.EXTENSION_LIMIT_SWITCH_PORT);
 
-    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
 
     rotationMotor.config_kP(0, ArmConstants.ARM_ROTATION_KP);
     rotationMotor.config_kI(0, ArmConstants.ARM_ROTATION_KI);
     rotationMotor.config_kD(0, ArmConstants.ARM_ROTATION_KD);
     rotationMotor.config_kF(0, ArmConstants.ARM_ROTATION_KF);
     rotationMotor.setInverted(InvertType.InvertMotorOutput);
-    rotationMotor.configOpenloopRamp(0.3, 100);
-    rotationMotor.configClosedloopRamp(0.3, 100);
-    rotationMotor.configForwardSoftLimitThreshold(ArmConstants.ARM_FORWARD_SOFT_LIMIT, 0);
-    rotationMotor.configReverseSoftLimitThreshold(ArmConstants.ARM_REVERSE_SOFT_LIMIT, 0);
-    rotationMotor.configForwardSoftLimitEnable(true, 0);
-    rotationMotor.configReverseSoftLimitEnable(false, 0);
-    rotationMotor.configVoltageCompSaturation(12);
-    rotationMotor.enableVoltageCompensation(true);
+    rotationMotor.configOpenloopRamp(0.2);
+    rotationMotor.configClosedloopRamp(0.2);
 
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);
@@ -46,9 +41,11 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.setNeutralMode(NeutralMode.Brake);
     extensionMotor.setNeutralMode(NeutralMode.Brake);
 
+    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
     rotationMotor.setSelectedSensorPosition(0);
     extensionMotor.setSelectedSensorPosition(0);
-    rotationMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 100);
   }
 
   public static ArmIOTalonSRX getInstance() {
@@ -59,12 +56,24 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.armAngleDeg = getArmAngleDeg();
-    inputs.armExtensionMeters = getArmLengthMeters();
+    // inputs.armAngleDeg = getArmAngleDeg();
+    // inputs.armExtensionMeters = getArmLengthMeters();
   }
 
   public void resetRotation(){
     rotationMotor.setSelectedSensorPosition(0);
+  }
+
+  public boolean getLimitSwitch() {
+    return extensionLimitSwitch.get();
+  }
+
+  public double getRotationEncoder() {
+    return rotationMotor.getSelectedSensorPosition();
+  }
+
+  public double getArmEncoder() {
+    return extensionMotor.getSelectedSensorPosition();
   }
 
   public void resetExtension(){
@@ -85,8 +94,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
 
   public double getArmLengthMeters() {
-    return extensionMotor.getSelectedSensorPosition() / Constants.SRX_MAG_COUNTS_PER_REVOLUTION * ArmConstants.DISTANCE_PER_REVOLUTION_CM;
-
+    return extensionMotor.getSelectedSensorPosition() * ArmConstants.DISTANCE_PER_REVOLUTION_CM;
   }
 
   public boolean isArmAtSetpoint() {
@@ -110,7 +118,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void extendToLength(double extensionCM) {
-    extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM * Constants.SRX_MAG_COUNTS_PER_REVOLUTION);
+    extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM);
   }
 
   public void setExtensionPrecent(double speed){
