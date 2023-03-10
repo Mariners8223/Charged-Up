@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.Autonomous.BalanceOnRamp;
+import frc.robot.commands.Autonomous.EnterRamp;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
@@ -106,6 +109,7 @@ public class RobotContainer {
     // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
 
     controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+    controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
     // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
     // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
     controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))

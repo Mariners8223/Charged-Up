@@ -122,10 +122,10 @@ public final class Constants {
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
-      public final static double cancoderTLOffset = 139.218;
-      public final static double cancoderTROffset = 130.253;
-      public final static double cancoderBLOffset = 234.404;
-      public final static double cancoderBROffset = 179.12109375;
+      public final static double cancoderTLOffset = 149.589;
+      public final static double cancoderTROffset = 134.033;
+      public final static double cancoderBLOffset = 237.128;
+      public final static double cancoderBROffset = 2.636;
 
       public final int idDrive;
       public final PIDFGains driveGains;

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivebase;
 
@@ -23,19 +24,20 @@ public class EnterRamp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!(Math.abs(drivebase.getPitch()) >= 10)){
-      drivebase.drive(1, 0, 0);
+    if(!(Math.abs(drivebase.getPitch()) >= 15)){
+      drivebase.drive(0, 1.5, 0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putString("balance first", "finished retard");
   }
-
+ 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return((Math.abs(drivebase.getPitch()) >= 10));
+    return((Math.abs(drivebase.getPitch()) >= 15));
   }
 }

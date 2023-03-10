@@ -43,15 +43,15 @@ public class BalanceOnRamp extends CommandBase {
     double speedMultiplyer = 0;
 
     if(Math.abs(drivebase.getPitch())  > 10){
-      speedMultiplyer = 0.5;
+      speedMultiplyer = 1;
       timeSeinceLastAdjust = Timer.getFPGATimestamp();
     }
     else if(Math.abs(drivebase.getPitch()) > 3){
-      speedMultiplyer = 0.3;
+      speedMultiplyer = 0.5;
       timeSeinceLastAdjust = Timer.getFPGATimestamp();
     }
 
-    drivebase.drive(speedDircation * speedMultiplyer, 0, 0);
+    drivebase.drive(0, speedDircation * speedMultiplyer, 0);
   }
 
   // Called once the command ends or is interrupted.
