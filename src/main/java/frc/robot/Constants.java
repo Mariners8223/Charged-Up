@@ -67,10 +67,7 @@ public final class Constants {
     public static final int ARM_ROTATION = 28;
     public static final int EXTENSION_LIMIT_SWITCH_PORT = 0;
     public static final int ARM_EXTENSION = 24;
-    public static final double ARM_KA = 0.0;
-    public static final double ARM_KV = 0.0;
-    public static final double ARM_KG = 0.0;
-    public static final double ARM_KS = 0.0;
+
 
     public static final double ARM_ROTATION_KP = 0.05;
     // public static final double ARM_ROTATION_KP = 0.0;
@@ -87,9 +84,9 @@ public final class Constants {
 
     public static final double ARM_ROTATION_GEAR_RATIO = 776.25;
     public static final double ARM_EXTENSION_GEAR_RATIO = 2.3;
-    public static final double DISTANCE_PER_REVOLUTION_CM = 1.609;
+    public static final double ARM_EXTENSION_CM_PER_REVOLUTION = (24200) / 38.2;
 
-    public static final double ARM_EXTENSION_TOLERANCE = 1 / DISTANCE_PER_REVOLUTION_CM * SRX_MAG_COUNTS_PER_REVOLUTION;
+    public static final double ARM_EXTENSION_TOLERANCE = 1 * ARM_EXTENSION_CM_PER_REVOLUTION;
 
 
     
@@ -109,7 +106,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static final double freeSpeedMetersPerSecond = 4.000;
+      public static final double freeSpeedMetersPerSecond = 2.000;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)

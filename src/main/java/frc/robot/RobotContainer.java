@@ -9,14 +9,13 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.arm.Arm;
@@ -75,6 +74,13 @@ public class RobotContainer {
         break;
     }
 
+    Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
+      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(RobotContainer.getCotroller().getRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          RobotContainer.calculateDeadband(-RobotContainer.getCotroller().getRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(RobotContainer.getCotroller().getRawAxis(2)) * 10);
+    }, Drivebase.getInstance()));
+
+
+
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Drive 2m", Autos.exampleAuto(Drivebase.getInstance()));
@@ -123,10 +129,10 @@ public class RobotContainer {
     //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     // L2Trigger.onTrue(new InstantCommand(() ->  Orientation.getInstance().lowerRamp()))
 
-    controller.circle().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
-    controller.square().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
-    controller.povUp().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
-    controller.povDown().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
+    // controller.circle().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+    // controller.square().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+    // controller.povUp().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
+    // controller.povDown().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
     // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
     // controller.L1().onTrue(new toggleOrienationSoleniod());
     // controller.R1().onTrue(new toggleOrienationSoleniod());
@@ -140,8 +146,11 @@ public class RobotContainer {
     // controller.povDownLeft().onTrue(new RotateArmToPoint(-15));
     // controller.circle().onTrue(new extendArmToLength(30));
     // controller.square().onTrue(new extendArmToLength(0));
-    controller.share().onTrue(new extendArmToLength(0));
-    controller.options().onTrue(new extendArmToLength(-2));
+    controller.povDown().onTrue(new extendArmToLength(10));
+    controller.povRight().onTrue(new extendArmToLength(0));
+    controller.povLeft().onTrue(new extendArmToLength(20));
+    controller.povUp().onTrue(new calibrateArm());
+        // .onFalse(new InstantCommand(() -> Arm.getInstance().extendToLengthMeters(2)));
   }
   
 

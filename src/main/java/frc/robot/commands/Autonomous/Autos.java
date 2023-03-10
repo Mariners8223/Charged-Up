@@ -22,7 +22,7 @@ public final class Autos {
   }
 
   public static CommandBase exampleAuto(Drivebase swerve) {
-    PathPlannerTrajectory trajectory = PathPlanner.loadPath("example path", new PathConstraints(2.0, 0.5));
+    PathPlannerTrajectory trajectory = PathPlanner.loadPath("ExamplePath", new PathConstraints(2.0, 0.5));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("event 1", new PrintCommand("Passed event 1"));
 

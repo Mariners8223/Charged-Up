@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ArmConstants;
 
 public class Arm extends SubsystemBase {
   private static Arm instance;
@@ -50,7 +51,9 @@ public class Arm extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Arm", inputs);
     SmartDashboard.putNumber("rotation sensor position", io.getArmAngleDeg());
-    SmartDashboard.putNumber("Extension Length CM", io.getArmEncoder());
+    SmartDashboard.putNumber("Extension Length CM", io.getArmEncoder() / ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION);
+    SmartDashboard.putBoolean("limit switch", io.getLimitSwitch());
+    if (io.getLimitSwitch()) io.resetExtensionEncoder(-2);
   }
 
   public void extendToLengthMeters(double lengthMeters) {
@@ -69,6 +72,9 @@ public class Arm extends SubsystemBase {
     io.setRotationPrecent(speed);
   }
 
+  public void resetExtensionEncoder(double CM) {
+    io.resetExtensionEncoder(CM);
+  }
   public void set775PO(double speed) {
     io.setExtensionPrecent(speed);
   }

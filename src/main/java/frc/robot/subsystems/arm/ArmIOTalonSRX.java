@@ -23,6 +23,8 @@ public class ArmIOTalonSRX implements ArmIO {
     extensionMotor = new TalonSRX(ArmConstants.ARM_EXTENSION);
     extensionLimitSwitch = new DigitalInput(ArmConstants.EXTENSION_LIMIT_SWITCH_PORT);
 
+    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 
     rotationMotor.config_kP(0, ArmConstants.ARM_ROTATION_KP);
@@ -36,13 +38,15 @@ public class ArmIOTalonSRX implements ArmIO {
     extensionMotor.config_kP(0, ArmConstants.ARM_EXTENSION_KP);
     extensionMotor.config_kI(0, ArmConstants.ARM_EXTENSION_KI);
     extensionMotor.config_kD(0, ArmConstants.ARM_EXTENSION_KD);
+    extensionMotor.setSensorPhase(true);
+    extensionMotor.setInverted(InvertType.None);
 
     
     rotationMotor.setNeutralMode(NeutralMode.Brake);
     extensionMotor.setNeutralMode(NeutralMode.Brake);
 
-    rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+    
 
     rotationMotor.setSelectedSensorPosition(0);
     extensionMotor.setSelectedSensorPosition(0);
@@ -52,6 +56,10 @@ public class ArmIOTalonSRX implements ArmIO {
     if (instance == null)
       instance = new ArmIOTalonSRX();
     return instance;
+  }
+
+  public void resetExtensionEncoder(double CM) {
+    extensionMotor.setSelectedSensorPosition(CM * ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION);
   }
 
   @Override
@@ -65,7 +73,7 @@ public class ArmIOTalonSRX implements ArmIO {
   }
 
   public boolean getLimitSwitch() {
-    return extensionLimitSwitch.get();
+    return !extensionLimitSwitch.get();
   }
 
 
@@ -95,7 +103,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
 
   public double getArmLengthMeters() {
-    return extensionMotor.getSelectedSensorPosition() * ArmConstants.DISTANCE_PER_REVOLUTION_CM;
+    return extensionMotor.getSelectedSensorPosition() * ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION;
   }
 
   public boolean isArmAtSetpoint() {
@@ -119,7 +127,7 @@ public class ArmIOTalonSRX implements ArmIO {
 
   @Override
   public void extendToLength(double extensionCM) {
-    extensionMotor.set(ControlMode.Position, extensionCM / ArmConstants.DISTANCE_PER_REVOLUTION_CM);
+    extensionMotor.set(ControlMode.Position, extensionCM * ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION);
   }
 
   public void setExtensionPrecent(double speed){

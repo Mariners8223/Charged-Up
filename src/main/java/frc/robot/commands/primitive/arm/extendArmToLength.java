@@ -4,6 +4,8 @@
 
 package frc.robot.commands.primitive.arm;
 
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.Arm;
 
@@ -22,15 +24,21 @@ public class extendArmToLength extends CommandBase {
   @Override
   public void initialize() {
     arm.extendToLengthMeters(length);
+    SmartDashboard.putString("extension command","does this work");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    SmartDashboard.putString("extension command","it does");
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    SmartDashboard.putString("extension command","it did");
+    arm.stopExtensionMotor();
+  }
 
   // Returns true when the command should end.
   @Override
