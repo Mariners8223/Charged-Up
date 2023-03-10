@@ -1,5 +1,6 @@
 package frc.robot.subsystems.arm;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -8,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 public class ArmIOTalonSRX implements ArmIO {
@@ -67,6 +67,7 @@ public class ArmIOTalonSRX implements ArmIO {
   public boolean getLimitSwitch() {
     return extensionLimitSwitch.get();
   }
+
 
   public double getRotationEncoder() {
     return rotationMotor.getSelectedSensorPosition();

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
@@ -36,6 +37,8 @@ import frc.util.humanIO.JoystickAxis;
 public class RobotContainer {
   // Subsystems
 
+  // Triggers
+
 
 
   // Controller
@@ -54,6 +57,7 @@ public class RobotContainer {
     Pneumatics.getInstance();
     Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
+
 
     switch (Constants.currentMode) {
       // Real robot, instantiate hardware IO implementations

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drivetrain;
 
-import org.littletonrobotics.junction.Logger;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -66,7 +65,7 @@ public class Drivebase extends SubsystemBase {
     NavX = new AHRS();
 
     swerveKinematics = Drivetrain.swerveKinematics;
-
+    targetSpeeds = new ChassisSpeeds(0, 0, 0);
     driveMode = controlMode.fieldOriented;
 
     calibrate();

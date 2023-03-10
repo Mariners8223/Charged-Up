@@ -36,6 +36,7 @@ public final class Autos {
       swerve
     );
 
-    return Commands.sequence(autoBuilder.fullAuto(trajectory));
+    // return Commands.sequence(autoBuilder.fullAuto(trajectory));
+    return autoBuilder.fullAuto(trajectory);
   }
 }

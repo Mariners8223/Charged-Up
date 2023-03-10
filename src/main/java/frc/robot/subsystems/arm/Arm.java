@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems.arm;
 
+
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Arm extends SubsystemBase {
   private static Arm instance;
@@ -17,6 +20,7 @@ public class Arm extends SubsystemBase {
 
   private Arm(ArmIOTalonSRX io) {
     this.io = io;
+    new Trigger(this::getExtensionLimitSwitch).onTrue(new PrintCommand("fucking finally"));
   }
 
   public static Arm getInstance() {
@@ -57,7 +61,9 @@ public class Arm extends SubsystemBase {
     io.moveToAngle(desiredAngleDeg);
   }
 
-  public boolean getExtensionLimitSwitch() { return io.getLimitSwitch(); }
+  public Boolean getExtensionLimitSwitch() { return io.getLimitSwitch(); }
+
+
 
   public void setFalconPO(double speed) {
     io.setRotationPrecent(speed);

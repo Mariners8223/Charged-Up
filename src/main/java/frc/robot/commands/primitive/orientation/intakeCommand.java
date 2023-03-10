@@ -1,9 +1,7 @@
 package frc.robot.commands.primitive.orientation;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.orientation.Orientation;
-import frc.robot.subsystems.pneumatics.Pneumatics;
 
 public class intakeCommand extends CommandBase {
   Orientation orientation;

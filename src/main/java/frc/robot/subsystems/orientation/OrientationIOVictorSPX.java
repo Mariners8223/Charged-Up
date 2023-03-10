@@ -1,7 +1,6 @@
 package frc.robot.subsystems.orientation;
 
 
-import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
