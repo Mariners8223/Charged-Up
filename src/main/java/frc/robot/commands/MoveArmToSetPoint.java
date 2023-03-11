@@ -13,7 +13,7 @@ import frc.util.SequenceType;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class MoveArmToSetPoint extends SequentialCommandGroup {
-  private SequenceType lastPostion;
+  private SequenceType lastPostion = SequenceType.Orienation;
   private SequenceType postion = SequenceType.Orienation;
   /** Creates a new MoveArmToSetPoint. */
   public MoveArmToSetPoint(boolean state) {
@@ -43,18 +43,22 @@ public class MoveArmToSetPoint extends SequentialCommandGroup {
       switch(lastPostion){
         case Orienation:
           postion = SequenceType.Orienation;
+          System.out.println("Orienation");
           break;
         
         case GridFloor:
           postion = SequenceType.Orienation;
+          System.out.println("GridFloor");
           break;
 
         case GridLevel1:
           postion = SequenceType.GridFloor;
+          System.out.println("gridshit");
           break;
         
         case GridLevel2:
           postion = SequenceType.GridLevel1;
+          System.out.println("gridup");
           break;
       }
     }

@@ -185,7 +185,7 @@ public class RobotContainer {
 
 
     driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    driveController.L1().onTrue(new intakeCommand(0.6));
+    driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
     driveController.R1().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.R1().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
@@ -195,6 +195,7 @@ public class RobotContainer {
 
     subController.povUp().onTrue(new MoveArmToSetPoint(true));
     subController.povDown().onTrue(new MoveArmToSetPoint(false));
+    subController.povLeft().onTrue(new calibrateArm());
     subController.L1().onTrue(new setGripperState(SequenceType.Cone)); subController.L1().onFalse(new setGripperState(SequenceType.Off));
     subController.R1().onTrue(new setGripperState(SequenceType.Cube)); subController.R1().onFalse(new setGripperState(SequenceType.Off));
     subController.cross().onTrue(new SequentialCommandGroup(new extendArmToLength(0), new RotateArmToPoint(0), new extendArmToLength(23)));
