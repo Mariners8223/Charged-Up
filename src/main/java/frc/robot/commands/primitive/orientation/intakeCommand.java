@@ -13,7 +13,6 @@ public class intakeCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    System.out.println("the fuck??");
     orientation.lowerRamp();
     orientation.lowerOrientation();
     orientation.setSpeed(speed);

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.MoveArmToSetPoint;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
@@ -51,9 +52,10 @@ public class RobotContainer {
 
 
   // Controller
-  private static final CommandPS5Controller controller = new CommandPS5Controller(0);
-  private static final JoystickAxis R2Trigger = new JoystickAxis(controller, 4);
-  private static final JoystickAxis L2Trigger = new JoystickAxis(controller, 3);
+  private static final CommandPS5Controller driveController = new CommandPS5Controller(0);
+  private static final CommandPS5Controller subController = new CommandPS5Controller(1);
+  private static final JoystickAxis driveR2Trigger = new JoystickAxis(driveController, 4);
+  private static final JoystickAxis driveL2Trigger = new JoystickAxis(driveController, 3);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -88,8 +90,8 @@ public class RobotContainer {
     }
 
     Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(RobotContainer.getCotroller().getRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(-RobotContainer.getCotroller().getRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(RobotContainer.getCotroller().getRawAxis(2)) * 10);
+      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          RobotContainer.calculateDeadband(-getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 10);
     }, Drivebase.getInstance()));
 
 
@@ -109,88 +111,120 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // controller.cross().onTrue(new toggleOrienationMotors(0.6));
-    // controller.square().onTrue(new toggleRampSolenoid());
-    // controller.circle().onTrue(new setGripperState(SequenceType.Cone));
-    // controller.triangle().onTrue(new setGripperState(SequenceType.Cube));
-    // controller.options().onTrue(new setGripperState(SequenceType.Off));
+  //   // controller.cross().onTrue(new toggleOrienationMotors(0.6));
+  //   // controller.square().onTrue(new toggleRampSolenoid());
+  //   // controller.circle().onTrue(new setGripperState(SequenceType.Cone));
+  //   // controller.triangle().onTrue(new setGripperState(SequenceType.Cube));
+  //   // controller.options().onTrue(new setGripperState(SequenceType.Off));
 
-    // R2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
-    // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+  //   // R2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
+  //   // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
 
-    controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    controller.triangle().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp()));
-    controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
-    // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
-    // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
-    //controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
-        // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidBack()));
-    //controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
-       // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
+  //   controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+  //   controller.triangle().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp()));
+  //   controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
+  //   // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
+  //   // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
+  //   //controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
+  //       // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidBack()));
+  //   //controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
+  //      // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
 
-    // L2Trigger.onTrue(new intakeCommand(0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
-    // R2Trigger.onTrue(new intakeCommand(-0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
+  //   // L2Trigger.onTrue(new intakeCommand(0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
+  //   // R2Trigger.onTrue(new intakeCommand(-0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
 
 
-    //controller.L2().whileTrue(new intakeCommand(0.6));
-   // controller.R2().whileTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6)))
-       // .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+  //   //controller.L2().whileTrue(new intakeCommand(0.6));
+  //  // controller.R2().whileTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6)))
+  //      // .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
       
-    //controller.triangle().onTrue(new InstantCommand(() -> {
-    // Orientation.getInstance().setSpeed(0.6);
-   // })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+  //   //controller.triangle().onTrue(new InstantCommand(() -> {
+  //   // Orientation.getInstance().setSpeed(0.6);
+  //  // })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
 
-    //controller.square().onTrue(new testArm());
-   //controller.touchpad().onTrue(new testArmHigh());
-    controller.options().onTrue(new SequentialCommandGroup(
-      new calibrateArm(),
-      new Wait(0.25),
-      new RotateArmToPoint(0),
-      new setGripperState(SequenceType.Off),
-      new extendArmToLength(27)
-    ));
+  //   //controller.square().onTrue(new testArm());
+  //  //controller.touchpad().onTrue(new testArmHigh());
+  //   controller.options().onTrue(new SequentialCommandGroup(
+  //     new calibrateArm(),
+  //     new Wait(0.25),
+  //     new RotateArmToPoint(0),
+  //     new setGripperState(SequenceType.Off),
+  //     new extendArmToLength(27)
+  //   ));
 
-    // R2Trigger.onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6)))
-    //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
-    // L2Trigger.onTrue(new InstantCommand(() ->  Orientation.getInstance().lowerRamp()))
+  //   // R2Trigger.onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6)))
+  //   //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+  //   // L2Trigger.onTrue(new InstantCommand(() ->  Orientation.getInstance().lowerRamp()))
 
-    // controller.circle().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
-    // controller.square().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
-    // controller.povUp().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
-    // controller.povDown().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
-    // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
-    // controller.L1().onTrue(new toggleOrienationSoleniod());
-    // controller.R1().onTrue(new toggleOrienationSoleniod());
-    // controller.povRight().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
-    // controller.povUp().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 91));
-    // controller.povLeft().onTrue(new ExtendOrRotateArm(SequenceType.Arm, -17));
-    // controller.povUp().onTrue(new RotateArmToPoint(100));
-    // controller.povUpLeft().onTrue(new RotateArmToPoint(80));
-    // controller.povLeft().onTrue(new RotateArmToPoint(45));
-    // controller.povDown().onTrue(new RotateArmToPoint(0));
-    // controller.povDownLeft().onTrue(new RotateArmToPoint(-15));
-    // controller.circle().onTrue(new extendArmToLength(30));
-    // controller.square().onTrue(new extendArmToLength(0));
+  //   // controller.circle().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+  //   // controller.square().whileTrue(new InstantCommand(() -> Arm.getInstance().set775PO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopExtensionMotor()));
+  //   // controller.povUp().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
+  //   // controller.povDown().whileTrue(new InstantCommand(() -> Arm.getInstance().setFalconPO(-0.5))).onFalse(new InstantCommand(() -> Arm.getInstance().stopRotationMotor()));
+  //   // controller.povDown().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
+  //   // controller.L1().onTrue(new toggleOrienationSoleniod());
+  //   // controller.R1().onTrue(new toggleOrienationSoleniod());
+  //   // controller.povRight().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 0));
+  //   // controller.povUp().onTrue(new ExtendOrRotateArm(SequenceType.Arm, 91));
+  //   // controller.povLeft().onTrue(new ExtendOrRotateArm(SequenceType.Arm, -17));
+  //   // controller.povUp().onTrue(new RotateArmToPoint(100));
+  //   // controller.povUpLeft().onTrue(new RotateArmToPoint(80));
+  //   // controller.povLeft().onTrue(new RotateArmToPoint(45));
+  //   // controller.povDown().onTrue(new RotateArmToPoint(0));
+  //   // controller.povDownLeft().onTrue(new RotateArmToPoint(-15));
+  //   // controller.circle().onTrue(new extendArmToLength(30));
+  //   // controller.square().onTrue(new extendArmToLength(0));
     
-    controller.povDown().onTrue(new extendArmToLength(10));
-    controller.povRight().onTrue(new extendArmToLength(0));
-    controller.povLeft().onTrue(new extendArmToLength(20));
-    controller.povUp().onTrue(new calibrateArm());
-    controller.share().onTrue(new PutConeOnSecondGrid());
-        // .onFalse(new InstantCommand(() -> Arm.getInstance().extendToLengthMeters(2)));
-  }
-  
+  //   controller.povDown().onTrue(new extendArmToLength(10));
+  //   controller.povRight().onTrue(new extendArmToLength(0));
+  //   controller.povLeft().onTrue(new extendArmToLength(20));
+  //   controller.povUp().onTrue(new calibrateArm());
+  //   controller.share().onTrue(new PutConeOnSecondGrid());
+  //       // .onFalse(new InstantCommand(() -> Arm.getInstance().extendToLengthMeters(2)));
 
-  public static double getRawAxis(int axis){
-    return controller.getRawAxis(axis);
+
+
+
+    driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+    driveController.L1().onTrue(new intakeCommand(0.6));
+    driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
+    driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
+    driveController.R1().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.R1().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    driveController.R2().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.R2().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+
+
+
+    subController.povUp().onTrue(new MoveArmToSetPoint(true));
+    subController.povDown().onTrue(new MoveArmToSetPoint(false));
+    subController.L1().onTrue(new setGripperState(SequenceType.Cone)); subController.L1().onFalse(new setGripperState(SequenceType.Off));
+    subController.R1().onTrue(new setGripperState(SequenceType.Cube)); subController.R1().onFalse(new setGripperState(SequenceType.Off));
+    subController.cross().onTrue(new SequentialCommandGroup(new extendArmToLength(0), new RotateArmToPoint(0), new extendArmToLength(23)));
+
+    //TODO- add manual adjustment
+
+
+
   }
 
-  public static CommandPS5Controller getCotroller() {
-    return controller;
+
+  public double getDriveControllerRawAxis(int axis){
+    return driveController.getRawAxis(axis);
   }
 
-  public static JoystickAxis getR2JoystickAxis() { return R2Trigger; }
-  public static JoystickAxis getL2JoystickAxis() { return L2Trigger; }
+  public double getSubControllerRawAxis(int axis){
+    return subController.getRawAxis(axis);
+  }
+
+
+  public CommandPS5Controller getDriveController(){
+    return driveController;
+  }
+
+  public CommandPS5Controller getSubController(){
+    return subController;
+  }
+
+  public static JoystickAxis getDriveR2JoystickAxis() { return driveR2Trigger; }
+  public static JoystickAxis getDriveL2JoystickAxis() { return driveL2Trigger; }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

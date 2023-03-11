@@ -19,7 +19,7 @@ public class LimeLight extends SubsystemBase {
   private static LimeLight Instance;
   private static PhotonCamera LimeLight;
   private static Double distanceToTarget;
-  private static double pitchToTarget;
+  private static double YawToTarget;
   private static double timeStamp;
   private static boolean isLimeLightModeAprilTags;
   private static double latency;
@@ -36,11 +36,11 @@ public class LimeLight extends SubsystemBase {
     isLimeLightModeAprilTags = true;
     latency = 0.0;
     distanceToTarget = 0.0;
-    pitchToTarget = 0.0;
+    YawToTarget = 0.0;
     timeStamp = 0.0;
 
     SmartDashboard.putNumber("distance to target", distanceToTarget);
-    SmartDashboard.putNumber("pitch to target", pitchToTarget);
+    SmartDashboard.putNumber("pitch to target", YawToTarget);
     SmartDashboard.putBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
   }
 
@@ -51,8 +51,8 @@ public class LimeLight extends SubsystemBase {
   public double getDistanceToTarget(){
     return distanceToTarget;
   }
-  public double getPitchToTarget(){
-    return pitchToTarget;
+  public double getYawToTarget(){
+    return YawToTarget;
   }
 
   public double getLatency(){
@@ -85,17 +85,17 @@ public class LimeLight extends SubsystemBase {
 
     PhotonPipelineResult result = LimeLight.getLatestResult();
     distanceToTarget = 0.0;
-    pitchToTarget = 0.0;
+    YawToTarget = 0.0;
     timeStamp = 0.0;
     if(result.hasTargets()){
       PhotonTrackedTarget target = result.getBestTarget();
-      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Constants.robotToLimeLight.getRotation().getAngle(), target.getPitch());
-      pitchToTarget = target.getPitch();
+      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Math.toRadians(Constants.robotToLimeLight.getRotation().getAngle()), Math.toRadians(target.getPitch()));
+      YawToTarget = target.getYaw();
       timeStamp = result.getTimestampSeconds();
       latency = result.getLatencyMillis();
       SmartDashboard.putNumber("distance to target", distanceToTarget);
-      SmartDashboard.putNumber("pitch to target", pitchToTarget);
-      Logger.getInstance().recordOutput("LimeLight/PitchToTarget", pitchToTarget);
+      SmartDashboard.putNumber("pitch to target", YawToTarget);
+      Logger.getInstance().recordOutput("LimeLight/PitchToTarget", YawToTarget);
       Logger.getInstance().recordOutput("LimeLight/DistanceToTarget", distanceToTarget);
       Logger.getInstance().recordOutput("LimeLight/Latency", latency);
     }

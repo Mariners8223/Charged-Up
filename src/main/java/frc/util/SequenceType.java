@@ -10,5 +10,8 @@ public enum SequenceType {
     Ramp,
     Orienation,
     Raised,
-    Lowered
+    Lowered,
+    GridFloor,
+    GridLevel1,
+    GridLevel2
 }

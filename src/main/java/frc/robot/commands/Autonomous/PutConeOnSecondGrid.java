@@ -12,7 +12,6 @@ import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.gripper.setGripperState;
-import frc.robot.commands.primitive.orientation.SetRampSolenoidState;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.orientation.Orientation;

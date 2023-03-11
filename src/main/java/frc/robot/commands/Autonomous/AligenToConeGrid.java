@@ -32,7 +32,7 @@ public class AligenToConeGrid extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pitch = limeLight.getPitchToTarget();
+    double pitch = limeLight.getYawToTarget();
     pitch = MathUtil.clamp(controller.calculate(pitch), -2.5, 2.5);
     drivebase.drive(0, pitch, 0);
   }
