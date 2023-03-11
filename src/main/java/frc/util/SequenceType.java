@@ -8,5 +8,7 @@ public enum SequenceType {
     Arm,
     Extenion,
     Ramp,
-    Orienation
+    Orienation,
+    Raised,
+    Lowered
 }

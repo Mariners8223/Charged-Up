@@ -17,11 +17,14 @@ import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
+import frc.robot.commands.Autonomous.PutConeOnSecondGrid;
+import frc.robot.commands.primitive.Wait;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.arm.testArm;
 import frc.robot.commands.primitive.arm.testArmHigh;
+import frc.robot.commands.primitive.gripper.setGripperState;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.arm.Arm;
@@ -29,6 +32,7 @@ import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
+import frc.util.SequenceType;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.util.humanIO.JoystickAxis;
 
@@ -63,6 +67,8 @@ public class RobotContainer {
     Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
     LimeLight.getInstance();
+    Orientation.getInstance();
+    Gripper.getInstance().solenoidOff();
 
 
     switch (Constants.currentMode) {
@@ -113,6 +119,7 @@ public class RobotContainer {
     // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
 
     controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+    controller.triangle().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp()));
     controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
     // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
     // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
@@ -134,13 +141,14 @@ public class RobotContainer {
    // })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
 
     //controller.square().onTrue(new testArm());
-   // controller.touchpad().onTrue(new testArmHigh());
-    // controller.options().onTrue(new SequentialCommandGroup(
-    //   new extendArmToLength(0),
-    //   new InstantCommand(() -> Gripper.getInstance().solenoidForward()),
-    //   new RotateArmToPoint(0),
-    //   new extendArmToLength(10)
-    // ));
+   //controller.touchpad().onTrue(new testArmHigh());
+    controller.options().onTrue(new SequentialCommandGroup(
+      new calibrateArm(),
+      new Wait(0.25),
+      new RotateArmToPoint(0),
+      new setGripperState(SequenceType.Off),
+      new extendArmToLength(27)
+    ));
 
     // R2Trigger.onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6)))
     //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
@@ -163,10 +171,12 @@ public class RobotContainer {
     // controller.povDownLeft().onTrue(new RotateArmToPoint(-15));
     // controller.circle().onTrue(new extendArmToLength(30));
     // controller.square().onTrue(new extendArmToLength(0));
+    
     controller.povDown().onTrue(new extendArmToLength(10));
     controller.povRight().onTrue(new extendArmToLength(0));
     controller.povLeft().onTrue(new extendArmToLength(20));
     controller.povUp().onTrue(new calibrateArm());
+    controller.share().onTrue(new PutConeOnSecondGrid());
         // .onFalse(new InstantCommand(() -> Arm.getInstance().extendToLengthMeters(2)));
   }
   

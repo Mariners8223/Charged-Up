@@ -13,6 +13,7 @@ public class Gripper extends SubsystemBase {
 
   private Gripper(GripperIO io) {
     this.io = io;
+    io.solenoidOff();
   }
 
   public static Gripper getInstance() {

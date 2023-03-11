@@ -43,6 +43,6 @@ public class extendArmToLength extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm.isAtExtensionSetpoint() || arm.getExtensionLimitSwitch();
+    return arm.isAtExtensionSetpoint();
   }
 }

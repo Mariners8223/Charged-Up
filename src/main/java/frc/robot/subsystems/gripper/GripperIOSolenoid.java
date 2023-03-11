@@ -11,8 +11,7 @@ public class GripperIOSolenoid implements GripperIO {
   private static DoubleSolenoid solenoid;
 
   private GripperIOSolenoid() {
-    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1]);
-    solenoid.set(Value.kReverse);
+    solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[1], GripperConstants.GRIPPER_DOUBLE_SOLENOID_PORTS[0]);
   }
 
   public static GripperIOSolenoid getInstance(){
