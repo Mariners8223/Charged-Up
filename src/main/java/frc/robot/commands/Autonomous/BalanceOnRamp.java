@@ -12,13 +12,13 @@ import frc.robot.subsystems.drivetrain.Drivebase;
 
 public class BalanceOnRamp extends CommandBase {
   private static Drivebase drivebase;
-  private boolean MinorAdjust;
   private double timeSeinceLastAdjust;
+  private double cooldown;
   /** Creates a new BalanceOnRamp. */
   public BalanceOnRamp() {
     drivebase = Drivebase.getInstance(); //you know the dril
-    MinorAdjust = false; //makes the command start with not adjust
     timeSeinceLastAdjust = 0;
+    cooldown = 0;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivebase); //you know the drill
@@ -27,7 +27,7 @@ public class BalanceOnRamp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    cooldown = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,23 +41,25 @@ public class BalanceOnRamp extends CommandBase {
 
 
     double speedMultiplyer = 0;
-
-
-    if(Math.abs(drivebase.getPitch()) > 15){
-      speedMultiplyer = 1;
-      timeSeinceLastAdjust = Timer.getFPGATimestamp();
+    double pitch = Math.abs(drivebase.getPitch());
+    
+    if(Timer.getFPGATimestamp() - cooldown < 1){
+      if(pitch > 10){
+        speedMultiplyer = 1;
+        timeSeinceLastAdjust = Timer.getFPGATimestamp();
+      }
+      else if(pitch > 5){
+        speedMultiplyer = 0.7;
+        timeSeinceLastAdjust = Timer.getFPGATimestamp();
+      }
     }
-    else if(Math.abs(drivebase.getPitch())  > 12){
-      speedMultiplyer = 0.8;
-      timeSeinceLastAdjust = Timer.getFPGATimestamp();
-    }
-    else if(Math.abs(drivebase.getPitch()) > 7){
-      speedMultiplyer = 0.7;
-      timeSeinceLastAdjust = Timer.getFPGATimestamp();
+    else if(Timer.getFPGATimestamp() - cooldown > 1.5){
+      cooldown = Timer.getFPGATimestamp();
     }
 
     drivebase.drive(0, speedDircation * speedMultiplyer, 0);
-  }
+
+}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -68,6 +70,6 @@ public class BalanceOnRamp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Timer.getFPGATimestamp() - timeSeinceLastAdjust >= 3);
+    return (Timer.getFPGATimestamp() - timeSeinceLastAdjust >= 2);
   }
 }

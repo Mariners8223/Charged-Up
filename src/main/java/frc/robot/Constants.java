@@ -32,7 +32,7 @@ public final class Constants {
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
-  public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+  public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(35, 20, 75), new Rotation3d(0,0,0));
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -122,10 +122,10 @@ public final class Constants {
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
-      public final static double cancoderTLOffset = 327.3046875;
-      public final static double cancoderTROffset = 70.13671875;
-      public final static double cancoderBLOffset = 58.53515625;
-      public final static double cancoderBROffset = 0.3515625;
+      public final static double cancoderTLOffset = 325.8;
+      public final static double cancoderTROffset = 32.6953125;
+      public final static double cancoderBLOffset = 58.098;
+      public final static double cancoderBROffset = 3.5;
 
       public final int idDrive;
       public final PIDFGains driveGains;

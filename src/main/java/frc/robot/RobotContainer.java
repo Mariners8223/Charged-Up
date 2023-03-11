@@ -23,6 +23,7 @@ import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.arm.testArm;
 import frc.robot.commands.primitive.arm.testArmHigh;
 import frc.robot.commands.primitive.orientation.intakeCommand;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
@@ -61,6 +62,7 @@ public class RobotContainer {
     Pneumatics.getInstance();
     Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
+    LimeLight.getInstance();
 
 
     switch (Constants.currentMode) {
@@ -111,34 +113,34 @@ public class RobotContainer {
     // L2Trigger.onTrue(new InstantCommand(() -> arm.setFalconPO(-0.5))).onFalse(new InstantCommand(() -> arm.setFalconPO(0)));
 
     controller.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    // controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
+    controller.square().onTrue(new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
     // controller.L1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidForward()));
     // controller.R1().onTrue(new StartEndCommand(() -> Gripper.getInstance().solenoidBack(), () -> Gripper.getInstance().solenoidOff()));
-    controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
-        .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidBack()));
-    controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
-        .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
+    //controller.L1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
+        // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidBack()));
+    //controller.R1().onTrue(new InstantCommand(() -> Gripper.getInstance().solenoidForward()))
+       // .onFalse(new InstantCommand(() -> Gripper.getInstance().solenoidOff()));
 
     // L2Trigger.onTrue(new intakeCommand(0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
     // R2Trigger.onTrue(new intakeCommand(-0.6)).onFalse(new InstantCommand(() -> { Orientation.getInstance().raiseOrientation(); Orientation.getInstance().stop();}));
 
 
-    controller.L2().whileTrue(new intakeCommand(0.6));
-    controller.R2().whileTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6)))
-        .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    //controller.L2().whileTrue(new intakeCommand(0.6));
+   // controller.R2().whileTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6)))
+       // .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
       
-    controller.triangle().onTrue(new InstantCommand(() -> {
-      Orientation.getInstance().setSpeed(0.6);
-    })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    //controller.triangle().onTrue(new InstantCommand(() -> {
+    // Orientation.getInstance().setSpeed(0.6);
+   // })).onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
 
-    controller.square().onTrue(new testArm());
-    controller.touchpad().onTrue(new testArmHigh());
-    controller.options().onTrue(new SequentialCommandGroup(
-      new extendArmToLength(0),
-      new InstantCommand(() -> Gripper.getInstance().solenoidForward()),
-      new RotateArmToPoint(0),
-      new extendArmToLength(10)
-    ));
+    //controller.square().onTrue(new testArm());
+   // controller.touchpad().onTrue(new testArmHigh());
+    // controller.options().onTrue(new SequentialCommandGroup(
+    //   new extendArmToLength(0),
+    //   new InstantCommand(() -> Gripper.getInstance().solenoidForward()),
+    //   new RotateArmToPoint(0),
+    //   new extendArmToLength(10)
+    // ));
 
     // R2Trigger.onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6)))
     //     .onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));

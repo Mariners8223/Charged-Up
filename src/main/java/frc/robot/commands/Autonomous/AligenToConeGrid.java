@@ -4,17 +4,25 @@
 
 package frc.robot.commands.Autonomous;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.drivetrain.Drivebase;
 
-public class EnterRamp extends CommandBase {
+public class AligenToConeGrid extends CommandBase {
   private static Drivebase drivebase;
-  /** Creates a new enterRamp. */
-  public EnterRamp() {
+  private static LimeLight limeLight;
+  private PIDController controller;
+  /** Creates a new AligenToConeGrid. */
+  public AligenToConeGrid() {
     drivebase = Drivebase.getInstance();
+    limeLight = LimeLight.getInstance();
+    controller = new PIDController(0.2, 0, 0);
+    controller.setSetpoint(0);
+    controller.setTolerance(5);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivebase);
+    addRequirements(drivebase, limeLight);
   }
 
   // Called when the command is initially scheduled.
@@ -24,9 +32,9 @@ public class EnterRamp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!(Math.abs(drivebase.getPitch()) >= 15)){
-      drivebase.drive(0, 1.5, 0);
-    }
+    double pitch = limeLight.getPitchToTarget();
+    pitch = MathUtil.clamp(controller.calculate(pitch), -2.5, 2.5);
+    drivebase.drive(0, pitch, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -34,10 +42,10 @@ public class EnterRamp extends CommandBase {
   public void end(boolean interrupted) {
     drivebase.drive(0, 0, 0);
   }
- 
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return((Math.abs(drivebase.getPitch()) >= 15));
+    return controller.atSetpoint();
   }
 }
