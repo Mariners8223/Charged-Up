@@ -238,6 +238,13 @@ public class Drivebase extends SubsystemBase {
     // swerve_kinematics.toSwerveModuleStates(field_oriented_target_speeds)
   }
 
+  public void setDesiredStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveModuleConstants.freeSpeedMetersPerSecond);
+    for (wheels wheel : wheels.values()) {
+      swerveModules[wheel.ordinal()].set(desiredStates[wheel.ordinal()]);
+    }
+  }
+
   /**
    * Stops all the swerve modules.
    */
