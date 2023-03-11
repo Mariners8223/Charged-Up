@@ -1,0 +1,102 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.857251714503429,
+        "y": 0.45807177328640375
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.857251714503433,
+        "y": 0.45807177328640375
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "calibrate",
+          "pickupCone",
+          "scoreHigh",
+          "goToHome"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "after",
+        "waitTime": 1.0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.6976229785792905,
+        "y": 0.9324464482262306
+      },
+      "prevControl": {
+        "x": 5.689047303644899,
+        "y": 0.5001997303972054
+      },
+      "nextControl": {
+        "x": 7.184721869443739,
+        "y": 1.1412031157395657
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "stopIntaking",
+          "grabCone"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.9,
+        "y": 2.769505122343579
+      },
+      "prevControl": {
+        "x": 6.369050491672412,
+        "y": 1.7078283561329033
+      },
+      "nextControl": null,
+      "holonomicAngle": -180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "autoBalance"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.0,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.5909090909090905,
+      "names": [
+        "event",
+        "startIntaking"
+      ]
+    },
+    {
+      "position": 1.0909090909090908,
+      "names": [
+        "stopIntake",
+        "grabCone"
+      ]
+    }
+  ]
+}

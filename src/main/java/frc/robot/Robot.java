@@ -71,8 +71,6 @@ public class Robot extends LoggedRobot {
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
-    SmartDashboard.putNumber("angle", 0);
-    SmartDashboard.putNumber("length", 0);
     robotContainer = new RobotContainer();
     Pneumatics.getInstance().enableCompressor();
   }
