@@ -34,20 +34,25 @@ public class BalanceOnRamp extends CommandBase {
   @Override
   public void execute() {
 
-    double speedDircation = 1;
+    double speedDircation = -1;
     if(drivebase.getPitch() > 0){
-      speedDircation = -1;
+      speedDircation = 1;
     }
 
 
     double speedMultiplyer = 0;
 
-    if(Math.abs(drivebase.getPitch())  > 10){
+
+    if(Math.abs(drivebase.getPitch()) > 15){
       speedMultiplyer = 1;
       timeSeinceLastAdjust = Timer.getFPGATimestamp();
     }
-    else if(Math.abs(drivebase.getPitch()) > 3){
-      speedMultiplyer = 0.5;
+    else if(Math.abs(drivebase.getPitch())  > 12){
+      speedMultiplyer = 0.8;
+      timeSeinceLastAdjust = Timer.getFPGATimestamp();
+    }
+    else if(Math.abs(drivebase.getPitch()) > 7){
+      speedMultiplyer = 0.7;
       timeSeinceLastAdjust = Timer.getFPGATimestamp();
     }
 
