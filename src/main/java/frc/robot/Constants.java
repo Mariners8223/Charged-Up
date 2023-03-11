@@ -107,6 +107,8 @@ public final class Constants {
      */
     public static class SwerveModuleConstants {
       public static final double freeSpeedMetersPerSecond = 2.000;
+      public static final double autoSpeedMetersPerSec = 2.0;
+      public static final double autoMaxAccelerationPerSecSquared = 2.0;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)

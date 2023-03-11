@@ -98,7 +98,7 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Drive 2m", Autos.exampleAuto(Drivebase.getInstance()));
+    autoChooser.addOption("Drive", Autos.onePieceAuto());
     // Configure the button bindings
     configureButtonBindings();
 
