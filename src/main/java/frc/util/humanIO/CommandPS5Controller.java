@@ -4,6 +4,7 @@
 
 package frc.util.humanIO;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -379,6 +380,10 @@ public class CommandPS5Controller extends CommandGenericHID {
    */
   public double getR2Axis() {
     return m_hid.getR2Axis();
+  }
+
+  public void setRumble(RumbleType rType, double strength) {
+    m_hid.setRumble(rType, strength);
   }
 
   @Override

@@ -14,4 +14,6 @@ public enum SequenceType {
     GridFloor,
     GridLevel1,
     GridLevel2
+
+    
 }
