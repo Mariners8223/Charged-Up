@@ -79,12 +79,15 @@ public class LimeLight extends SubsystemBase {
     if(hasTargets == 1){
       switch(sequenceType){
         case Reflective_Tape:
+        SequenceType gridType;
         double conehight;
           if(table.getEntry("ty").getDouble(0.0) < 0){
             conehight = 60; //h2 //5
+            gridType = SequenceType.GridLevel1;
           }
           else{
             conehight = 115;
+            gridType = SequenceType.GridLevel2;
           }
           
           double limelighthight = 95; //h1 // 99
@@ -93,12 +96,30 @@ public class LimeLight extends SubsystemBase {
           table.getEntry("ty").getDouble(0.0))));
 
           double angle = table.getEntry("tx").getDouble(0.0);
-          double cosOfAngle = Math.cos(angle);
-          double distenceX = cosOfAngle * distanceToTarget;
-          SmartDashboard.putNumber("distX", distenceX);
-          SmartDashboard.putNumber("dist", distanceToTarget);
-      }
+          double cosOfAngle = Math.sin(angle);
+          distanceToTargetX = Math.abs(cosOfAngle * distanceToTarget);
+
+          switch(gridType){
+            case GridLevel1:
+              SmartDashboard.putBoolean("Is Target Allinged", distanceToTarget < 80 && distanceToTargetX < 35);
+              break;
+
+            case GridLevel2:
+              SmartDashboard.putBoolean("Is Target Allinged", distanceToTarget < 100 && distanceToTargetX < 35);
+              break;
+
+          }
+
+          SmartDashboard.putNumber("Distance To Target", distanceToTarget);
+          SmartDashboard.putNumber("Distance To Target X", distanceToTargetX);
+          break;
+
+              
+        }
     }
+
+      
+  }
 
 
     //upper cone is 112 cm and lower cone is 60
@@ -109,5 +130,5 @@ public class LimeLight extends SubsystemBase {
 
 
     // This method will be called once per scheduler run
-  }
-}
+ }
+
