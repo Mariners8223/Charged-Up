@@ -11,9 +11,19 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.Drivetrain;
+import frc.robot.commands.MoveArmToSetPoint;
+import frc.robot.commands.primitive.Wait;
+import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.calibrateArm;
+import frc.robot.commands.primitive.arm.extendArmToLength;
+import frc.robot.commands.primitive.gripper.setGripperState;
 import frc.robot.subsystems.drivetrain.Drivebase;
+import frc.util.SequenceType;
 
 public final class Autos {
 
@@ -38,5 +48,13 @@ public final class Autos {
 
     // return Commands.sequence(autoBuilder.fullAuto(trajectory));
     return autoBuilder.fullAuto(trajectory);
+  }
+
+  public static CommandBase oneConeAndBalance() {
+    return new SequentialCommandGroup(
+      new PutConeOnSecondGrid(),
+      new EnterRamp(),
+      new BalanceOnRamp()
+    );
   }
 }

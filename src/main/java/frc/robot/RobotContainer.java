@@ -105,7 +105,8 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Drive 2m", Autos.exampleAuto(Drivebase.getInstance()));
+    autoChooser.addOption("Cone on High Grid and Balance", Autos.oneConeAndBalance());
+    autoChooser.addOption("Cone on High", new PutConeOnSecondGrid());
     // Configure the button bindings
     configureButtonBindings();
 
