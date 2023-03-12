@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import javax.swing.text.Position;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -14,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
-import frc.robot.commands.MoveArmToSetPoint;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
@@ -39,7 +41,7 @@ import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.util.humanIO.JoystickAxis;
-
+import frc.robot.commands.primitive.arm.MoveArmToSetPoint;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -94,8 +96,8 @@ public class RobotContainer {
     }
 
     Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(-getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 10);
+      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(-getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(-getDriveControllerRawAxis(2)) * 10);
     }, Drivebase.getInstance()));
 
 
@@ -189,11 +191,13 @@ public class RobotContainer {
 
 
     driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
+    driveController.triangle().whileTrue(new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.5))).onFalse(new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0)));
     driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
     driveController.R1().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.R1().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     driveController.R2().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.R2().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    
 
 
 
@@ -212,20 +216,20 @@ public class RobotContainer {
   }
 
 
-  public double getDriveControllerRawAxis(int axis){
+  public static double getDriveControllerRawAxis(int axis){
     return driveController.getRawAxis(axis);
   }
 
-  public double getSubControllerRawAxis(int axis){
+  public static double getSubControllerRawAxis(int axis){
     return subController.getRawAxis(axis);
   }
 
 
-  public CommandPS5Controller getDriveController(){
+  public static CommandPS5Controller getDriveController(){
     return driveController;
   }
 
-  public CommandPS5Controller getSubController(){
+  public static CommandPS5Controller getSubController(){
     return subController;
   }
 

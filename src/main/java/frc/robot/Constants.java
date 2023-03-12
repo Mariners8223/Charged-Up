@@ -32,7 +32,7 @@ public final class Constants {
   public static final int MOTORS_CHECKED_PER_TICK = 1;
   public static final int SRX_MAG_COUNTS_PER_REVOLUTION = 1024;
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
-  public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(35, 20, 75), new Rotation3d(0,0,0));
+  public static final Transform3d robotToLimeLight = new Transform3d(new Translation3d(0.41, 0.24, 0.87), new Rotation3d(0,Units.degreesToRadians(-5),0));
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -106,7 +106,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static final double freeSpeedMetersPerSecond = 2.000;
+      public static final double freeSpeedMetersPerSecond = 4.000;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
@@ -156,13 +156,13 @@ public final class Constants {
     }
 
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
-        SwerveModuleConstants.cancoderTLOffset, 10, false, true);
+        SwerveModuleConstants.cancoderTLOffset, 10, false, false);
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
         SwerveModuleConstants.cancoderTROffset, 11, false, true);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6, 7,
-        SwerveModuleConstants.cancoderBLOffset, 12, false, true);
+        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
-        SwerveModuleConstants.cancoderBROffset, 13, false, true);
+        SwerveModuleConstants.cancoderBROffset, 13, false, false);
   
     public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);
