@@ -31,12 +31,14 @@ public class LimeLight extends SubsystemBase {
   private static double hasTargets;
   private SequenceType sequenceType;
   private double distanceToTarget;
+  private double distanceToTargetX;
   /** Creates a new LimeLight. */
   private LimeLight() {
     table = NetworkTableInstance.getDefault().getTable("limelight-marines");
     hasTargets = 0;
     sequenceType = SequenceType.Reflective_Tape;
     distanceToTarget = 0;
+    distanceToTargetX = 0;
   }
 
   public static LimeLight getInstance(){
