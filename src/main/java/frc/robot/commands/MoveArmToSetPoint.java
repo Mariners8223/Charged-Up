@@ -12,20 +12,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.orientation.Orientation;
 
 public class MoveArmToSetPoint extends CommandBase {
   private static Arm arm;
+  private static Orientation orientation;
   double rotation;
   double extension;
   boolean roateted;
   /** Creates a new MoveArmToSetPoint. */
   public MoveArmToSetPoint() {
     arm = Arm.getInstance();
+    orientation = Orientation.getInstance();
     rotation = 0;
     extension = 0;
     roateted = false;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(arm);
+    addRequirements(arm, orientation);
   }
 
   // Called when the command is initially scheduled.
@@ -40,6 +43,7 @@ public class MoveArmToSetPoint extends CommandBase {
       case 0:
         rotation = 0;
         extension = 25;
+        orientation.lowerRamp();
         positionName = "Home";
         break;
       
