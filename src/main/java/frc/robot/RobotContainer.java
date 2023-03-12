@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.MoveArmToSetPoint;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
@@ -89,11 +91,7 @@ public class RobotContainer {
         break;
     }
 
-    Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(-getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 10);
-    }, Drivebase.getInstance()));
-
+    Drivebase.getInstance().setDefaultCommand(new DriveCommand());
 
 
     // Set up auto routines
@@ -216,11 +214,11 @@ public class RobotContainer {
   }
 
 
-  public CommandPS5Controller getDriveController(){
+  public static CommandPS5Controller getDriveController(){
     return driveController;
   }
 
-  public CommandPS5Controller getSubController(){
+  public static CommandPS5Controller getSubController(){
     return subController;
   }
 

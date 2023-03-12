@@ -127,6 +127,7 @@ public final class Constants {
       public final static double cancoderBLOffset = 58.098;
       public final static double cancoderBROffset = 3.5;
 
+
       public final int idDrive;
       public final PIDFGains driveGains;
       public final int idSteering;
@@ -167,6 +168,7 @@ public final class Constants {
     public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains angleAutoPID = new PIDFGains(0.1, 0.0, 0.0);
+    public static final PIDFGains thetaPIDController = new PIDFGains(0.0225, 0, 0.0032, 0, 2, 0);
     public static final double kTrackWidth = 0.55; // Distance between right and left wheels
     public static final double kWheelBase = 0.55; // Distance between front and back wheels
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
