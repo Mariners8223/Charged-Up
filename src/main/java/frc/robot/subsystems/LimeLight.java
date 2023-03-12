@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.util.HashSet;
 import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
+import java.util.function.DoubleToIntFunction;
 
 import javax.xml.crypto.KeySelector.Purpose;
 
@@ -13,7 +14,9 @@ import org.opencv.core.Mat;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
@@ -32,6 +35,8 @@ public class LimeLight extends SubsystemBase {
   private SequenceType sequenceType;
   private double distanceToTarget;
   private double distanceToTargetX;
+  private Pose2d robotPose;
+  private double latancy;
   /** Creates a new LimeLight. */
   private LimeLight() {
     table = NetworkTableInstance.getDefault().getTable("limelight-marines");
@@ -39,6 +44,8 @@ public class LimeLight extends SubsystemBase {
     sequenceType = SequenceType.Reflective_Tape;
     distanceToTarget = 0;
     distanceToTargetX = 0;
+    robotPose = new Pose2d();
+    latancy = 0;
   }
 
   public static LimeLight getInstance(){
@@ -58,7 +65,7 @@ public class LimeLight extends SubsystemBase {
         }
       
       case April_Tags:
-        if(table.getEntry("getpiple").getDouble(0.0) != 1){
+        if(table.getEntry("getpipe").getDouble(0.0) != 1){
           table.getEntry("pipeline").setDouble(1);
           break;
         }
@@ -68,6 +75,28 @@ public class LimeLight extends SubsystemBase {
       break;
     }
       
+  }
+
+  public SequenceType getLimeLightMode(){
+    switch((int)(table.getEntry("getpipe").getDouble(0.0))){
+      case 0:
+        return sequenceType.Reflective_Tape;
+      
+      case 1:
+        return sequenceType.April_Tags;
+
+      default:
+        return sequenceType.Reflective_Tape;
+    }
+  }
+
+
+  public Pose2d getPose2d(){
+    return robotPose;
+  }
+
+  public double getLatancy(){
+    return latancy;
   }
 
   @Override
@@ -115,6 +144,30 @@ public class LimeLight extends SubsystemBase {
           SmartDashboard.putNumber("Distance To Target", distanceToTarget);
           SmartDashboard.putNumber("Distance To Target X", distanceToTargetX);
           break;
+
+          case April_Tags:
+          double April_Tag_ID = table.getEntry("tid").getDouble(0.0);
+          String allince;
+          switch(DriverStation.getAlliance()){
+            case Red:
+              allince = "botpose_wpired";
+              break;
+
+            case Blue:
+              allince = "botpose_wpiblue";
+              break;
+
+            default:
+              allince = "shit";
+              break;
+          }
+
+          double[] robotPoseInDoubleArr = table.getEntry(allince).getDoubleArray(new double[6]);
+          latancy = robotPoseInDoubleArr[6];
+          robotPose = new Pose2d(
+            new Translation3d(robotPoseInDoubleArr[0], robotPoseInDoubleArr[1], robotPoseInDoubleArr[2]).toTranslation2d(),
+            new Rotation3d(robotPoseInDoubleArr[3], robotPoseInDoubleArr[4], robotPoseInDoubleArr[5]).toRotation2d()
+          );
 
               
         }

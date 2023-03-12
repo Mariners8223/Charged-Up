@@ -68,8 +68,6 @@ public class Drivebase extends SubsystemBase {
     targetSpeeds = new ChassisSpeeds(0, 0, 0);
     driveMode = controlMode.fieldOriented;
 
-    calibrate();
-
     NavX.reset();
 
     odometry = new SwerveDriveOdometry(swerveKinematics, Rotation2d.fromDegrees(0), getModulePositions());
@@ -222,7 +220,7 @@ public class Drivebase extends SubsystemBase {
       case fieldOriented:
         this.targetSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, angle);
         desiredStates = swerveKinematics
-            .toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, angle));
+            .toSwerveModuleStates(this.targetSpeeds);
         break;
       default:
         this.targetSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rot);

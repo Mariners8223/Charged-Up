@@ -106,7 +106,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static final double freeSpeedMetersPerSecond = 4.000;
+      public static double freeSpeedMetersPerSecond = 4.000;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
@@ -160,7 +160,7 @@ public final class Constants {
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
         SwerveModuleConstants.cancoderTROffset, 11, false, true);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6, 7,
-        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
+        SwerveModuleConstants.cancoderBLOffset, 12, false, true);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
         SwerveModuleConstants.cancoderBROffset, 13, false, false);
   

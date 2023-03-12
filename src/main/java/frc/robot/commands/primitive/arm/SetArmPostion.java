@@ -33,7 +33,7 @@ public class SetArmPostion extends InstantCommand {
       RobotContainer.setArmPostion(0);
     }
 
-    switch(RobotContainer.getArmPosition()){
+    switch(RobotContainer.getArmPosition()%5){
       case 0:
         position = "Home";
         break;

@@ -155,8 +155,8 @@ public class SwerveModule {
     talon.config_kD(0, gains.getD());
     talon.config_kF(0, gains.getF());
     talon.config_IntegralZone(0, gains.getIZone());
-    talon.configClosedloopRamp(0.2, 100);
-    talon.configOpenloopRamp(0.2, 100);
+    talon.configClosedloopRamp(0.5, 100);
+    talon.configOpenloopRamp(0.5, 100);
     talon.setInverted(isInverted);
     talon.setNeutralMode(NeutralMode.Coast);
     return talon;

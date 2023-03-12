@@ -23,6 +23,7 @@ import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
 import frc.robot.commands.Autonomous.PutConeOnSecondGrid;
 import frc.robot.commands.primitive.Wait;
+import frc.robot.commands.primitive.setSpeedForm;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.SetArmPostion;
 import frc.robot.commands.primitive.arm.calibrateArm;
@@ -96,8 +97,8 @@ public class RobotContainer {
     }
 
     Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(-getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(-getDriveControllerRawAxis(2)) * 10);
+      Drivebase.getInstance().drive(RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          RobotContainer.calculateDeadband(-getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 10);
     }, Drivebase.getInstance()));
 
 
@@ -191,7 +192,7 @@ public class RobotContainer {
 
 
     driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    driveController.triangle().whileTrue(new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.5))).onFalse(new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0)));
+    driveController.square().whileTrue(new InstantCommand(() -> SwerveModuleConstants.freeSpeedMetersPerSecond = 2.0)).onFalse(new InstantCommand(() -> SwerveModuleConstants.freeSpeedMetersPerSecond = 4.0));
     driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
