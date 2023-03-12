@@ -17,11 +17,14 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
   private final ArmIOTalonSRX io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
+  private boolean calibrated;
   
 
   private Arm(ArmIOTalonSRX io) {
     this.io = io;
     new Trigger(this::getExtensionLimitSwitch).onTrue(new PrintCommand("fucking finally"));
+    calibrated = false;
+    SmartDashboard.putString("CURRENT GOAL", "HomePosition");
   }
 
   public static Arm getInstance() {
@@ -79,6 +82,35 @@ public class Arm extends SubsystemBase {
     io.setExtensionPrecent(speed);
   }
 
-  
+  public void setCalibrated(boolean isCalibrated){
+    calibrated = isCalibrated;
+  }
+
+  public boolean isCalibrated() {
+    return calibrated;
+  }
+
+  public void updateSetpoint(ArmSetpoint setpoint) {
+    SmartDashboard.putString("CURRENT POSITION", setpoint.toString());
+  }
+
+  public static enum ArmSetpoint {
+    HomePosition(0),
+    GridLow(1),
+    GridMid(2),
+    GridHigh(3),
+    DoubleSubstation(4);
+
+    public final int value;
+    ArmSetpoint(int index) {
+      this.value = index;
+    }
+
+    @Override
+    public String toString() {
+      var position = this.name();
+      return "" + position;
+    }
+  }
 
 }

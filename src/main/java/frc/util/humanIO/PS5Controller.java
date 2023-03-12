@@ -717,6 +717,11 @@ public class PS5Controller extends GenericHID {
   }
 
   @Override
+  public void setRumble(RumbleType type, double value) {
+      super.setRumble(type, value);
+  }
+
+  @Override
   public String toString() {
     return "PS5Controller [ Port: " + this.getPort() + " | Name: " + this.getName().substring(0, 16) + ") ]";
   }

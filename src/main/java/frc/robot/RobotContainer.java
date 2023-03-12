@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -21,6 +22,7 @@ import frc.robot.commands.Autonomous.EnterRamp;
 import frc.robot.commands.Autonomous.PutConeOnSecondGrid;
 import frc.robot.commands.primitive.Wait;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
+import frc.robot.commands.primitive.arm.SetArmPostion;
 import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.arm.testArm;
@@ -28,6 +30,7 @@ import frc.robot.commands.primitive.arm.testArmHigh;
 import frc.robot.commands.primitive.gripper.setGripperState;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.OldLimeLight;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
@@ -56,6 +59,7 @@ public class RobotContainer {
   private static final CommandPS5Controller subController = new CommandPS5Controller(1);
   private static final JoystickAxis driveR2Trigger = new JoystickAxis(driveController, 4);
   private static final JoystickAxis driveL2Trigger = new JoystickAxis(driveController, 3);
+  private static int position;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -193,8 +197,9 @@ public class RobotContainer {
 
 
 
-    subController.povUp().onTrue(new MoveArmToSetPoint(true));
-    subController.povDown().onTrue(new MoveArmToSetPoint(false));
+    subController.povUp().onTrue(new SetArmPostion(true));
+    subController.povDown().onTrue(new SetArmPostion(false));
+    subController.povRight().onTrue(new MoveArmToSetPoint());
     subController.povLeft().onTrue(new calibrateArm());
     subController.L1().onTrue(new setGripperState(SequenceType.Cone)); subController.L1().onFalse(new setGripperState(SequenceType.Off));
     subController.R1().onTrue(new setGripperState(SequenceType.Cube)); subController.R1().onFalse(new setGripperState(SequenceType.Off));
@@ -222,6 +227,14 @@ public class RobotContainer {
 
   public CommandPS5Controller getSubController(){
     return subController;
+  }
+
+  public static  int getArmPosition(){
+    return position;
+  }
+
+  public static void setArmPostion(int Position){
+    position = Position;
   }
 
   public static JoystickAxis getDriveR2JoystickAxis() { return driveR2Trigger; }

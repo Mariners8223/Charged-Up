@@ -4,100 +4,110 @@
 
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
+import java.util.HashSet;
+import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
 
+import javax.xml.crypto.KeySelector.Purpose;
+
+import org.opencv.core.Mat;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.util.SequenceType;
 
 public class LimeLight extends SubsystemBase {
-  //creates all the vars
-  private static LimeLight Instance;
-  private static PhotonCamera LimeLight;
-  private static Double distanceToTarget;
-  private static double YawToTarget;
-  private static double timeStamp;
-  private static boolean isLimeLightModeAprilTags;
-  private static double latency;
-  
-  //creates new instance
-  public static LimeLight getInstance(){
-    if(Instance == null){ Instance = new LimeLight();}
-    return Instance;
-  }
-
-  //creates the constructor
+  private static LimeLight instsance;
+  private static NetworkTable table;
+  private static double hasTargets;
+  private SequenceType sequenceType;
+  private double distanceToTarget;
+  /** Creates a new LimeLight. */
   private LimeLight() {
-    LimeLight = new PhotonCamera("limelight-mariners");
-    isLimeLightModeAprilTags = true;
-    latency = 0.0;
-    distanceToTarget = 0.0;
-    YawToTarget = 0.0;
-    timeStamp = 0.0;
-
-    SmartDashboard.putNumber("distance to target", distanceToTarget);
-    SmartDashboard.putNumber("pitch to target", YawToTarget);
-    SmartDashboard.putBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
+    table = NetworkTableInstance.getDefault().getTable("limelight-marines");
+    hasTargets = 0;
+    sequenceType = SequenceType.Reflective_Tape;
+    distanceToTarget = 0;
   }
 
-  public boolean getIsLimeLightModeAprilTags(){
-    return isLimeLightModeAprilTags;
+  public static LimeLight getInstance(){
+    if(instsance == null){
+      instsance = new LimeLight();
+    }
+    return instsance;
   }
 
-  public double getDistanceToTarget(){
-    return distanceToTarget;
-  }
-  public double getYawToTarget(){
-    return YawToTarget;
+  public void SetLimeLightMode(SequenceType sequenceType){
+    this.sequenceType = sequenceType;
+    switch(sequenceType){
+      case Reflective_Tape:
+        if(table.getEntry("getpipe").getDouble(0.0) != 0){
+          table.getEntry("pipeline").setDouble(0);
+          break;
+        }
+      
+      case April_Tags:
+        if(table.getEntry("getpiple").getDouble(0.0) != 1){
+          table.getEntry("pipeline").setDouble(1);
+          break;
+        }
+
+      default:
+      table.getEntry("pipeline").setDouble(0);
+      break;
+    }
+      
   }
 
-  public double getLatency(){
-    return latency;
-  }
-
-  public double getTimeStamp(){
-    return timeStamp;
-  }
-
-  public void setIsLimeLightModeAprilTags(boolean mode){
-    isLimeLightModeAprilTags = mode;
-    SmartDashboard.putBoolean("LimeLightModeAprilTags", mode);
-  }
-
-  //preiodic shit
   @Override
   public void periodic() {
-    isLimeLightModeAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
-    Logger.getInstance().recordOutput("LimeLight/IsLimeLightModeAprilTags", isLimeLightModeAprilTags);
-    if(isLimeLightModeAprilTags){
-      if(LimeLight.getPipelineIndex() != 0){
-        LimeLight.setPipelineIndex(0);
+    hasTargets = table.getEntry("tv").getDouble(0.0);
+    // double distance = 55  -95/ Math.tan((-5 + table.getEntry("ty").getDouble(0.0)));
+    // System.out.println(table.getEntry("ty").getDouble(0.0));
+    // d = (h1-h2)/tan(a1+a2)
+    
+
+    if(hasTargets == 1){
+      switch(sequenceType){
+        case Reflective_Tape:
+        double conehight;
+          if(table.getEntry("ty").getDouble(0.0) < 0){
+            conehight = 60; //h2 //5
+          }
+          else{
+            conehight = 115;
+          }
+          
+          double limelighthight = 95; //h1 // 99
+          double limelightoffset = -3.5; //a1
+          distanceToTarget = Math.abs((limelighthight - conehight)/Math.tan(Units.degreesToRadians(limelightoffset + 
+          table.getEntry("ty").getDouble(0.0))));
+
+          double angle = table.getEntry("tx").getDouble(0.0);
+          double cosOfAngle = Math.cos(angle);
+          double distenceX = cosOfAngle * distanceToTarget;
+          SmartDashboard.putNumber("distX", distenceX);
+          SmartDashboard.putNumber("dist", distanceToTarget);
       }
-      return;
-    }
-    if(LimeLight.getPipelineIndex() != 1){
-      LimeLight.setPipelineIndex(1);
     }
 
-    PhotonPipelineResult result = LimeLight.getLatestResult();
-    distanceToTarget = 0.0;
-    YawToTarget = 0.0;
-    timeStamp = 0.0;
-    if(result.hasTargets()){
-      PhotonTrackedTarget target = result.getBestTarget();
-      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Math.toRadians(Constants.robotToLimeLight.getRotation().getAngle()), Math.toRadians(target.getPitch()));
-      YawToTarget = target.getYaw();
-      timeStamp = result.getTimestampSeconds();
-      latency = result.getLatencyMillis();
-      SmartDashboard.putNumber("distance to target", distanceToTarget);
-      SmartDashboard.putNumber("pitch to target", YawToTarget);
-      Logger.getInstance().recordOutput("LimeLight/PitchToTarget", YawToTarget);
-      Logger.getInstance().recordOutput("LimeLight/DistanceToTarget", distanceToTarget);
-      Logger.getInstance().recordOutput("LimeLight/Latency", latency);
-    }
+
+    //upper cone is 112 cm and lower cone is 60
+    //offset is -5 dgrees
+    // limelight hight is 95
+
+
+
+
+    // This method will be called once per scheduler run
   }
 }

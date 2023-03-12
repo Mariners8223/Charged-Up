@@ -13,5 +13,7 @@ public enum SequenceType {
     Lowered,
     GridFloor,
     GridLevel1,
-    GridLevel2
+    GridLevel2,
+    April_Tags,
+    Reflective_Tape
 }
