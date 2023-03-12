@@ -24,19 +24,19 @@ public class MoveArmToSetPoint extends SequentialCommandGroup {
         case Orienation:
           roation = 30;
           exnteion = 15;
-          lastPostion = SequenceType.Orienation;
+          lastPostion = SequenceType.GridFloor;
           break;
         
         case GridFloor:
           roation = 107;
           exnteion = 2;
-          lastPostion = SequenceType.GridFloor;
+          lastPostion = SequenceType.GridLevel1;
           break;
         
         case GridLevel1:
           roation = 130;
           exnteion = 45;
-          lastPostion = SequenceType.GridLevel1;
+          lastPostion = SequenceType.GridLevel2;
           break;
 
         case GridLevel2:
@@ -58,19 +58,19 @@ public class MoveArmToSetPoint extends SequentialCommandGroup {
         case GridFloor:
           roation = 0;
           exnteion = 15;
-          lastPostion = SequenceType.GridFloor;
+          lastPostion = SequenceType.Orienation;
           break;
 
         case GridLevel1:
           roation = 30;
           exnteion = 15;
-          lastPostion = SequenceType.GridLevel1;
+          lastPostion = SequenceType.GridFloor;
           break;
 
         case GridLevel2:
           roation = 107;
           exnteion = 5;
-          lastPostion = SequenceType.GridLevel2;
+          lastPostion = SequenceType.GridLevel1;
           break;
       }
     }
