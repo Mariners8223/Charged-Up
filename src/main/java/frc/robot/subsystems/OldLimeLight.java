@@ -3,165 +3,101 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import java.io.IOException;
-import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-// import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.drivetrain.Drivebase;
 
-public class Vision extends SubsystemBase {
-  //creates all vars needed for here
-  private static AprilTagFieldLayout aprilTagFieldLayout;
-  private static Field2d m_field;
-  private static Vision instance;
-  private static Pose3d pose3d;
-  private static Pose2d pose2d;    
-  //private static PhotonCamera rasberryPiCamera;
-  private static PhotonCamera limeLightCamera;
-  //private static PhotonPoseEstimator cameraPoseEstimator;
-  private static PhotonPoseEstimator limeligPoseEstimator;
+public class OldLimeLight extends SubsystemBase {
+  //creates all the vars
+  private static OldLimeLight Instance;
+  private static PhotonCamera LimeLight;
+  private static Double distanceToTarget;
+  private static double YawToTarget;
   private static double timeStamp;
+  private static boolean isLimeLightModeAprilTags;
   private static double latency;
-
-
   
-  //creates new single tone
-  public static Vision GetInstance(){
-    if(instance == null){
-      instance = new Vision();
-    }
-    return instance;
+  //creates new instance
+  public static OldLimeLight getInstance(){
+    if(Instance == null){ Instance = new OldLimeLight();}
+    return Instance;
   }
-  
-  //creates new constractur
-  private Vision() {
-    pose2d = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
-    pose3d = new Pose3d(pose2d);
-    timeStamp = 0;
+
+  //creates the constructor
+  private OldLimeLight() {
+    LimeLight = new PhotonCamera("limelight-mariners");
+    isLimeLightModeAprilTags = true;
     latency = 0.0;
+    distanceToTarget = 0.0;
+    YawToTarget = 0.0;
+    timeStamp = 0.0;
 
-    //rasberryPiCamera = new PhotonCamera("mariners-cam");
-    limeLightCamera = new PhotonCamera("limelight-mariners");//lime light camera?
-    
-    try {
-      aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-    } catch (IOException e) {}
-    m_field = new Field2d();
-
-    //cameraPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, rasberryPiCamera, Constants.robotToCam);
-    limeligPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, limeLightCamera, Constants.robotToLimeLight);
-  
-    SmartDashboard.putData("Field", m_field);
-    SmartDashboard.putNumber("april tag id", 0);
-    SmartDashboard.putNumber("latency", 0);
+    SmartDashboard.putNumber("distance to target", distanceToTarget);
+    SmartDashboard.putNumber("pitch to target", YawToTarget);
+    SmartDashboard.putBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
   }
 
-  //returns a pose2d (no shit)
-  public Pose2d getpose2d(){
-    return pose2d;
+  public boolean getIsLimeLightModeAprilTags(){
+    return isLimeLightModeAprilTags;
   }
 
-  //returns a pose3d
-  public Pose3d getPose3d(){
-    return pose3d;
+  public double getDistanceToTarget(){
+    return distanceToTarget;
   }
-
-  //returns timestamp
-  public double GetTimestamp(){
-    return timeStamp;
+  public double getYawToTarget(){
+    return YawToTarget;
   }
 
   public double getLatency(){
     return latency;
   }
 
-  //creats the new pose for camera
-  private Optional<EstimatedRobotPose> getEstimatedPose(Pose2d lastPose2d, PhotonPoseEstimator bestPoseEstimator) {
-    bestPoseEstimator.setReferencePose(lastPose2d);
-    return bestPoseEstimator.update();
+  public double getTimeStamp(){
+    return timeStamp;
   }
 
-  //creates the new pose for limelight
+  public void setIsLimeLightModeAprilTags(boolean mode){
+    isLimeLightModeAprilTags = mode;
+    SmartDashboard.putBoolean("LimeLightModeAprilTags", mode);
+  }
 
+  //preiodic shit
   @Override
   public void periodic() {
-    //var resultRasberryPiCamera = rasberryPiCamera.getLatestResult();
-    var resultLimelight = limeLightCamera.getLatestResult();
-    PhotonTrackedTarget target = null;
-   // PhotonPipelineResult bestResult = null;
-    //PhotonPoseEstimator bestPoseEstimator = null;
-
-    /*if(!resultRasberryPiCamera.hasTargets() && !(resultLimelight.hasTargets() &&  LimeLight.getInstance().getIsLimeLightModeAprilTags())){
-      pose2d = null;
-      pose3d = null;
-      timeStamp = 0;
+    isLimeLightModeAprilTags = SmartDashboard.getBoolean("limeLightAprilTagMode", isLimeLightModeAprilTags);
+    Logger.getInstance().recordOutput("LimeLight/IsLimeLightModeAprilTags", isLimeLightModeAprilTags);
+    if(isLimeLightModeAprilTags){
+      if(LimeLight.getPipelineIndex() != 0){
+        LimeLight.setPipelineIndex(0);
+      }
       return;
-    }*/
-
-    if(!resultLimelight.hasTargets()){
-      if(!LimeLight.getInstance().getIsLimeLightModeAprilTags()){
-        pose2d = null;
-        pose3d = null;
-        timeStamp = 0;
-        return;
-      }    
+    }
+    if(LimeLight.getPipelineIndex() != 1){
+      LimeLight.setPipelineIndex(1);
     }
 
-
-    /*double cameraAMB = 100;
-    double limelightAMB = 100;
-    if(resultRasberryPiCamera.hasTargets()){
-      cameraAMB = resultRasberryPiCamera.getBestTarget().getPoseAmbiguity();
+    PhotonPipelineResult result = LimeLight.getLatestResult();
+    distanceToTarget = 0.0;
+    YawToTarget = 0.0;
+    timeStamp = 0.0;
+    if(result.hasTargets()){
+      PhotonTrackedTarget target = result.getBestTarget();
+      distanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(Constants.robotToLimeLight.getZ(), target.getBestCameraToTarget().getZ(), Math.toRadians(Constants.robotToLimeLight.getRotation().getAngle()), Math.toRadians(target.getPitch()));
+      YawToTarget = target.getYaw();
+      timeStamp = result.getTimestampSeconds();
+      latency = result.getLatencyMillis();
+      SmartDashboard.putNumber("distance to target", distanceToTarget);
+      SmartDashboard.putNumber("pitch to target", YawToTarget);
+      Logger.getInstance().recordOutput("LimeLight/PitchToTarget", YawToTarget);
+      Logger.getInstance().recordOutput("LimeLight/DistanceToTarget", distanceToTarget);
+      Logger.getInstance().recordOutput("LimeLight/Latency", latency);
     }
-    if(resultLimelight.hasTargets() && LimeLight.getInstance().getIsLimeLightModeAprilTags()){
-      limelightAMB = resultLimelight.getBestTarget().getPoseAmbiguity();
-    }*/
-
-    /*if(cameraAMB < limelightAMB){
-      bestResult = resultRasberryPiCamera;
-      bestPoseEstimator = cameraPoseEstimator;
-      Logger.getInstance().recordOutput("cameraResultSource", "pi");
-    }else {
-      bestResult = resultLimelight;
-      bestPoseEstimator = limeligPoseEstimator;
-      Logger.getInstance().recordOutput("cameraResultSource", "limelight");
-    }*/
-    
-    target = resultLimelight.getBestTarget();
-    timeStamp = resultLimelight.getTimestampSeconds();
-    latency = resultLimelight.getLatencyMillis();
-
-    Optional<EstimatedRobotPose> eOptional = getEstimatedPose(Drivebase.getInstance().getPose(), limeligPoseEstimator);
-    EstimatedRobotPose camPose = eOptional.get();
-    pose3d = camPose.estimatedPose;
-    pose2d = camPose.estimatedPose.toPose2d();
-    m_field.setRobotPose(pose2d);
-
-
-    SmartDashboard.putNumber("april tag id", target.getFiducialId());
-    SmartDashboard.putNumber("latency", latency);
-    SmartDashboard.putData(m_field);
-
-    Logger.getInstance().recordOutput("Vision/Pose3D", pose3d);
-    Logger.getInstance().recordOutput("Vision/Pose2d", pose2d);
-    Logger.getInstance().recordOutput("Vision/PoseAmbiguity", target.getPoseAmbiguity());
-    Logger.getInstance().recordOutput("Vision/AprilTagId", target.getFiducialId());
-    Logger.getInstance().recordOutput("Vision/Latency", resultLimelight.getLatencyMillis());
-    
   }
 }
