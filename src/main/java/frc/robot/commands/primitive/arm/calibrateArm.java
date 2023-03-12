@@ -26,7 +26,7 @@ public class calibrateArm extends CommandBase {
   public void end(boolean interrupted) {
     arm.stopExtensionMotor();
     arm.resetExtensionEncoder(-2);
-    arm.extendToLengthMeters(2);
+    arm.extendToLengthMeters(0);
     arm.setCalibrated(true);
   }
 
