@@ -117,15 +117,15 @@ public final class Constants {
                                                                                                            // (rotations
                                                                                                            // *
                                                                                                            // seconds/minute)
-      // public final static double cancoderTLOffset = 0;
+      public final static double cancoderTLOffset = 147.744;
+      public final static double cancoderTROffset = 81.035;
+      public final static double cancoderBLOffset = 59.765;
+      public final static double cancoderBROffset = 183.691;
+
+      // public final static double cancoderTLOffset = 0
       // public final static double cancoderTROffset = 0;
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
-
-      public final static double cancoderTLOffset = 325.8;
-      public final static double cancoderTROffset = 32.6953125;
-      public final static double cancoderBLOffset = 58.098;
-      public final static double cancoderBROffset = 3.5;
 
       public final int idDrive;
       public final PIDFGains driveGains;
