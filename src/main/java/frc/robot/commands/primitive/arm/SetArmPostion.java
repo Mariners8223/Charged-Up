@@ -51,9 +51,10 @@ public class SetArmPostion extends InstantCommand {
         break;
 
       case 4:
-        position = "Double SubStation";
+        position = "Double Substation";
         break;
     }
+    
     SmartDashboard.putString("Position Aimed", position);
   }
 }

@@ -66,14 +66,14 @@ public class MoveArmToSetPoint extends CommandBase {
         break;
 
       case 4:
-        rotation = 140;
-        extension = 51;
-        positionName = "Double SubStaion";
+        rotation = 120;
+        extension = 40;
+        positionName = "Double Substaion";
         break;   
     }
     
     arm.extendToLengthMeters(0);
-    SmartDashboard.putString("Current Arm Postion", positionName);
+    SmartDashboard.putString("Current postion", positionName);
   }
 
 

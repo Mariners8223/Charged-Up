@@ -46,6 +46,7 @@ public class LimeLight extends SubsystemBase {
     distanceToTargetX = 0;
     robotPose = new Pose2d();
     latancy = 0;
+    SmartDashboard.putBoolean("Is Target Alligned", false);
   }
 
   public static LimeLight getInstance(){
@@ -127,16 +128,16 @@ public class LimeLight extends SubsystemBase {
           table.getEntry("ty").getDouble(0.0))));
 
           double angle = table.getEntry("tx").getDouble(0.0);
-          double cosOfAngle = Math.sin(angle);
+          double cosOfAngle = Math.sin(Units.degreesToRadians(angle));
           distanceToTargetX = Math.abs(cosOfAngle * distanceToTarget);
 
           switch(gridType){
             case GridLevel1:
-              SmartDashboard.putBoolean("Is Target Allinged", distanceToTarget < 80 && distanceToTargetX < 35);
+              SmartDashboard.putBoolean("Is Target Allinged", distanceToTarget < 100 && distanceToTargetX < 35);
               break;
 
             case GridLevel2:
-              SmartDashboard.putBoolean("Is Target Allinged", distanceToTarget < 100 && distanceToTargetX < 35);
+              SmartDashboard.putBoolean("Is Target Allinged", (distanceToTarget < 125 && distanceToTarget > 121) && (distanceToTargetX < 40 && distanceToTargetX > 35));
               break;
 
           }
@@ -170,8 +171,10 @@ public class LimeLight extends SubsystemBase {
           );
           break;
 
-              
+              //fucking 119 distance and 38 dadas
         }
+
+
     }
 
       

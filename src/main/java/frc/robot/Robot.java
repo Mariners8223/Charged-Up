@@ -117,6 +117,7 @@ public class Robot extends LoggedRobot {
     }
 
     autonomousCommand = robotContainer.getAutonomousCommand();
+    autonomousCommand.schedule();
     // schedule the autonomous command (example)
 
   }

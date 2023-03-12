@@ -84,6 +84,6 @@ public class MoveArmToSetPoint extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm.isAtExtensionSetpoint() && arm.isAtRotationSetpoint() && roateted;
+    return arm.isAtExtensionSetpoint() && arm.isAtRotationSetpoint() && roateted & arm.isCalibrated();
   }
 }
