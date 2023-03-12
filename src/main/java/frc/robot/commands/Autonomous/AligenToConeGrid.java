@@ -7,17 +7,17 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.OldLimeLight;
 import frc.robot.subsystems.drivetrain.Drivebase;
 
 public class AligenToConeGrid extends CommandBase {
   private static Drivebase drivebase;
-  private static LimeLight limeLight;
+  private static OldLimeLight limeLight;
   private PIDController controller;
   /** Creates a new AligenToConeGrid. */
   public AligenToConeGrid() {
     drivebase = Drivebase.getInstance();
-    limeLight = LimeLight.getInstance();
+    limeLight = OldLimeLight.getInstance();
     controller = new PIDController(0.2, 0, 0);
     controller.setSetpoint(0);
     controller.setTolerance(5);

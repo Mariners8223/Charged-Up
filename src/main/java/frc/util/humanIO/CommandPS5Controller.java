@@ -382,8 +382,8 @@ public class CommandPS5Controller extends CommandGenericHID {
     return m_hid.getR2Axis();
   }
 
-  public void setRumble(RumbleType rType, double strength) {
-    m_hid.setRumble(rType, strength);
+  public void setRumble(RumbleType kType, double value) {
+    m_hid.setRumble(kType, value);
   }
 
   @Override

@@ -32,6 +32,7 @@ import frc.robot.commands.primitive.arm.testArmHigh;
 import frc.robot.commands.primitive.gripper.setGripperState;
 import frc.robot.commands.primitive.orientation.intakeCommand;
 import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.OldLimeLight;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
@@ -60,7 +61,7 @@ public class RobotContainer {
   private static final CommandPS5Controller subController = new CommandPS5Controller(1);
   private static final JoystickAxis driveR2Trigger = new JoystickAxis(driveController, 4);
   private static final JoystickAxis driveL2Trigger = new JoystickAxis(driveController, 3);
-  private static int position = 0;
+  private static int position;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -232,7 +233,7 @@ public class RobotContainer {
     return subController;
   }
 
-  public static int getArmPosition(){
+  public static  int getArmPosition(){
     return position;
   }
 

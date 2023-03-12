@@ -114,7 +114,7 @@ public class Vision extends SubsystemBase {
     }*/
 
     if(!resultLimelight.hasTargets()){
-      if(!LimeLight.getInstance().getIsLimeLightModeAprilTags()){
+      if(!OldLimeLight.getInstance().getIsLimeLightModeAprilTags()){
         pose2d = null;
         pose3d = null;
         timeStamp = 0;

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.primitive.arm;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 
@@ -20,6 +21,7 @@ public class SetArmPostion extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    String position = "shit";
     if(state){
       RobotContainer.setArmPostion(RobotContainer.getArmPosition() + 1);
     }
@@ -30,5 +32,28 @@ public class SetArmPostion extends InstantCommand {
     if(RobotContainer.getArmPosition() < 0){
       RobotContainer.setArmPostion(0);
     }
+
+    switch(RobotContainer.getArmPosition()){
+      case 0:
+        position = "Home";
+        break;
+
+      case 1:
+        position = "Grid Bottom / Floor";
+        break;
+
+      case 2:
+        position = "Grid Middle";
+        break;
+
+      case 3:
+        position = "Grid Top";
+        break;
+
+      case 4:
+        position = "Double SubStation";
+        break;
+    }
+    SmartDashboard.putString("Position Aimed", position);
   }
 }

@@ -718,7 +718,7 @@ public class PS5Controller extends GenericHID {
 
   @Override
   public void setRumble(RumbleType type, double value) {
-    super.setRumble(type, value);
+      super.setRumble(type, value);
   }
 
   @Override
