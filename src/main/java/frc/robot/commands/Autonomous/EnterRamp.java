@@ -24,8 +24,8 @@ public class EnterRamp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!(Math.abs(drivebase.getPitch()) >= 15)){
-      drivebase.drive(0, 1.5, 0);
+    if(!(Math.abs(drivebase.getRoll()) >= 15)){
+      drivebase.drive(0, 2, 0);
     }
   }
 
@@ -38,6 +38,6 @@ public class EnterRamp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return((Math.abs(drivebase.getPitch()) >= 15));
+    return((Math.abs(drivebase.getRoll()) >= 15));
   }
 }

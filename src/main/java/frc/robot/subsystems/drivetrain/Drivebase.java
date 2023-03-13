@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -50,6 +51,8 @@ public class Drivebase extends SubsystemBase {
   private ChassisSpeeds targetSpeeds;
   private SwerveDriveOdometry odometry;
 
+  private Field2d the_Field2d;
+
   private Rotation2d angle;
 
   private Drivebase() {
@@ -58,6 +61,8 @@ public class Drivebase extends SubsystemBase {
     swerveModules[wheels.rightFront.ordinal()] = new SwerveModule(Drivetrain.FRModule);
     swerveModules[wheels.leftBack.ordinal()] = new SwerveModule(Drivetrain.BLModule);
     swerveModules[wheels.rightBack.ordinal()] = new SwerveModule(Drivetrain.BRModule);
+
+    the_Field2d = new Field2d();
 
     moduleStates = new SwerveModuleState[4];
 
@@ -266,6 +271,10 @@ public class Drivebase extends SubsystemBase {
     return angle;
   }
 
+  public double getRoll(){
+    return NavX.getRoll();
+  }
+
   public double getAngleDegrees() { return NavX.getAngle(); }
 
   public double getPitch() { return NavX.getPitch(); }
@@ -294,5 +303,8 @@ public class Drivebase extends SubsystemBase {
   @Override
   public void periodic() {
     update();
+    the_Field2d.setRobotPose(getPose());
+    SmartDashboard.putData(the_Field2d);
+    SmartDashboard.putNumber("pitch", getRoll());
   }
 }

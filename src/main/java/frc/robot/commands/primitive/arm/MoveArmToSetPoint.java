@@ -48,14 +48,14 @@ public class MoveArmToSetPoint extends CommandBase {
         break;
 
       case 2:
-        rotation = 107;
-        extension = 5;
+        rotation = 120;
+        extension = 10;
         currentpostion = "Grid Middle";
         break;
 
       case 3:
-        rotation = 130;
-        extension = 46;
+        rotation = 134;
+        extension = 47;
         currentpostion = "Grid Top";
         break;
 

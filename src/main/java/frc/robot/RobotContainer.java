@@ -107,6 +107,7 @@ public class RobotContainer {
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Cone on High Grid and Balance", Autos.oneConeAndBalance());
     autoChooser.addOption("Cone on High", new PutConeOnSecondGrid());
+    autoChooser.addOption("Balance", new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
     // Configure the button bindings
     configureButtonBindings();
 
@@ -197,8 +198,8 @@ public class RobotContainer {
     driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
-    driveController.povUp().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.R1().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
-    driveController.povDown().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.R2().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    driveController.povUp().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.povUp().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    driveController.povDown().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.povDown().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     
 
 
