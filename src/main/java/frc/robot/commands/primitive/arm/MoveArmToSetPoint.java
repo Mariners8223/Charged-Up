@@ -6,6 +6,7 @@ package frc.robot.commands.primitive.arm;
 
 import javax.swing.text.Position;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.Arm;
@@ -32,35 +33,41 @@ public class MoveArmToSetPoint extends CommandBase {
     roateted = false;
     extension = 0;
     rotation = 0;
+    String currentpostion = "shit";
     switch(position){
       case 0:
         rotation = 0;
         extension = 25;
+        currentpostion = "Home";
         break;
       
       case 1:
         rotation = 50;
-        extension = 15;
+        extension = 19;
+        currentpostion = "Grid Floor ";
         break;
 
       case 2:
         rotation = 107;
         extension = 5;
+        currentpostion = "Grid Middle";
         break;
 
       case 3:
-        rotation = 133;
-        extension = 51;
+        rotation = 130;
+        extension = 46;
+        currentpostion = "Grid Top";
         break;
 
       case 4:
-        rotation = 140;
-        extension = 51;
+        rotation = 120;
+        extension = 40;
+        currentpostion = "Double SubStation";
         break;   
     }
-    
+    SmartDashboard.putString("current Postion", currentpostion);
     arm.extendToLengthMeters(0);
-    System.out.println(position);
+    
   }
 
 

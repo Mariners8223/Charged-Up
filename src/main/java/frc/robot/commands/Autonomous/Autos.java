@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Drivetrain;
-import frc.robot.commands.MoveArmToSetPoint;
 import frc.robot.commands.primitive.Wait;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.calibrateArm;
