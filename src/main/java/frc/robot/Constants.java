@@ -106,7 +106,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static double freeSpeedMetersPerSecond = 4.000;
+      public static double freeSpeedMetersPerSecond = 4.5;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
@@ -117,15 +117,15 @@ public final class Constants {
                                                                                                            // (rotations
                                                                                                            // *
                                                                                                            // seconds/minute)
-      public final static double cancoderTLOffset = 147.744;
-      public final static double cancoderTROffset = 81.035;
-      public final static double cancoderBLOffset = 59.765;
-      public final static double cancoderBROffset = 183.691;
+      // public final static double cancoderTLOffset = 147.744;
+      // public final static double cancoderTROffset = 81.035;
+      // public final static double cancoderBLOffset = 59.765;
+      // public final static double cancoderBROffset = 183.691;
 
-      // public final static double cancoderTLOffset = 0
-      // public final static double cancoderTROffset = 0;
-      // public final static double cancoderBLOffset = 0;
-      // public final static double cancoderBROffset = 0;
+      public final static double cancoderTLOffset = 146.513;
+      public final static double cancoderTROffset = 323.789;
+      public final static double cancoderBLOffset = 237.392;
+      public final static double cancoderBROffset = 182.988;
 
       public final int idDrive;
       public final PIDFGains driveGains;
@@ -156,13 +156,13 @@ public final class Constants {
     }
 
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
-        SwerveModuleConstants.cancoderTLOffset, 10, false, false);
+        SwerveModuleConstants.cancoderTLOffset, 10, false, true );
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
         SwerveModuleConstants.cancoderTROffset, 11, false, true);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6, 7,
         SwerveModuleConstants.cancoderBLOffset, 12, false, true);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
-        SwerveModuleConstants.cancoderBROffset, 13, false, false);
+        SwerveModuleConstants.cancoderBROffset, 13, false, true);
   
     public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);

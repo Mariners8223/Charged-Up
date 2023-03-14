@@ -64,6 +64,7 @@ public class SwerveModule {
     SmartDashboard.putNumber(moduleName + "Cancoder position", getAbsolutePosition());
     SmartDashboard.putNumber(moduleName + "Neo encoder position",
         (m_steeringMotor.getEncoder().getPosition() * SwerveModuleConstants.steeringPositionConversionFactor) % 360);
+    SmartDashboard.putNumber(moduleName + "RPM", m_driveMotor.getSelectedSensorVelocity() * 10 / 2048 * 60);
     m_steerRotations = m_steeringMotor.getEncoder().getPosition() / SwerveModuleConstants.steeringRatio;
     currentState.angle = Rotation2d.fromDegrees(m_steerRotations * 360.0);
     currentState.speedMetersPerSecond = getRPS() * SwerveModuleConstants.wheelCircumferenceMeters
@@ -182,7 +183,8 @@ public class SwerveModule {
    * @param angle the desired module ange in degrees
    */
   public void set(double angle, double speed) {
-    targetState.angle = Rotation2d.fromDegrees(angle);
+    targetState.angle = Rotation2d.fromDegrees
+    (angle);
     targetState.speedMetersPerSecond = speed;
     set(targetState);
   }

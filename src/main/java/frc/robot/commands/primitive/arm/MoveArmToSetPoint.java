@@ -4,7 +4,6 @@
 
 package frc.robot.commands.primitive.arm;
 
-import javax.swing.text.Position;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -54,7 +53,7 @@ public class MoveArmToSetPoint extends CommandBase {
         break;
 
       case 3:
-        rotation = 134;
+        rotation = 131;
         extension = 47;
         currentpostion = "Grid Top";
         break;

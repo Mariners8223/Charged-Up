@@ -4,25 +4,12 @@
 
 package frc.robot.subsystems;
 
-import java.util.HashSet;
-import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
-import java.util.function.DoubleToIntFunction;
-
-import javax.xml.crypto.KeySelector.Purpose;
-
-import org.opencv.core.Mat;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -81,13 +68,13 @@ public class LimeLight extends SubsystemBase {
   public SequenceType getLimeLightMode(){
     switch((int)(table.getEntry("getpipe").getDouble(0.0))){
       case 0:
-        return sequenceType.Reflective_Tape;
+        return SequenceType.Reflective_Tape;
       
       case 1:
-        return sequenceType.April_Tags;
+        return SequenceType.April_Tags;
 
       default:
-        return sequenceType.Reflective_Tape;
+        return SequenceType.Reflective_Tape;
     }
   }
 
@@ -139,6 +126,8 @@ public class LimeLight extends SubsystemBase {
             case GridLevel2:
               SmartDashboard.putBoolean("Is Target Allinged", (distanceToTarget < 125 && distanceToTarget > 121) && (distanceToTargetX < 40 && distanceToTargetX > 35));
               break;
+            default:
+              break;
 
           }
 
@@ -169,6 +158,8 @@ public class LimeLight extends SubsystemBase {
             new Translation3d(robotPoseInDoubleArr[0], robotPoseInDoubleArr[1], robotPoseInDoubleArr[2]).toTranslation2d(),
             new Rotation3d(robotPoseInDoubleArr[3], robotPoseInDoubleArr[4], robotPoseInDoubleArr[5]).toRotation2d()
           );
+          break;
+        default:
           break;
 
               //fucking 119 distance and 38 dadas

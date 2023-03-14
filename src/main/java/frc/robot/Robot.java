@@ -12,7 +12,6 @@ import com.pathplanner.lib.server.PathPlannerServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.dashboardUtil.TimerWidget;
 import frc.util.dashboardUtil.TimerWidget.Mode;
@@ -130,6 +129,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    Pneumatics.getInstance().enableCompressor();
     if (widget == null)
     {
       widget = new TimerWidget("Tele-op", 15, Mode.TELEOP);

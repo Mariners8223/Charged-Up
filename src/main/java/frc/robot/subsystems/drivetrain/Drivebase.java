@@ -223,7 +223,7 @@ public class Drivebase extends SubsystemBase {
     SwerveModuleState[] desiredStates;
     switch (driveMode) {
       case fieldOriented:
-        this.targetSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, angle);
+        this.targetSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(getAngleDegrees()));
         desiredStates = swerveKinematics
             .toSwerveModuleStates(this.targetSpeeds);
         break;
@@ -303,8 +303,7 @@ public class Drivebase extends SubsystemBase {
   @Override
   public void periodic() {
     update();
-    the_Field2d.setRobotPose(getPose());
-    SmartDashboard.putData(the_Field2d);
+    SmartDashboard.putData(NavX);
     SmartDashboard.putNumber("pitch", getRoll());
   }
 }
