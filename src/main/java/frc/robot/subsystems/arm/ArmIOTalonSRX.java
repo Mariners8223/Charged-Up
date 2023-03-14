@@ -15,6 +15,7 @@ public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
   private TalonSRX extensionMotor;
   private DigitalInput extensionLimitSwitch;
+  private DigitalInput rotationLimitSwitch;
 
   private static ArmIOTalonSRX instance;
     
@@ -22,6 +23,7 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor = new TalonFX(ArmConstants.ARM_ROTATION);
     extensionMotor = new TalonSRX(ArmConstants.ARM_EXTENSION);
     extensionLimitSwitch = new DigitalInput(ArmConstants.EXTENSION_LIMIT_SWITCH_PORT);
+    // rotationLimitSwitch = new DigitalInput(ArmConstants.ROTATION_LIMIT_SWITCH_PORT);
 
     rotationMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     extensionMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -62,6 +64,10 @@ public class ArmIOTalonSRX implements ArmIO {
     extensionMotor.setSelectedSensorPosition(CM * ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION);
   }
 
+  public void resetRotationEncoder(double CM){
+    rotationMotor.setSelectedSensorPosition(CM* ArmConstants.ARM_ROTATION_GEAR_RATIO);
+  }
+
   @Override
   public void updateInputs(ArmIOInputs inputs) {
     // inputs.armAngleDeg = getArmAngleDeg();
@@ -72,8 +78,12 @@ public class ArmIOTalonSRX implements ArmIO {
     rotationMotor.setSelectedSensorPosition(0);
   }
 
-  public boolean getLimitSwitch() {
+  public boolean getExtensionLimitSwitch() {
     return !extensionLimitSwitch.get();
+  }
+
+  public boolean getRotationLimitSwitch(){
+    return !rotationLimitSwitch.get();
   }
 
 

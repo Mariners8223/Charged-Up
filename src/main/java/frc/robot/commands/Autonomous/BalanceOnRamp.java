@@ -27,6 +27,7 @@ public class BalanceOnRamp extends CommandBase {
   @Override
   public void initialize() {
     cooldown = Timer.getFPGATimestamp();
+    System.out.println("3");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +35,7 @@ public class BalanceOnRamp extends CommandBase {
   public void execute() {
 
     double speedDircation = 1;
-    if(drivebase.getPitch() > 0){
+    if(drivebase.getRoll() > 0){
       speedDircation = -1;
     }
 
@@ -42,17 +43,17 @@ public class BalanceOnRamp extends CommandBase {
     double speedMultiplyer = 0;
     double pitch = Math.abs(drivebase.getRoll());
     
-    if(Timer.getFPGATimestamp() - cooldown < 0.6){
+    if(Timer.getFPGATimestamp() - cooldown < 0.5){
       if(pitch > 10){
-        speedMultiplyer = 1.5;
+        speedMultiplyer = 1;
         timeSeinceLastAdjust = Timer.getFPGATimestamp();
       }
       else if(pitch > 5){
-        speedMultiplyer = 1.2;
+        speedMultiplyer = 0.7;
         timeSeinceLastAdjust = Timer.getFPGATimestamp();
       }
     }
-    else if(Timer.getFPGATimestamp() - cooldown > 1.1){
+    else if(Timer.getFPGATimestamp() - cooldown > 1.3){
       cooldown = Timer.getFPGATimestamp();
     }
 
@@ -64,6 +65,7 @@ public class BalanceOnRamp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     drivebase.drive(0, 0, 0);
+    //took 2 secs
   }
 
   // Returns true when the command should end.

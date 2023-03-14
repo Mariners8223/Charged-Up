@@ -23,10 +23,12 @@ import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
 import frc.robot.commands.Autonomous.PutConeOnSecondGrid;
+import frc.robot.commands.Autonomous.StartEnterRamp;
 import frc.robot.commands.primitive.arm.MoveArmToSetPoint;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
 import frc.robot.commands.primitive.arm.SetArmPostion;
-import frc.robot.commands.primitive.arm.calibrateArm;
+import frc.robot.commands.primitive.arm.calibrateArmExtension;
+import frc.robot.commands.primitive.arm.calibrateArmRotation;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.gripper.setGripperPostion;
 import frc.robot.commands.primitive.orientation.intakeCommand;
@@ -76,6 +78,9 @@ public class RobotContainer {
     Orientation.getInstance();
     Gripper.getInstance().solenoidOff();
     SmartDashboard.putString("Manual Adjust Select", "Rotation");
+    SmartDashboard.putString("current Postion", "Home");
+    SmartDashboard.putString("Future Postion", "Home");
+    Drivebase.getInstance().resetGyro();
 
 
     switch (Constants.currentMode) {
@@ -100,12 +105,12 @@ public class RobotContainer {
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Cone on High Grid and Balance", Autos.oneConeAndBalance());
     autoChooser.addOption("Cone on High", new PutConeOnSecondGrid());
-    autoChooser.addOption("Balance", new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
+    autoChooser.addOption("Balance", new SequentialCommandGroup(new StartEnterRamp(), new EnterRamp(), new BalanceOnRamp()));
     // Configure the button bindings
 
     Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
       Drivebase.getInstance().drive(-RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 12.5);
+          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * -12.5);
     }, Drivebase.getInstance()));
 
     configureButtonBindings();
@@ -206,12 +211,24 @@ public class RobotContainer {
     subController.povUp().onTrue(new SetArmPostion(true));
     subController.povDown().onTrue(new SetArmPostion(false));
     subController.povRight().onTrue(new MoveArmToSetPoint());
-    subController.povLeft().onTrue(new calibrateArm());
-    subController.cross().onTrue(new SequentialCommandGroup(new extendArmToLength(0), new RotateArmToPoint(0), new extendArmToLength(25)));
+    subController.options().onTrue(new calibrateArmExtension());
+    //subController.share().onTrue(new calibrateArmRotation());
+    subController.cross().onTrue(new SequentialCommandGroup(
+      new extendArmToLength(0),
+     new RotateArmToPoint(5),
+     new extendArmToLength(17),
+     new InstantCommand(() -> setArmPostion(0) ),
+      new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))));
     subController.R2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(0.15))).onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
     subController.L2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(-0.15))).onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
     subController.triangle().onTrue(new InstantCommand(() -> setMoveType()));
-
+    subController.button(15).onTrue(new SequentialCommandGroup(
+      new extendArmToLength(0),
+      new RotateArmToPoint(0),
+      new extendArmToLength(25),
+      new InstantCommand(() -> setArmPostion(0) ),
+      new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))
+    ));
     //TODO- add manual adjustment
 
 

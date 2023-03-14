@@ -3,9 +3,9 @@ package frc.robot.commands.primitive.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.Arm;
 
-public class calibrateArm extends CommandBase {
+public class calibrateArmExtension extends CommandBase {
   Arm arm;
-  public calibrateArm() {
+  public calibrateArmExtension() {
     arm = Arm.getInstance();
     addRequirements(arm);
   }
@@ -27,7 +27,7 @@ public class calibrateArm extends CommandBase {
     arm.stopExtensionMotor();
     arm.resetExtensionEncoder(-2);
     arm.extendToLengthMeters(0);
-    arm.setCalibrated(true);
+    arm.setExtenstionCalibrated(true);
   }
 
   // Returns true when the command should end.

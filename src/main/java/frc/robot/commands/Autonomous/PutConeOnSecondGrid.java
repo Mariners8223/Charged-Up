@@ -7,7 +7,8 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.primitive.Wait;
 import frc.robot.commands.primitive.arm.RotateArmToPoint;
-import frc.robot.commands.primitive.arm.calibrateArm;
+import frc.robot.commands.primitive.arm.calibrateArmExtension;
+import frc.robot.commands.primitive.arm.calibrateArmRotation;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.gripper.setGripperPostion;
 import frc.robot.subsystems.arm.Arm;
@@ -27,8 +28,9 @@ public class PutConeOnSecondGrid extends SequentialCommandGroup {
     addCommands
     (new setGripperPostion(SequenceType.Cone),
     new Wait(0.25),
-    new calibrateArm(),
-    new RotateArmToPoint(130),
+    new calibrateArmExtension(),
+    new calibrateArmRotation(),
+    new RotateArmToPoint(133),
     new extendArmToLength(51),
     new Wait(2),
     new setGripperPostion(SequenceType.Off),

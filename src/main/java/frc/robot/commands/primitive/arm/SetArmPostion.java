@@ -29,11 +29,11 @@ public class SetArmPostion extends InstantCommand {
       RobotContainer.setArmPostion(RobotContainer.getArmPosition() - 1);
     }
 
-    if(RobotContainer.getArmPosition() < 0){
-      RobotContainer.setArmPostion(0);
-    }
+    if(RobotContainer.getArmPosition() < 0){RobotContainer.setArmPostion(0);}
+    if(RobotContainer.getArmPosition() > 4){RobotContainer.setArmPostion(4);}
 
-    switch(RobotContainer.getArmPosition()%5){
+
+    switch(RobotContainer.getArmPosition()){
       case 0:
         position = "Home";
         break;
@@ -55,6 +55,6 @@ public class SetArmPostion extends InstantCommand {
         break;
     }
     
-    SmartDashboard.putString("Position Aimed", position);
+    SmartDashboard.putString("Future Postion", position);
   }
 }

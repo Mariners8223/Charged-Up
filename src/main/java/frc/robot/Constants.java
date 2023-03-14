@@ -66,6 +66,7 @@ public final class Constants {
   public static class ArmConstants {
     public static final int ARM_ROTATION = 28;
     public static final int EXTENSION_LIMIT_SWITCH_PORT = 0;
+    public static final int ROTATION_LIMIT_SWITCH_PORT = 1;
     public static final int ARM_EXTENSION = 24;
 
 

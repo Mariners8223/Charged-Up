@@ -17,14 +17,15 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
   private final ArmIOTalonSRX io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
-  private boolean calibrated;
+  private boolean extensionCalibrated;
+  private boolean rotationCalibrated;
   
 
   private Arm(ArmIOTalonSRX io) {
     this.io = io;
     new Trigger(this::getExtensionLimitSwitch).onTrue(new PrintCommand("fucking finally"));
-    calibrated = false;
-    SmartDashboard.putString("CURRENT GOAL", "HomePosition");
+    extensionCalibrated = false;
+    rotationCalibrated = false;
   }
 
   public static Arm getInstance() {
@@ -55,8 +56,8 @@ public class Arm extends SubsystemBase {
     Logger.getInstance().processInputs("Arm", inputs);
     SmartDashboard.putNumber("rotation sensor position", io.getArmAngleDeg());
     SmartDashboard.putNumber("Extension Length CM", io.getArmEncoder() / ArmConstants.ARM_EXTENSION_CM_PER_REVOLUTION);
-    SmartDashboard.putBoolean("limit switch", io.getLimitSwitch());
-    if (io.getLimitSwitch()) io.resetExtensionEncoder(-2);
+    SmartDashboard.putBoolean("limit switch", io.getExtensionLimitSwitch());
+    if (io.getExtensionLimitSwitch()) io.resetExtensionEncoder(-2);
   }
 
   public void extendToLengthMeters(double lengthMeters) {
@@ -67,9 +68,13 @@ public class Arm extends SubsystemBase {
     io.moveToAngle(desiredAngleDeg);
   }
 
-  public Boolean getExtensionLimitSwitch() { return io.getLimitSwitch(); }
+  public Boolean getExtensionLimitSwitch(){ return io.getExtensionLimitSwitch(); }
 
+  public boolean getRotationLimitSwitch(){ return io.getRotationLimitSwitch();}
 
+  public void resetRotationEncoder(double CM){
+    io.resetExtensionEncoder(CM);
+  }
 
   public void setFalconPO(double speed) {
     io.setRotationPrecent(speed);
@@ -82,12 +87,20 @@ public class Arm extends SubsystemBase {
     io.setExtensionPrecent(speed);
   }
 
-  public void setCalibrated(boolean isCalibrated){
-    calibrated = isCalibrated;
+  public void setExtenstionCalibrated(boolean isCalibrated){
+    extensionCalibrated = isCalibrated;
   }
 
-  public boolean isCalibrated() {
-    return calibrated;
+  public void setRotationCalibrated(boolean isCalibrated){
+    rotationCalibrated = isCalibrated;
+  }
+
+  public boolean isExtensionCalibrated() {
+    return extensionCalibrated;
+  }
+
+  public boolean isRotationCalibrated(){
+    return rotationCalibrated;
   }
 
   public void updateSetpoint(ArmSetpoint setpoint) {

@@ -43,6 +43,7 @@ public final class Autos {
   public static CommandBase  oneConeAndBalance() {
     return new SequentialCommandGroup(
       new PutConeOnSecondGrid(),
+      new StartEnterRamp(),
       new EnterRamp(),
       new BalanceOnRamp()
     );

@@ -68,7 +68,7 @@ public class OrientationIOVictorSPX implements OrientationIO {
   @Override
   public void setPercent(double percent) {
     rampMotor.set(ControlMode.PercentOutput, -percent + 0.1);
-    elevatedMotor.set(ControlMode.PercentOutput, percent);
+    elevatedMotor.set(ControlMode.PercentOutput, percent - 0.3);
   }
 
 }

@@ -4,15 +4,13 @@
 
 package frc.robot.commands.Autonomous;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivebase;
 
-public class EnterRamp extends CommandBase {
+public class StartEnterRamp extends CommandBase {
   private static Drivebase chassis;
-  private double TimeSienceEnterdRamp;
-  /** Creates a new EnterRamp. */
-  public EnterRamp() {
+  /** Creates a new StartEnterRamp. */
+  public StartEnterRamp() {
     chassis = Drivebase.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(chassis);
@@ -21,9 +19,8 @@ public class EnterRamp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    TimeSienceEnterdRamp = Timer.getFPGATimestamp();
-    chassis.drive(0, -2, 0);
-    System.out.println("2");
+    chassis.drive(0, -1.5, 0);
+    System.out.println("1");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,13 +29,11 @@ public class EnterRamp extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    chassis.drive(0, 0, 0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Timer.getFPGATimestamp() - TimeSienceEnterdRamp >= 1.8;
+    return Math.abs(chassis.getRoll()) > 3;
   }
 }

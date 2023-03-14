@@ -35,8 +35,8 @@ public class MoveArmToSetPoint extends CommandBase {
     String currentpostion = "shit";
     switch(position){
       case 0:
-        rotation = 0;
-        extension = 25;
+        rotation = 5;
+        extension = 17;
         currentpostion = "Home";
         break;
       
@@ -53,7 +53,7 @@ public class MoveArmToSetPoint extends CommandBase {
         break;
 
       case 3:
-        rotation = 131;
+        rotation = 133;
         extension = 47;
         currentpostion = "Grid Top";
         break;
@@ -90,6 +90,6 @@ public class MoveArmToSetPoint extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm.isAtExtensionSetpoint() && arm.isAtRotationSetpoint() && roateted & arm.isCalibrated();
+    return arm.isAtExtensionSetpoint() && arm.isAtRotationSetpoint() && roateted & arm.isExtensionCalibrated();
   }
 }
