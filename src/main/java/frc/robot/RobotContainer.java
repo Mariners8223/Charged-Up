@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.fasterxml.jackson.databind.jsontype.impl.SubTypeValidator;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,7 +30,6 @@ import frc.robot.commands.primitive.arm.calibrateArm;
 import frc.robot.commands.primitive.arm.extendArmToLength;
 import frc.robot.commands.primitive.gripper.setGripperPostion;
 import frc.robot.commands.primitive.orientation.intakeCommand;
-import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.gripper.Gripper;
@@ -68,10 +68,11 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    DataLogManager.start();
     Pneumatics.getInstance();
     Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
-    LimeLight.getInstance();
+    //LimeLight.getInstance();
     Orientation.getInstance();
     Gripper.getInstance().solenoidOff();
     SmartDashboard.putString("Manual Adjust Select", "Rotation");
@@ -94,16 +95,19 @@ public class RobotContainer {
     }
 
    
-    Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
-      Drivebase.getInstance().drive(-RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
-          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 11.5);
-    }, Drivebase.getInstance()));
+
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("Cone on High Grid and Balance", Autos.oneConeAndBalance());
     autoChooser.addOption("Cone on High", new PutConeOnSecondGrid());
     autoChooser.addOption("Balance", new SequentialCommandGroup(new EnterRamp(), new BalanceOnRamp()));
     // Configure the button bindings
+
+    Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
+      Drivebase.getInstance().drive(-RobotContainer.calculateDeadband(getDriveControllerRawAxis(0)) * SwerveModuleConstants.freeSpeedMetersPerSecond,
+          RobotContainer.calculateDeadband(getDriveControllerRawAxis(1)) * SwerveModuleConstants.freeSpeedMetersPerSecond, RobotContainer.calculateDeadband(getDriveControllerRawAxis(2)) * 12.5);
+    }, Drivebase.getInstance()));
+
     configureButtonBindings();
 
   }

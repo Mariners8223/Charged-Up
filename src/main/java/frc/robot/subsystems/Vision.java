@@ -113,14 +113,14 @@ public class Vision extends SubsystemBase {
       return;
     }*/
 
-    if(!resultLimelight.hasTargets()){
-      if(!OldLimeLight.getInstance().getIsLimeLightModeAprilTags()){
-        pose2d = null;
-        pose3d = null;
-        timeStamp = 0;
-        return;
-      }    
-    }
+    // if(!resultLimelight.hasTargets()){
+    //   if(!OldLimeLight.getInstance().getIsLimeLightModeAprilTags()){
+    //     pose2d = null;
+    //     pose3d = null;
+    //     timeStamp = 0;
+    //     return;
+    //   }    
+    // }
 
 
     /*double cameraAMB = 100;
