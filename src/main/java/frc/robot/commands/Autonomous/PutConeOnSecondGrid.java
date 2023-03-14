@@ -31,7 +31,7 @@ public class PutConeOnSecondGrid extends SequentialCommandGroup {
     new calibrateArmExtension(),
     new calibrateArmRotation(),
     new RotateArmToPoint(133),
-    new extendArmToLength(51),
+    new extendArmToLength(45.5),
     new Wait(2),
     new setGripperPostion(SequenceType.Off),
     new Wait(0.25),
@@ -42,3 +42,4 @@ public class PutConeOnSecondGrid extends SequentialCommandGroup {
     
   }
 }
+
