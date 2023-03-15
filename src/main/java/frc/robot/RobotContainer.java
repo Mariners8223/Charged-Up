@@ -262,7 +262,7 @@ public class RobotContainer {
   }
 
   private static void setMoveType(){
-    String type = "shit";
+    String type = "Rotation";
     switch(moveType){
       case Arm:
       
