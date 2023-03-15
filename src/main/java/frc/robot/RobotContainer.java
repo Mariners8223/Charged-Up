@@ -18,7 +18,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.MoveArmToSetPoint;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
@@ -99,7 +102,8 @@ public class RobotContainer {
         break;
     }
 
-   
+    Drivebase.getInstance().setDefaultCommand(new DriveCommand());
+
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());

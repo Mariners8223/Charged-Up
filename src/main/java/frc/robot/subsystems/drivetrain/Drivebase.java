@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -46,6 +47,8 @@ public class Drivebase extends SubsystemBase {
 
   private controlMode driveMode;
 
+  private PIDController thetaPIDController;
+
   private SwerveDriveKinematics swerveKinematics;
 
   private ChassisSpeeds targetSpeeds;
@@ -73,7 +76,8 @@ public class Drivebase extends SubsystemBase {
     targetSpeeds = new ChassisSpeeds(0, 0, 0);
     driveMode = controlMode.fieldOriented;
 
-    NavX.reset();
+    calibrate();
+
 
     odometry = new SwerveDriveOdometry(swerveKinematics, Rotation2d.fromDegrees(0), getModulePositions());
 
@@ -86,6 +90,10 @@ public class Drivebase extends SubsystemBase {
         swerveModule.setNeutralMode(false);
       }
     }));
+
+    thetaPIDController = Drivetrain.thetaPIDController.createPIDController();
+    thetaPIDController.setTolerance(Drivetrain.thetaPIDController.getTolerance());
+    thetaPIDController.enableContinuousInput(0, 360);
 
     // CommandScheduler.getInstance().registerSubsystem(this);
   }
@@ -178,7 +186,7 @@ public class Drivebase extends SubsystemBase {
       moduleStates[wheel.ordinal()] = swerveModules[wheel.ordinal()].getCurrentState();
     }
 
-    angle = NavX.getRotation2d();
+    angle = Rotation2d.fromDegrees(NavX.getAngle());
     odometry.update(angle, getModulePositions());
     SmartDashboard.putNumber("chassis angle", angle.getDegrees());
   }
@@ -265,6 +273,16 @@ public class Drivebase extends SubsystemBase {
    */
   public void resetGyro() {
     NavX.reset();
+    thetaPIDController.setSetpoint(0);
+    thetaPIDController.reset();
+  }
+
+  public double getRotationPID(double target) {
+    return thetaPIDController.calculate(getAngle(), target);
+  }
+
+  public boolean isAtRotationSetpoint() {
+    return thetaPIDController.atSetpoint();
   }
 
   public Rotation2d getAngleRotation() {
