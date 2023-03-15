@@ -262,20 +262,22 @@ public class RobotContainer {
   }
 
   private static void setMoveType(){
+    String type = "shit";
     switch(moveType){
       case Arm:
       
         moveType = SequenceType.Extenion;
-        SmartDashboard.putString("Manual Adjust select", "extention");
+        type = "Extension";
         break;
       
       case Extenion:
         moveType = SequenceType.Arm;
-        SmartDashboard.putString("Manual Adjust Select", "Rotation");
+        type = "Rotation";
         break;
       default:
         break;
     }
+    SmartDashboard.putString("Manual Adjust Select", type);
   }
 
   private static void setArmPostionOrExtension(double speed){
