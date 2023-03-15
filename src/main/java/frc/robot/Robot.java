@@ -118,6 +118,7 @@ public class Robot extends LoggedRobot {
       widget.reset();
     }
 
+    Drivebase.getInstance().resetGyro();
     autonomousCommand = robotContainer.getAutonomousCommand();
     autonomousCommand.schedule();
     // schedule the autonomous command (example)
