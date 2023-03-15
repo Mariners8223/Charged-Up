@@ -57,7 +57,8 @@ public class BalanceOnRamp extends CommandBase {
       cooldown = Timer.getFPGATimestamp();
     }
 
-    drivebase.drive(0, -(speedDircation * speedMultiplyer), 0);
+    double roation = drivebase.getRotationPID(drivebase.getAngle());
+    drivebase.drive(0, -(speedDircation * speedMultiplyer), roation);
 
 }
 

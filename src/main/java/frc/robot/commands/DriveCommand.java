@@ -30,12 +30,12 @@ public class DriveCommand extends CommandBase {
   public void execute() {
     xSpeed = RobotContainer.calculateDeadband(driveController.getRawAxis(0))
         * SwerveModuleConstants.freeSpeedMetersPerSecond;
-    ySpeed = RobotContainer.calculateDeadband(driveController.getRawAxis(1))
+    ySpeed = -RobotContainer.calculateDeadband(driveController.getRawAxis(1))
         * SwerveModuleConstants.freeSpeedMetersPerSecond;
     if (RobotContainer.calculateDeadband(driveController.getRawAxis(2)) != 0) {
       rotation = RobotContainer.calculateDeadband(driveController.getRawAxis(2)) * 10;
     } else rotation = swerve.getRotationPID(swerve.getAngle());
-    swerve.drive(ySpeed, xSpeed, rotation);
+    swerve.drive(xSpeed ,ySpeed , rotation);
   }
 
   // Called once the command ends or is interrupted.

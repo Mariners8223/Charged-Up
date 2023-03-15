@@ -28,7 +28,10 @@ public class EnterRamp extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    double roation = chassis.getRotationPID(chassis.getAngle());
+    chassis.drive(0, -2, roation);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

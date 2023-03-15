@@ -63,6 +63,9 @@ public class RobotContainer {
   private static final JoystickAxis driveL2Trigger = new JoystickAxis(driveController, 3);
   private static int position;
   private static SequenceType moveType = SequenceType.Arm;
+  private double SpeedX = 0;
+  private double SpeedY= 0;
+  private double Rotation= 0;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -297,6 +300,20 @@ public class RobotContainer {
       default:
         break;
     }
+  }
+
+  public void SetDriveBaseSpeeds(double speedX, double speedY, double roation){
+    Rotation = roation;
+    SpeedX = speedX;
+    SpeedY = SpeedX;
+  }
+
+  public double[] getDriveBaseSpeeds(){
+    double[] Speeds = new double[2];
+    Speeds[0] = SpeedX;
+    Speeds[1] = SpeedY;
+    Speeds[2] = Rotation;
+    return Speeds;
   }
 
 

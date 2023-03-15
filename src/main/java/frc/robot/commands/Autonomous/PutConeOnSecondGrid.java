@@ -29,7 +29,6 @@ public class PutConeOnSecondGrid extends SequentialCommandGroup {
     (new setGripperPostion(SequenceType.Cone),
     new Wait(0.25),
     new calibrateArmExtension(),
-    new calibrateArmRotation(),
     new RotateArmToPoint(133),
     new extendArmToLength(45.5),
     new Wait(2),
