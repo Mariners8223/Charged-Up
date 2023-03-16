@@ -117,16 +117,16 @@ public final class Constants {
       public static final double steeringVelocityConversionFactor = steeringPositionConversionFactor / 60; // degrees /
                                                                                                            // (rotations
                                                                                                            // *
-                                                                                                           // seconds/minute)
+      //                                                                                                      // seconds/minute)
       // public final static double cancoderTLOffset = 0;
       // public final static double cancoderTROffset = 0;
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
-      public final static double cancoderTLOffset = 321;
-      public final static double cancoderTROffset = 114;
-      public final static double cancoderBLOffset = 58;
-      public final static double cancoderBROffset = 185;
+      public final static double cancoderTLOffset = 132;
+      public final static double cancoderTROffset = 239;
+      public final static double cancoderBLOffset = 234;
+      public final static double cancoderBROffset = 180;
 
 
       public final int idDrive;
@@ -158,11 +158,11 @@ public final class Constants {
     }
 
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
-        SwerveModuleConstants.cancoderTLOffset, 10, false, true );
+        SwerveModuleConstants.cancoderTLOffset, 10, false, false );
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
-        SwerveModuleConstants.cancoderTROffset, 11, false, true);
-    public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6, 7,
-        SwerveModuleConstants.cancoderBLOffset, 12, false, true);
+        SwerveModuleConstants.cancoderTROffset, 11, false, false);
+    public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6,  7,
+        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
         SwerveModuleConstants.cancoderBROffset, 13, false, false);
   
