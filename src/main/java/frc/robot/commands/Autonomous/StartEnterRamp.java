@@ -19,7 +19,7 @@ public class StartEnterRamp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    chassis.drive(0, -1.5, 0);
+    chassis.drive(0, 1.5, 0);
     System.out.println("1");
   }
 
@@ -27,7 +27,7 @@ public class StartEnterRamp extends CommandBase {
   @Override
   public void execute() {
     double roation = chassis.getRotationPID(chassis.getAngle());
-    chassis.drive(0, -1.5, roation);
+    chassis.drive(0, 1.5, roation);
   }
 
   // Called once the command ends or is interrupted.

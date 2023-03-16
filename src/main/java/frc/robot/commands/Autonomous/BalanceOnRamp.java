@@ -34,9 +34,9 @@ public class BalanceOnRamp extends CommandBase {
   @Override
   public void execute() {
 
-    double speedDircation = 1;
+    double speedDircation = -1;
     if(drivebase.getRoll() > 0){
-      speedDircation = -1;
+      speedDircation = 1;
     }
 
 
