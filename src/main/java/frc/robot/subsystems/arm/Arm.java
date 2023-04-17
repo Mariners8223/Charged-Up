@@ -77,6 +77,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void setFalconPO(double speed) {
+    if(io.getArmAngleDeg() >= 20 && io.getArmAngleDeg() <= 55){ speed = 0;}
     io.setRotationPrecent(speed);
   }
 
@@ -84,6 +85,7 @@ public class Arm extends SubsystemBase {
     io.resetExtensionEncoder(CM);
   }
   public void set775PO(double speed) {
+    if(io.getArmAngleDeg() >= 20 && io.getArmAngleDeg() <= 55){ speed = 0;}
     io.setExtensionPrecent(speed);
   }
 
