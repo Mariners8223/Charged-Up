@@ -103,7 +103,7 @@ public class RobotContainer {
         break;
     }
 
-    Drivebase.getInstance().setDefaultCommand(new DriveCommand());
+
 
 
     // Set up auto routines

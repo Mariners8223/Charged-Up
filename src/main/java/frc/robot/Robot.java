@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.drivetrain.Drivebase;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.dashboardUtil.TimerWidget;
@@ -153,6 +154,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    Drivebase.getInstance().setDefaultCommand(new DriveCommand());
 
 
     Pneumatics.getInstance().enableCompressor();

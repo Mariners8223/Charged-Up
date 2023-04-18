@@ -123,10 +123,10 @@ public final class Constants {
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
-      public final static double cancoderTLOffset = 303.7;
-      public final static double cancoderTROffset = 213.7;
-      public final static double cancoderBLOffset = 236.6;
-      public final static double cancoderBROffset = 182.9;
+      public final static double cancoderTLOffset = 304.3;
+      public final static double cancoderTROffset = 53.7;
+      public final static double cancoderBLOffset = 57.2;
+      public final static double cancoderBROffset = 186.7;
 
 
       public final int idDrive;
@@ -140,8 +140,8 @@ public final class Constants {
 
       public SwerveModuleConstants(int idDrive, int idSteering, double cancoderZeroAngle,
           int canCoderId, boolean isSteeringInverted, boolean isDriveInverted) {
-        this(idDrive, idSteering, new PIDFGains(0.05, 0, 0, 0, 1, 0),
-            new PIDFGains(0.1, 0, 0.1, 0, 1, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
+        this(idDrive, idSteering, new PIDFGains(0.05, 0, 0, 0, 0.75, 0),
+            new PIDFGains(0.1, 0, 0.1, 0, 0.75, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
       }
 
       public SwerveModuleConstants(int idDrive, int idSteering, PIDFGains driveGains,
@@ -160,15 +160,15 @@ public final class Constants {
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
         SwerveModuleConstants.cancoderTLOffset, 10, false, true );
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
-        SwerveModuleConstants.cancoderTROffset, 11, false, false);
+        SwerveModuleConstants.cancoderTROffset, 11, false, true);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6,  7,
-        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
+        SwerveModuleConstants.cancoderBLOffset, 12, false, true);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
         SwerveModuleConstants.cancoderBROffset, 13, false, false);
   
     public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);
-    public static final PIDFGains angleAutoPID = new PIDFGains(0.4, 0.0, 0.0);
+    public static final PIDFGains angleAutoPID = new PIDFGains(0.6, 0.0, 0.0);
     public static final PIDFGains thetaPIDController = new PIDFGains(0.0225, 0, 0.0032, 0, 2, 0);
     public static final double kTrackWidth = 0.55; // Distance between right and left wheels
     public static final double kWheelBase = 0.55; // Distance between front and back wheels
