@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
+import frc.robot.commands.Autonomous.AligenToConeGrid;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.Autonomous.BalanceOnRamp;
 import frc.robot.commands.Autonomous.EnterRamp;
@@ -78,6 +79,7 @@ public class RobotContainer {
     Pneumatics.getInstance();
     Gripper.getInstance();
     Pneumatics.getInstance().enableCompressor();
+    Arm.getInstance();
     //LimeLight.getInstance();
     Orientation.getInstance();
     Gripper.getInstance().solenoidOff();
@@ -111,6 +113,7 @@ public class RobotContainer {
     autoChooser.addOption("Cone on High Grid and Balance", Autos.oneConeAndBalance());
     autoChooser.addOption("Cone on High", new PutConeOnSecondGrid());
     autoChooser.addOption("Balance", new SequentialCommandGroup(new StartEnterRamp(), new EnterRamp(), new BalanceOnRamp()));
+    autoChooser.addOption("aliign", new AligenToConeGrid());
     // Configure the button bindings
 
     // Drivebase.getInstance().setDefaultCommand(new RunCommand(() -> {
