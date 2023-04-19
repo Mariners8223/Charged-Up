@@ -11,59 +11,27 @@ import frc.robot.subsystems.FaultChecker;
 /** Add your docs here. */
 public class ToggleSwitch {
     
-    private static int[] toggleLocation;
+    private Boolean[] toggleLocation;
 
     public ToggleSwitch(){
-        toggleLocation = new int[frc.robot.Constants.ToggleSwitchCount];
+        toggleLocation = new Boolean[frc.robot.Constants.ToggleSwitchCount];
         for(int i = 0; i < toggleLocation.length; i++){
-            toggleLocation[i] = 0;
+            toggleLocation[i] = false;
         }
     }
 
     //toggle speed is number 0
-    public static void toggleTheSwitch(int number){
-        switch(toggleLocation[number]){
-            default:
-                toggleLocation[number] = 0;
-                break;
-
-            case 0:
-                toggleLocation[number] = 1;
-                break;
-
-            case 1:
-                toggleLocation[number] = 0;
-                break;
-        }
+    public void toggleTheSwitch(int number){
+        toggleLocation[number] = !toggleLocation[number];
     }
 
-    public static boolean getToggleSwitchValue(int number){
-        switch(toggleLocation[number]){
-            case 0:
-                return false;
-
-            case 1:
-                return true;
-            
-            default:
-                return false;
-        }
+    public boolean getToggleSwitchValue(int number){
+        return toggleLocation[number];
     }
 
-    public static boolean ToggleTheSwitchAndgetToggleSwitchValue(int number){
-        switch(toggleLocation[number]){
-            default:
-                toggleLocation[number] = 0;
-                return false;
-
-            case 0:
-                toggleLocation[number] = 1;
-                return false;
-
-            case 1:
-                toggleLocation[number] = 0;
-                return true;
-        }
+    public boolean ToggleTheSwitchAndGetToggleSwitchValue(int number){
+        toggleLocation[number] = !toggleLocation[number];
+        return toggleLocation[number];
     }
 }
 

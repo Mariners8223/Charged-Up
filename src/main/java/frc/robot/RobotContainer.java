@@ -67,6 +67,7 @@ public class RobotContainer {
   private double SpeedX = 0;
   private double SpeedY= 0;
   private double Rotation= 0;
+  private ToggleSwitch toggleSwitch;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -88,6 +89,7 @@ public class RobotContainer {
     SmartDashboard.putString("current Postion", "Home");
     SmartDashboard.putString("Future Postion", "Home");
     Drivebase.getInstance().resetGyro();
+    toggleSwitch = new ToggleSwitch();
 
 
     switch (Constants.currentMode) {
@@ -292,7 +294,7 @@ public class RobotContainer {
   }
 
   private void toggleSwerveSpeed(){
-    if(ToggleSwitch.ToggleTheSwitchAndgetToggleSwitchValue(0)){
+    if(toggleSwitch.ToggleTheSwitchAndGetToggleSwitchValue(0)){
       Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 3;
     }
     else{
