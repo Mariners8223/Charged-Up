@@ -24,6 +24,7 @@ public final class Constants {
   public static final double heldThres = -0.9;
   public static final boolean IsLimeLightAprilTags = false;
   public static final int FALCON500_COUNTS_PER_REVOLUTION = 2048;
+  public static final int ToggleSwitchCount = 1;
   static class FieldConstants {
     static final double length = Units.feetToMeters(54);
     static final double width = Units.feetToMeters(27);
@@ -107,7 +108,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static double freeSpeedMetersPerSecond = 3;
+      public static double freeSpeedMetersPerSecond = 4.75;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)

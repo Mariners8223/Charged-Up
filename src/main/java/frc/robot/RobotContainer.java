@@ -40,6 +40,7 @@ import frc.robot.subsystems.gripper.Gripper;
 import frc.robot.subsystems.orientation.Orientation;
 import frc.robot.subsystems.pneumatics.Pneumatics;
 import frc.util.SequenceType;
+import frc.util.ToggleSwitch;
 import frc.util.humanIO.CommandPS5Controller;
 import frc.util.humanIO.JoystickAxis;
 /**
@@ -206,12 +207,13 @@ public class RobotContainer {
 
 
     driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    driveController.R1().onTrue(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 2)).onFalse(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 4.5 ));
+    driveController.R2().onTrue(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 2)).onFalse(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 4.5 ));
     driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
     driveController.povUp().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.povUp().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     driveController.povDown().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.povDown().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
+    driveController.R1().onTrue(new InstantCommand(() -> toggleSwerveSpeed()));
     
 
     subController.R1().onTrue(new setGripperPostion(SequenceType.Cone)).onFalse(new setGripperPostion(SequenceType.Off));
@@ -289,8 +291,17 @@ public class RobotContainer {
     SmartDashboard.putString("Manual Adjust Select", type);
   }
 
+  private void toggleSwerveSpeed(){
+    if(ToggleSwitch.ToggleTheSwitchAndgetToggleSwitchValue(0)){
+      Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 3;
+    }
+    else{
+      Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 4.75;
+    }
+  }
+
   private static void setArmPostionOrExtension(double speed){
-    if(getArmPosition() == 0 || getArmPosition() == 1){speed = 0;}
+    if(!Arm.getInstance().isExtensionCalibrated() || (Arm.getInstance().getArmRotationDeg() >= 0 && Arm.getInstance().getArmRotationDeg() <= 65)){speed = 0;}
     switch(moveType){
       case Arm:
         Arm.getInstance().setFalconPO(speed);
@@ -304,6 +315,8 @@ public class RobotContainer {
         break;
     }
   }
+
+  
 
   public void SetDriveBaseSpeeds(double speedX, double speedY, double roation){
     Rotation = roation;

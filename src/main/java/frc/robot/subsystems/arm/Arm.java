@@ -77,7 +77,6 @@ public class Arm extends SubsystemBase {
   }
 
   public void setFalconPO(double speed) {
-    if(io.getArmAngleDeg() >= -20 && io.getArmAngleDeg() <= 65){ speed = 0;}
     io.setRotationPrecent(speed);
   }
 
@@ -85,7 +84,6 @@ public class Arm extends SubsystemBase {
     io.resetExtensionEncoder(CM);
   }
   public void set775PO(double speed) {
-    if(io.getArmAngleDeg() >= -20 && io.getArmAngleDeg() <= 65 && Arm.getInstance().isExtensionCalibrated()){ speed = 0;}
     io.setExtensionPrecent(speed);
   }
 
@@ -107,6 +105,14 @@ public class Arm extends SubsystemBase {
 
   public void updateSetpoint(ArmSetpoint setpoint) {
     SmartDashboard.putString("CURRENT POSITION", setpoint.toString());
+  }
+
+  public double getArmRotationDeg(){
+    return io.getArmAngleDeg();
+  }
+
+  public double getArmExtensionCM(){
+    return io.getArmLengthMeters();
   }
 
   public static enum ArmSetpoint {
