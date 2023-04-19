@@ -39,13 +39,13 @@ public class AligenToConeGrid extends CommandBase {
     distanceX = vision.getDistanceX();
     double speed = controller.calculate(distanceX);
     double roataion = swerve.getRotationPID(swerve.getAngle());
-    swerve.drive(0, speed, roataion);
+    swerve.drive(0, speed, roataion, swerve.getDesiredAngle());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerve.drive(0, 0, 0);
+    swerve.drive(0, 0, 0, swerve.getDesiredAngle());
   }
 
   // Returns true when the command should end.

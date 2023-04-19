@@ -22,7 +22,7 @@ public class EnterRamp extends CommandBase {
   @Override
   public void initialize() {
     TimeSienceEnterdRamp = Timer.getFPGATimestamp();
-    chassis.drive(0, 2, 0);
+    chassis.drive(0, 2, 0, chassis.getDesiredAngle());
     System.out.println("2");
   }
 
@@ -30,13 +30,13 @@ public class EnterRamp extends CommandBase {
   @Override
   public void execute() {
     double roation = chassis.getRotationPID(chassis.getAngle());
-    chassis.drive(0, 2, roation);
+    chassis.drive(0, 2, roation, chassis.getDesiredAngle());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    chassis.drive(0, 0, 0);
+    chassis.drive(0, 0, 0, chassis.getDesiredAngle());
   }
 
   // Returns true when the command should end.

@@ -58,14 +58,14 @@ public class BalanceOnRamp extends CommandBase {
     }
 
     double roation = drivebase.getRotationPID(drivebase.getAngle());
-    drivebase.drive(0, -(speedDircation * speedMultiplyer), roation);
+    drivebase.drive(0, -(speedDircation * speedMultiplyer), roation, drivebase.getDesiredAngle());
 
 }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivebase.drive(0, 0, 0);
+    drivebase.drive(0, 0, 0, drivebase.getDesiredAngle());
     //took 2 secs
   }
 

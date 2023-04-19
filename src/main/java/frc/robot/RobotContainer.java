@@ -219,21 +219,22 @@ public class RobotContainer {
     subController.options().onTrue(new calibrateArmExtension());
     //subController.share().onTrue(new calibrateArmRotation());
     subController.cross().onTrue(new SequentialCommandGroup(
-      new extendArmToLength(0),
-     new RotateArmToPoint(5),
-     new extendArmToLength(17),
-     new InstantCommand(() -> setArmPostion(0) ),
-      new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))));
-    subController.R2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(0.15))).onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
-    subController.L2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(-0.15))).onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
+        new extendArmToLength(0),
+        new RotateArmToPoint(5),
+        new extendArmToLength(17),
+        new InstantCommand(() -> setArmPostion(0)),
+        new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))));
+    subController.R2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(0.15)))
+        .onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
+    subController.L2().onTrue(new InstantCommand(() -> setArmPostionOrExtension(-0.15)))
+        .onFalse(new InstantCommand(() -> setArmPostionOrExtension(0)));
     subController.triangle().onTrue(new InstantCommand(() -> setMoveType()));
     subController.button(15).onTrue(new SequentialCommandGroup(
-      new extendArmToLength(0),
-      new RotateArmToPoint(0),
-      new extendArmToLength(25),
-      new InstantCommand(() -> setArmPostion(0) ),
-      new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))
-    ));
+        new extendArmToLength(0),
+        new RotateArmToPoint(0),
+        new extendArmToLength(25),
+        new InstantCommand(() -> setArmPostion(0)),
+        new InstantCommand(() -> SmartDashboard.putString("current Postion", "Home"))));
     //TODO- add manual adjustment
 
 

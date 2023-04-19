@@ -57,6 +57,7 @@ public class Drivebase extends SubsystemBase {
   private Field2d the_Field2d;
 
   private Rotation2d angle;
+  private Rotation2d m_desiredAngle;
 
   private Drivebase() {
     swerveModules = new SwerveModule[4];
@@ -93,7 +94,9 @@ public class Drivebase extends SubsystemBase {
 
     thetaPIDController = Drivetrain.thetaPIDController.createPIDController();
     thetaPIDController.setTolerance(Drivetrain.thetaPIDController.getTolerance());
-    thetaPIDController.enableContinuousInput(0, 360);
+    thetaPIDController.enableContinuousInput(-360, 360);
+
+    m_desiredAngle = Rotation2d.fromDegrees(NavX.getAngle());
 
     // CommandScheduler.getInstance().registerSubsystem(this);
   }
@@ -177,6 +180,10 @@ public class Drivebase extends SubsystemBase {
     return instance;
   }
 
+  public Rotation2d getDesiredAngle() {return m_desiredAngle;}
+  public double calculateReference(Rotation2d currentAngle) {return thetaPIDController.calculate(currentAngle.getDegrees(), m_desiredAngle.getDegrees());}
+  public double calculateError() {return thetaPIDController.getPositionError(); }
+
   /**
    * Updates the state of the swerve modules and the odometry.
    */
@@ -224,10 +231,11 @@ public class Drivebase extends SubsystemBase {
    * @param ySpeed The speed in the y direction.
    * @param rot The rotation.
    */
-  public void drive(double ySpeed, double xSpeed, double rot) {
+  public void drive(double ySpeed, double xSpeed, double rot, Rotation2d angle) {
     SmartDashboard.putNumber("xSpeed", xSpeed);
     SmartDashboard.putNumber("ySpeed", ySpeed);
     SmartDashboard.putNumber("rot", rot);
+    m_desiredAngle = angle;
     SwerveModuleState[] desiredStates;
     switch (driveMode) {
       case fieldOriented:
