@@ -67,7 +67,7 @@ public class RobotContainer {
   private double SpeedX = 0;
   private double SpeedY= 0;
   private double Rotation= 0;
-  private ToggleSwitch toggleSwitch;
+  public static ToggleSwitch toggleSwitch;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");

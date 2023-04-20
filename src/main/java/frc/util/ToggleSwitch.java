@@ -33,5 +33,9 @@ public class ToggleSwitch {
         toggleLocation[number] = !toggleLocation[number];
         return toggleLocation[number];
     }
+
+    public void setSwitchState(int number, boolean state){
+        toggleLocation[number] = state;
+    }
 }
 

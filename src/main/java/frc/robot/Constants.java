@@ -24,7 +24,7 @@ public final class Constants {
   public static final double heldThres = -0.9;
   public static final boolean IsLimeLightAprilTags = false;
   public static final int FALCON500_COUNTS_PER_REVOLUTION = 2048;
-  public static final int ToggleSwitchCount = 1;
+  public static final int ToggleSwitchCount = 2;
   static class FieldConstants {
     static final double length = Units.feetToMeters(54);
     static final double width = Units.feetToMeters(27);
