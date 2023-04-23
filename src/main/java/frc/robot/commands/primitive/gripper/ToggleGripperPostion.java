@@ -18,6 +18,10 @@ public class ToggleGripperPostion extends InstantCommand {
   private ToggleSwitch toggleSwitch;
   private Gripper gripper;
   private SequenceType state;
+  private enum toggle{
+    open, closed, free
+  }
+  toggle toggleEnum = toggle.closed;
   public ToggleGripperPostion(SequenceType state) {
     toggleSwitch = RobotContainer.toggleSwitch;
     gripper = Gripper.getInstance();
@@ -33,22 +37,46 @@ public class ToggleGripperPostion extends InstantCommand {
         break;
 
       case Cube:
-        toggleSwitch.setSwitchState(2, false);
-        if(toggleSwitch.ToggleTheSwitchAndGetToggleSwitchValue(1)){
-          gripper.solenoidOff();
-        }
-        else{
-          gripper.solenoidBack();
+        switch(toggleEnum){
+          default:
+            break;
+          
+          case free:
+            toggleEnum = toggleEnum.open;
+            gripper.solenoidBack();
+            break;
+
+          case open:
+            toggleEnum = toggleEnum.free;
+            gripper.solenoidOff();
+            break;
+
+          case closed:
+            toggleEnum = toggleEnum.free;
+            gripper.solenoidForward();
+            break;
         }
         break;
 
       case Cone:
-        toggleSwitch.setSwitchState(1, false);
-        if(toggleSwitch.ToggleTheSwitchAndGetToggleSwitchValue(2)){
-          gripper.solenoidForward();
-        }
-        else{
-          gripper.solenoidBack();
+        switch(toggleEnum){
+          default:
+            break;
+
+          case free:
+            toggleEnum = toggleEnum.closed;
+            gripper.solenoidForward();
+            break;
+
+          case open:
+            toggleEnum = toggleEnum.closed;
+            gripper.solenoidForward();
+            break;
+
+          case closed:
+            toggleEnum = toggleEnum.open;
+            gripper.solenoidBack();
+            break;
         }
         break;
     }

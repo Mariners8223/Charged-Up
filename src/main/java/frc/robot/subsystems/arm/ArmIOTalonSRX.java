@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.drivetrain.Drivebase.controlMode;
 
 public class ArmIOTalonSRX implements ArmIO {
   private TalonFX rotationMotor;
