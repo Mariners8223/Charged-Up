@@ -124,10 +124,10 @@ public final class Constants {
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
-      public final static double cancoderTLOffset = 308.5;
-      public final static double cancoderTROffset = 351.2;
-      public final static double cancoderBLOffset = 235.5;
-      public final static double cancoderBROffset = 359.4;
+      public final static double cancoderTLOffset = 121.5;
+      public final static double cancoderTROffset = 177.8;
+      public final static double cancoderBLOffset = 236.4;
+      public final static double cancoderBROffset = 183.0;
 
 
       public final int idDrive;
@@ -159,13 +159,13 @@ public final class Constants {
     }
 
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
-        SwerveModuleConstants.cancoderTLOffset, 10, false, true );
+        SwerveModuleConstants.cancoderTLOffset, 10, false, false );
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
-        SwerveModuleConstants.cancoderTROffset, 11, false, true);
+        SwerveModuleConstants.cancoderTROffset, 11, false, false);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6,  7,
         SwerveModuleConstants.cancoderBLOffset, 12, false, false);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
-        SwerveModuleConstants.cancoderBROffset, 13, false, true);
+        SwerveModuleConstants.cancoderBROffset, 13, false, false);
   
     public static final PIDFGains xAutoPID = new PIDFGains(0.1, 0.0, 0.0);
     public static final PIDFGains yAutoPID = new PIDFGains(0.1, 0.0, 0.0);
