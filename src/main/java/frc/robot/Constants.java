@@ -124,6 +124,9 @@ public final class Constants {
       // public final static double cancoderBLOffset = 0;
       // public final static double cancoderBROffset = 0;
 
+      
+      // CANCoder angle offset
+      // Used to find a common zeroed out position for all modules
       public final static double cancoderTLOffset = 121.5;
       public final static double cancoderTROffset = 177.8;
       public final static double cancoderBLOffset = 236.4;
