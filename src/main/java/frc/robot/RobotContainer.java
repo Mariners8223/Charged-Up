@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.fasterxml.jackson.databind.jsontype.impl.SubTypeValidator;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -80,7 +81,7 @@ public class RobotContainer {
     DataLogManager.start();
     Pneumatics.getInstance();
     Gripper.getInstance();
-    Pneumatics.getInstance().enableCompressor();
+    // Pneumatics.getInstance().enableCompressor();
     Arm.getInstance();
     //LimeLight.getInstance();
     Orientation.getInstance();

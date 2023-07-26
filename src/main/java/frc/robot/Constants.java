@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.util.PIDFGains;
 
 /**
@@ -108,7 +109,7 @@ public final class Constants {
      * @param isDriveInverted    Whether the drive is inverted.
      */
     public static class SwerveModuleConstants {
-      public static double freeSpeedMetersPerSecond = 4.75;
+      public static double freeSpeedMetersPerSecond = 4.5;
       public static final double driveRatio = 6.75;
       public static final double steeringRatio = 12.5;
       public static final double wheelRadiusMeters = 0.0508; // 2 inches (in meters)
@@ -127,10 +128,10 @@ public final class Constants {
       
       // CANCoder angle offset
       // Used to find a common zeroed out position for all modules
-      public final static double cancoderTLOffset = 121.5;
-      public final static double cancoderTROffset = 177.8;
-      public final static double cancoderBLOffset = 236.4;
-      public final static double cancoderBROffset = 183.0;
+      public final static double cancoderTLOffset = 305;
+      public final static double cancoderTROffset = 177;
+      public final static double cancoderBLOffset = 57;
+      public final static double cancoderBROffset = 177;
 
 
       public final int idDrive;
@@ -144,7 +145,7 @@ public final class Constants {
 
       public SwerveModuleConstants(int idDrive, int idSteering, double cancoderZeroAngle,
           int canCoderId, boolean isSteeringInverted, boolean isDriveInverted) {
-        this(idDrive, idSteering, new PIDFGains(0.05, 0, 0, 0, 0.75, 0),
+        this(idDrive, idSteering, new PIDFGains(0.263 , 0.00001 , 0.00 , 0, 0.7, cancoderZeroAngle),
             new PIDFGains(0.1, 0, 0.1, 0, 0.75, 0), cancoderZeroAngle, canCoderId, isSteeringInverted, isDriveInverted);
       }
 
@@ -162,11 +163,11 @@ public final class Constants {
     }
 
     public static final SwerveModuleConstants FLModule = new SwerveModuleConstants(2, 3,
-        SwerveModuleConstants.cancoderTLOffset, 10, false, false );
+        SwerveModuleConstants.cancoderTLOffset, 10, false, true );
     public static final SwerveModuleConstants FRModule = new SwerveModuleConstants(4, 5,
-        SwerveModuleConstants.cancoderTROffset, 11, false, false);
+        SwerveModuleConstants.cancoderTROffset, 11, false, true);
     public static final SwerveModuleConstants BLModule = new SwerveModuleConstants(6,  7,
-        SwerveModuleConstants.cancoderBLOffset, 12, false, false);
+        SwerveModuleConstants.cancoderBLOffset, 12, false, true);
     public static final SwerveModuleConstants BRModule = new SwerveModuleConstants(8, 9,
         SwerveModuleConstants.cancoderBROffset, 13, false, false);
   

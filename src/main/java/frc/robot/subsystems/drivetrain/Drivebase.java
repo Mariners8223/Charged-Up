@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants;
 import frc.robot.Constants.Drivetrain;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 
@@ -206,6 +207,14 @@ public class Drivebase extends SubsystemBase {
     this.driveMode = driveMode;
   }
 
+  public float[] getVelocityReal() {
+    float speedX = NavX.getVelocityX();
+    float SpeedY = NavX.getVelocityY();
+    float speedZ = NavX.getVelocityZ();
+    float[] speeds = {speedX, SpeedY, speedZ};
+    return speeds;
+  }
+
   /**
   * Sets the target speeds for the chassis.
   * @param target_speeds the target speeds for the chassis.
@@ -249,7 +258,9 @@ public class Drivebase extends SubsystemBase {
         break;
     }
     // System.out.println(this.targetSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveModuleConstants.freeSpeedMetersPerSecond);
+    // System.out.println(desiredStates);
+    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveModuleConstants.freeSpeedMetersPerSecond);
+    // System.out.println(desiredStates[0]);
     for (wheels wheel : wheels.values()) {
       swerveModules[wheel.ordinal()].set(desiredStates[wheel.ordinal()]);
     }
@@ -331,5 +342,8 @@ public class Drivebase extends SubsystemBase {
     update();
     SmartDashboard.putData(NavX);
     SmartDashboard.putNumber("pitch", getRoll());
+    SmartDashboard.putNumber("RealSpeedX", getVelocityReal()[0]);
+    SmartDashboard.putNumber("RealSpeedY", getVelocityReal()[1]);
+    SmartDashboard.putNumber("RealSpeedZ", getVelocityReal()[2]);
   }
 }

@@ -64,7 +64,7 @@ public class SwerveModule {
     SmartDashboard.putNumber(moduleName + "Cancoder position", getAbsolutePosition());
     SmartDashboard.putNumber(moduleName + "Neo encoder position",
         (m_steeringMotor.getEncoder().getPosition() * SwerveModuleConstants.steeringPositionConversionFactor) % 360);
-    SmartDashboard.putNumber(moduleName + "RPM", m_driveMotor.getSelectedSensorVelocity() * 10 / 2048 * 60);
+    SmartDashboard.putNumber(moduleName + "RPM", ((m_driveMotor.getSelectedSensorVelocity() * 10) / 2048) * 60);
     m_steerRotations = m_steeringMotor.getEncoder().getPosition() / SwerveModuleConstants.steeringRatio;
     currentState.angle = Rotation2d.fromDegrees(m_steerRotations * 360.0);
     currentState.speedMetersPerSecond = getRPS() * SwerveModuleConstants.wheelCircumferenceMeters
@@ -197,7 +197,10 @@ public class SwerveModule {
     target = SwerveModuleState.optimize(target, currentState.angle);
     this.targetState = target;
 
-    m_driveMotor.set(ControlMode.Velocity, meterPerSecToRPS(this.targetState.speedMetersPerSecond) / 10 * 2048);
+    m_driveMotor.set(ControlMode.Velocity, 
+    meterPerSecToRPM(this.targetState.speedMetersPerSecond) / 60 * 2048 / 10);
+   
+    System.out.println(meterPerSecToRPM(this.targetState.speedMetersPerSecond));
     SmartDashboard.putNumber(moduleName + "desired angle", minChangeInSteerAngle(this.targetState.angle.getDegrees()));
     m_steeringMotor.getPIDController().setReference(degreesToRotations(minChangeInSteerAngle(this.targetState.angle.getDegrees())),
         CANSparkMax.ControlType.kPosition);
@@ -208,8 +211,9 @@ public class SwerveModule {
    * @param speed The speed in meters per second.
    * @return The speed in rotations per second.
    */
-  private double meterPerSecToRPS(double speed) {
-    return speed * SwerveModuleConstants.driveRatio / SwerveModuleConstants.wheelCircumferenceMeters;
+  private double meterPerSecToRPM(double speed) {
+    // return speed * SwerveModuleConstants.driveRatio / SwerveModuleConstants.wheelCircumferenceMeters;
+    return ((speed * (60 / SwerveModuleConstants.wheelCircumferenceMeters)) * SwerveModuleConstants.driveRatio);
   }
 
   /**
