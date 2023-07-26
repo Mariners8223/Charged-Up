@@ -71,10 +71,6 @@ public class SwerveModule {
     currentState.angle = Rotation2d.fromDegrees(m_steerRotations * 360.0);
     currentState.speedMetersPerSecond = getRPS() * SwerveModuleConstants.wheelCircumferenceMeters
         / SwerveModuleConstants.driveRatio;
-    m_driveMotor.config_kP(0, RobotContainer.drive_KP);
-    m_driveMotor.config_kI(0, RobotContainer.drive_KI);
-    m_driveMotor.config_kD(0, RobotContainer.drive_KD);
-    m_driveMotor.config_kF(0, RobotContainer.drive_KF);
   }
 
   /**
@@ -135,6 +131,13 @@ public class SwerveModule {
   public void resetMotors() {
     m_driveMotor.set(ControlMode.PercentOutput, 0);
     m_steeringMotor.set(0);
+  }
+
+  public void setDriveMotorPID(double KP, double KI, double KD, double KF){
+    m_driveMotor.config_kP(0, KP);
+    m_driveMotor.config_kI(0, KI);
+    m_driveMotor.config_kD(0, KD);
+    m_driveMotor.config_kF(0, KF);
   }
 
   /**

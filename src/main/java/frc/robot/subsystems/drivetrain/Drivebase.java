@@ -100,6 +100,12 @@ public class Drivebase extends SubsystemBase {
     m_desiredAngle = Rotation2d.fromDegrees(NavX.getAngle());
 
     // CommandScheduler.getInstance().registerSubsystem(this);
+
+    SmartDashboard.putNumber("driveKP", 0.263);
+    SmartDashboard.putNumber("driveKI", 0.00001);
+    SmartDashboard.putNumber("driveKD", 0.0);
+    SmartDashboard.putNumber("driveKF", 0.0);
+    SmartDashboard.putBoolean("setDrivePID", false);
   }
 
   /**
@@ -312,6 +318,16 @@ public class Drivebase extends SubsystemBase {
     return NavX.getRoll();
   }
 
+  public void setDriveMotorPID(){
+    double KP = SmartDashboard.getNumber("driverKP", 0.263);
+    double KI = SmartDashboard.getNumber("driveKI", 0.00001);
+    double KD = SmartDashboard.getNumber("driveKD", 0.0);
+    double KF = SmartDashboard.getNumber("driveKF", 0.0);
+    for (wheels wheel : wheels.values()) {
+      swerveModules[wheel.ordinal()].setDriveMotorPID(KP, KI, KD, KF);
+    }
+  }
+
   public double getAngleDegrees() { return NavX.getAngle(); }
 
   public double getPitch() { return NavX.getPitch(); }
@@ -345,5 +361,10 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("RealSpeedX", getVelocityReal()[0]);
     SmartDashboard.putNumber("RealSpeedY", getVelocityReal()[1]);
     SmartDashboard.putNumber("RealSpeedZ", getVelocityReal()[2]);
+
+    if(SmartDashboard.getBoolean("setDrivePID", false)){
+      setDriveMotorPID();
+      SmartDashboard.putBoolean("setDrivePID", false);
+    }
   }
 }
