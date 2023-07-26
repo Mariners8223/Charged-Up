@@ -165,6 +165,10 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    robotContainer.drive_KP = SmartDashboard.getNumber("driverKP", 0.263);
+    robotContainer.drive_KI = SmartDashboard.getNumber("driveKI", 0.00001);
+    robotContainer.drive_KD = SmartDashboard.getNumber("driveKD", 0.0);
+    robotContainer.drive_KF = SmartDashboard.getNumber("driveKF", 0.0);
   }
 
   /** This function is called once when test mode is enabled. */

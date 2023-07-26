@@ -14,6 +14,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.Drivetrain.SwerveModuleConstants;
 import frc.util.PIDFGains;
 
@@ -69,6 +71,10 @@ public class SwerveModule {
     currentState.angle = Rotation2d.fromDegrees(m_steerRotations * 360.0);
     currentState.speedMetersPerSecond = getRPS() * SwerveModuleConstants.wheelCircumferenceMeters
         / SwerveModuleConstants.driveRatio;
+    m_driveMotor.config_kP(0, RobotContainer.drive_KP);
+    m_driveMotor.config_kI(0, RobotContainer.drive_KI);
+    m_driveMotor.config_kD(0, RobotContainer.drive_KD);
+    m_driveMotor.config_kF(0, RobotContainer.drive_KF);
   }
 
   /**

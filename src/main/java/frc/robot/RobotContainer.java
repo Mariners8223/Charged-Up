@@ -69,6 +69,10 @@ public class RobotContainer {
   private double SpeedY= 0;
   private double Rotation= 0;
   public static ToggleSwitch toggleSwitch;
+  public static double drive_KP;
+  public static double drive_KI;
+  public static double drive_KD;
+  public static double drive_KF;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -91,6 +95,10 @@ public class RobotContainer {
     SmartDashboard.putString("Future Postion", "Home");
     Drivebase.getInstance().resetGyro();
     toggleSwitch = new ToggleSwitch();
+    SmartDashboard.putNumber("driveKP", 0.263);
+    SmartDashboard.putNumber("driveKI", 0.00001);
+    SmartDashboard.putNumber("driveKD", 0.0);
+    SmartDashboard.putNumber("driveKF", 0.0);
 
 
     switch (Constants.currentMode) {
