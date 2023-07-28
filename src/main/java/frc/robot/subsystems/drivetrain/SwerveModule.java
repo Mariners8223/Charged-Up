@@ -133,13 +133,6 @@ public class SwerveModule {
     m_steeringMotor.set(0);
   }
 
-  public void setDriveMotorPID(double KP, double KI, double KD, double KF){
-    m_driveMotor.config_kP(0, KP);
-    m_driveMotor.config_kI(0, KI);
-    m_driveMotor.config_kD(0, KD);
-    m_driveMotor.config_kF(0, KF);
-  }
-
   /**
    * Resets the motors and the state of the swerve drivetrain.
    */
@@ -206,10 +199,24 @@ public class SwerveModule {
     target = SwerveModuleState.optimize(target, currentState.angle);
     this.targetState = target;
 
-    m_driveMotor.set(ControlMode.Velocity, 
-    meterPerSecToRPM(this.targetState.speedMetersPerSecond) / 60 * 2048 / 10);
+    if(!Drivebase.getInstance().boost){
+      m_driveMotor.set(ControlMode.Velocity, 
+      meterPerSecToRPM(this.targetState.speedMetersPerSecond) / 60 * 2048 / 10);
+    }
+    else{
+      if(this.targetState.speedMetersPerSecond > 0){
+        m_driveMotor.set(ControlMode.PercentOutput, 1);
+      }
+      else if(this.targetState.speedMetersPerSecond < 0){
+        m_driveMotor.set(ControlMode.PercentOutput, -1);
+      }
+      else{
+        m_driveMotor.set(ControlMode.Disabled, 0);
+      }
+    }
+    
    
-    System.out.println(meterPerSecToRPM(this.targetState.speedMetersPerSecond));
+    // System.out.println(meterPerSecToRPM(this.targetState.speedMetersPerSecond));
     SmartDashboard.putNumber(moduleName + "desired angle", minChangeInSteerAngle(this.targetState.angle.getDegrees()));
     m_steeringMotor.getPIDController().setReference(degreesToRotations(minChangeInSteerAngle(this.targetState.angle.getDegrees())),
         CANSparkMax.ControlType.kPosition);

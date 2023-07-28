@@ -218,13 +218,14 @@ public class RobotContainer {
 
 
     driveController.cross().onTrue(new InstantCommand(() -> Drivebase.getInstance().resetGyro()));
-    driveController.R2().onTrue(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 2)).onFalse(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 4.5 ));
+    driveController.R2().onTrue(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 2)).onFalse(new InstantCommand(() -> Constants.Drivetrain.SwerveModuleConstants.freeSpeedMetersPerSecond = 5.5 ));
     driveController.L1().whileTrue(new intakeCommand(0.6));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerOrientation())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseOrientation()));
     driveController.L2().onTrue(new InstantCommand(() -> Orientation.getInstance().lowerRamp())); driveController.L2().onFalse(new InstantCommand(() -> Orientation.getInstance().raiseRamp()));
     driveController.povUp().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(0.6))); driveController.povUp().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     driveController.povDown().onTrue(new InstantCommand(() -> Orientation.getInstance().setSpeed(-0.6))); driveController.povDown().onFalse(new InstantCommand(() -> Orientation.getInstance().stop()));
     driveController.R1().onTrue(new InstantCommand(() -> toggleSwerveSpeed()));
+    driveController.triangle().onTrue(new InstantCommand(() -> Drivebase.getInstance().toogleboost()));
     
 
     subController.R1().onTrue(new setGripperPostion(SequenceType.Cone)).onFalse(new setGripperPostion(SequenceType.Off));
